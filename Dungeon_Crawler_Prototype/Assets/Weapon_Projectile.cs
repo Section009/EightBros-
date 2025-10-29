@@ -151,10 +151,9 @@ public class Weapon_Projectile : MonoBehaviour
             pm.Locked = true;
 
         }
-        //Standard Fire
+        //Charge Fire
         if ((Input.GetButtonUp("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
-        {
-
+        { 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 dir = new Vector3();
             if (Physics.Raycast(ray, out RaycastHit hit, 30f))
@@ -175,8 +174,11 @@ public class Weapon_Projectile : MonoBehaviour
                 charge_timer = 0f;
                 charged = false;
             }
-            else
-            {
+        }
+            //Standard Fire
+        if ((Input.GetButtonDown("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
+        {
+
                 GameObject go = Instantiate(Ammo_Type, transform.position, Quaternion.identity);
                 Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
                 transform.LookAt(target, Vector3.up);
@@ -184,9 +186,8 @@ public class Weapon_Projectile : MonoBehaviour
                 go.transform.LookAt(target, Vector3.up);
                 firing = true;
                 pm.Locked = true;
-                timer = 0f;
-                charge_timer = 0f;
-            }
+            timer = 0f;
+            charge_timer = 0f;
 
         }
         if (c_firing == true)

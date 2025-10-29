@@ -8,6 +8,8 @@ public class Standard_Explosion : MonoBehaviour
     public float widen_speed;
     public int damage;
     private float timer;
+    public float knockback_time;
+    public float knockback_speed;
     // Start is called before the first frame update
     void Start()
     {

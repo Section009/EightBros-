@@ -736,7 +736,7 @@ MonoBehaviour:
   - 0.2
   - 0.3
   reset_cooldown: 0.5
-  shift_speed: 6
+  shift_speed: 2
   shift_timer_max: 0.1
   Charged_Ammo_Type: {fileID: 6156014973674770674, guid: ff985b9d8444ba4408ffbfc7254eb474, type: 3}
   charge_timer_max: 1

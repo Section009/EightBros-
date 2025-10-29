@@ -120,3 +120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life_timer_max: 0.3
   widen_speed: 5
+  damage: 0
+  knockback_time: 0.2
+  knockback_speed: 10
