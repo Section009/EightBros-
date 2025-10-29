@@ -798,6 +798,9 @@ MonoBehaviour:
   missile: {fileID: 6156014973674770674, guid: c9fb6048a694d694d83fd01d7e5d0980, type: 3}
   skill_duration: 1.5
   bullet_cooldown: 0.1
+  ultimate_cooldown: 30
+  ultimate_timer: 30
+  Ultimate: {fileID: 6156014973674770674, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
 --- !u!54 &1881429315
 Rigidbody:
   m_ObjectHideFlags: 0

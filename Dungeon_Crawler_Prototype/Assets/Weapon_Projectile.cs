@@ -39,6 +39,12 @@ public class Weapon_Projectile : MonoBehaviour
     public float skill_duration;
     public float bullet_cooldown;
     private float bullet_timer;
+    //Ultimate
+    public float ultimate_cooldown;
+    public float ultimate_timer;
+    private bool ultimate_available;
+    private bool ultimate_active;
+    public GameObject Ultimate;
     // Start is called before the first frame update
     void Start()
     {
@@ -87,8 +93,23 @@ public class Weapon_Projectile : MonoBehaviour
                     charged = true;
                 }
             }
-
-
+        }
+        //Ultimate Prep
+        if (ultimate_available)
+        {
+            if (ultimate_active)
+            {
+                Ultimate_Active();
+            }
+        }
+        else
+        {
+            ultimate_timer += Time.deltaTime;
+            if (ultimate_timer >= ultimate_cooldown)
+            {
+                ultimate_timer = 0f;
+                ultimate_available = true;
+            }
         }
         //Skill Prep
         if (skill_available)
@@ -106,6 +127,10 @@ public class Weapon_Projectile : MonoBehaviour
                 skill_timer = 0f;
                 skill_available = true;
             }
+        }
+        if ((Input.GetButton("Fire3") && (ultimate_available) && (pm.Locked == false)))
+        {
+            Ultimate_Start();
         }
         if (Input.GetButton("Fire2"))
         {
@@ -235,5 +260,17 @@ public class Weapon_Projectile : MonoBehaviour
             bullet_timer = 0f;
             pm.Locked = false;
         }
+    }
+
+    private void Ultimate_Start()
+    {
+        ultimate_timer = 0f;
+        ultimate_available = false;
+        Instantiate(Ultimate, transform.position, Quaternion.identity);
+    }
+
+    private void Ultimate_Active()
+    {
+
     }
 }
