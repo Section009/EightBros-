@@ -12,6 +12,8 @@ public class Player_Movement : MonoBehaviour
     public bool Dashing;
     public bool Locked;
     public Rigidbody rb;
+    public bool slowed;
+    public float slow_reduction;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,12 +43,17 @@ public class Player_Movement : MonoBehaviour
             {
                 //transform.position += transform.forward * Speed * Time.deltaTime;
                 rb.velocity = transform.forward * Speed;
+                if (slowed)
+                {
+                    rb.velocity /= slow_reduction;
+                }
             }
 
             else
             {
                 rb.velocity = new Vector3(0f, 0f, 0f);
             }
+            
             
         }
         else

@@ -9,6 +9,7 @@ public class Firework_Projectile : MonoBehaviour
     public int damage;
     private float life_timer;
     public GameObject Explosion;
+    public GameObject Explosion_SFX;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class Firework_Projectile : MonoBehaviour
         if (life_timer >= life_time)
         {
             Instantiate(Explosion, transform.position, Quaternion.identity);
+            Instantiate(Explosion_SFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

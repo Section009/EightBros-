@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Homing.cs" />
+    <Compile Include="Assets\Audio\Audio_Obj_Controller.cs" />
     <Compile Include="Assets\Dummy.cs" />
     <Compile Include="Assets\Player_Movement.cs" />
     <Compile Include="Assets\Weapon_Projectile.cs" />

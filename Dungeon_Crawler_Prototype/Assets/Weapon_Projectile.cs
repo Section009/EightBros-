@@ -84,6 +84,7 @@ public class Weapon_Projectile : MonoBehaviour
         if (Input.GetButton("Fire1"))
         {
             print("Charge");
+            pm.slowed = true;
             if (charged == false)
             {
                 charge_timer += Time.deltaTime;
@@ -93,6 +94,10 @@ public class Weapon_Projectile : MonoBehaviour
                     charged = true;
                 }
             }
+        }
+        else
+        {
+            pm.slowed = false;
         }
         //Ultimate Prep
         if (ultimate_available)
@@ -236,6 +241,7 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Skill_Start()
     {
+        pm.rb.velocity = new Vector3(0f, 0f, 0f);
         skill_timer = 0f;
         skill_active = true;
     }
