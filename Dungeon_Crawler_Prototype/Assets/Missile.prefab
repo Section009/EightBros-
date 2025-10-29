@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4405375277440767855}
   - component: {fileID: 3874400737789450382}
   - component: {fileID: 2899791051087332511}
+  - component: {fileID: 4793660295504061498}
   - component: {fileID: 6545921812312744510}
   - component: {fileID: 9137570128534338910}
   m_Layer: 0
@@ -107,6 +108,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4793660295504061498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156014973674770674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7040f0a09a2dea4a936b47eb44fade6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homing_tag: Enemy
+  turning_speed: 20
 --- !u!114 &6545921812312744510
 MonoBehaviour:
   m_ObjectHideFlags: 0

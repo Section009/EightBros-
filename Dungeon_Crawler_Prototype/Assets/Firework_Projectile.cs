@@ -6,7 +6,7 @@ public class Firework_Projectile : MonoBehaviour
 {
     public float speed;
     public float life_time;
-    public float damage;
+    public int damage;
     private float life_timer;
     public GameObject Explosion;
     // Start is called before the first frame update

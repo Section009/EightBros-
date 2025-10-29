@@ -19,4 +19,13 @@ public class Dummy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.CompareTag("Explosion"))
+        {
+            Health -= col.gameObject.GetComponent<Standard_Explosion>().damage;
+
+        }
+    }
 }

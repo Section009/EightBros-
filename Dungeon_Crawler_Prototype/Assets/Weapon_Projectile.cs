@@ -247,7 +247,7 @@ public class Weapon_Projectile : MonoBehaviour
         bullet_timer += Time.deltaTime;
         if (bullet_timer >= bullet_cooldown)
         {
-            GameObject go = Instantiate(Ammo_Type, transform.position, Quaternion.identity);
+            GameObject go = Instantiate(missile, transform.position, Quaternion.identity);
             go.transform.LookAt(target, Vector3.up);
             bullet_timer = 0f;
         }

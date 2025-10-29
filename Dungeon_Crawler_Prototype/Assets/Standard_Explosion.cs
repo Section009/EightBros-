@@ -6,6 +6,7 @@ public class Standard_Explosion : MonoBehaviour
 {
     public float life_timer_max;
     public float widen_speed;
+    public int damage;
     private float timer;
     // Start is called before the first frame update
     void Start()
