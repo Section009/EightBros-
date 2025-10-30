@@ -36,6 +36,7 @@ public class Weapon_Projectile : MonoBehaviour
     private bool skill_active;
     //Mage Skill
     public GameObject missile;
+    public GameObject big_missile;
     public float skill_duration;
     public float bullet_cooldown;
     private float bullet_timer;
@@ -242,6 +243,25 @@ public class Weapon_Projectile : MonoBehaviour
     private void Skill_Start()
     {
         pm.rb.velocity = new Vector3(0f, 0f, 0f);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector3 dir = new Vector3();
+        if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+        {
+            dir = hit.point;// - transform.position;
+        }
+        Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
+        GameObject go = Instantiate(big_missile, transform.position, Quaternion.identity);
+        GameObject go2 = Instantiate(big_missile, transform.position, Quaternion.identity);
+        GameObject go3 = Instantiate(big_missile, transform.position, Quaternion.identity);
+        GameObject go4 = Instantiate(big_missile, transform.position, Quaternion.identity);
+        go.transform.LookAt(target, Vector3.up);
+        go2.transform.LookAt(target, Vector3.up);
+        go3.transform.LookAt(target, Vector3.up);
+        go4.transform.LookAt(target, Vector3.up);
+        go.transform.Rotate(Vector3.right * -120.0f);
+        go2.transform.Rotate(Vector3.right * -60.0f);
+        go3.transform.Rotate(Vector3.right * 60.0f);
+        go4.transform.Rotate(Vector3.right * 120.0f);
         skill_timer = 0f;
         skill_active = true;
     }

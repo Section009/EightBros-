@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3874400737789450382}
   - component: {fileID: 2899791051087332511}
   - component: {fileID: 9083609303771276214}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Firework
   m_TagString: Explosion
   m_Icon: {fileID: 0}

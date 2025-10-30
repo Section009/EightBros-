@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2899791051087332511}
   - component: {fileID: 5821505827837077656}
   - component: {fileID: 9137570128534338910}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Firework_Charge_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
