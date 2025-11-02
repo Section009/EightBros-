@@ -23,7 +23,8 @@ public class Shrapnel : MonoBehaviour
         }
         else if (Activated)
         {
-            transform.position += new Vector3(0f, -1f, 0f) * speed * Time.deltaTime;
+            GetComponent<Rigidbody>().useGravity = true;
+            //transform.position += new Vector3(0f, -1f, 0f) * speed * Time.deltaTime;
         }
     }
     void OnTriggerEnter(Collider col)
