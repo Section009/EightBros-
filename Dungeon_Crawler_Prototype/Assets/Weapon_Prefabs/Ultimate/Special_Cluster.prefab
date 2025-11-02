@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sharpnel_Pieces: 20
   Shrapnel: {fileID: 6156014973674770674, guid: 2fe3317fb72ed6148831e882ddef25d3, type: 3}
-  life_time: 0.4
-  speed: 4
+  life_time: 0.2
+  speed: 18
   life_timer: 0
   y_timer_max: 0.5
