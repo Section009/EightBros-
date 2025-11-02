@@ -8,7 +8,7 @@ public class DamageOnHit : MonoBehaviour   // 注意这里是 ":" 不是 "="
     public int damage = 10;
 
     [Tooltip("destroyOnHit")]
-    public bool destroyOnHit = true;
+    public bool destroyOnHit = false;
 
     [Tooltip("tag")]
     public string[] validTags = new string[] { "Enemy" };

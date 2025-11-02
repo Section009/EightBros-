@@ -39,11 +39,23 @@ public class Dummy : MonoBehaviour
         {
             Standard_Explosion se = col.gameObject.GetComponent<Standard_Explosion>();
             Health -= se.damage;
+            KnockBack(col.gameObject.transform, se.knockback_time, se.knockback_speed);
+            /*
             knocked_back = true;
             knocked_time = se.knockback_time;
             knocked_speed = se.knockback_speed;
             Vector3 facePos = new Vector3(col.gameObject.transform.position.x, transform.position.y, col.gameObject.transform.position.z);
             transform.LookAt(facePos, Vector3.up);
+            */
         }
+    }
+    
+    public void KnockBack(Transform obj, float t_knocked_time, float t_knocked_speed)
+    {
+        knocked_back = true;
+        knocked_time = t_knocked_time;
+        knocked_speed = t_knocked_speed;
+        Vector3 facePos = new Vector3(obj.position.x, transform.position.y, obj.position.z);
+        transform.LookAt(facePos, Vector3.up);
     }
 }

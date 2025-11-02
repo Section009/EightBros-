@@ -8,6 +8,8 @@ public class Standard_Projectile : MonoBehaviour
     public float life_time;
     public float damage;
     private float life_timer;
+    public float knockback_time;
+    public float knockback_speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,11 @@ public class Standard_Projectile : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         print("col");
+        Dummy d = col.gameObject.GetComponent<Dummy>();
+        if (d != null)
+        {
+
+        }
         if (col.gameObject.CompareTag("Enemy"))
         {
             Destroy(this.gameObject);
