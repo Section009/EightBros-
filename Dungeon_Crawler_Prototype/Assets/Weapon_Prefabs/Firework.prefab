@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3874400737789450382}
   - component: {fileID: 2899791051087332511}
   - component: {fileID: 9083609303771276214}
+  - component: {fileID: 4679790005155980852}
+  - component: {fileID: 7872643095785894628}
   m_Layer: 6
   m_Name: Firework
   m_TagString: Explosion
@@ -123,3 +125,46 @@ MonoBehaviour:
   damage: 0
   knockback_time: 0.2
   knockback_speed: 10
+--- !u!114 &4679790005155980852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156014973674770674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee2ff3ce7043e343945653bfc13c28e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  destroyOnHit: 1
+  validTags:
+  - Enemy
+--- !u!54 &7872643095785894628
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156014973674770674}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3
