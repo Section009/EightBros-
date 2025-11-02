@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homing_tag: Enemy
-  turning_speed: 20
+  turning_speed: 5
 --- !u!114 &6545921812312744510
 MonoBehaviour:
   m_ObjectHideFlags: 0
