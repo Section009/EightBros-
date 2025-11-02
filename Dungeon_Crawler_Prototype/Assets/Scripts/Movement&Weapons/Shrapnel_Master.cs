@@ -60,7 +60,7 @@ public class Shrapnel_Master : MonoBehaviour
         else
         {
             y_timer += Time.deltaTime;
-            if (y_timer <= y_timer_max)
+            if (y_timer <= (y_timer_max*1.1))
             {
                 cur_y = Mathf.Lerp(lowest_y, highest_y, y_timer / y_timer_max);
                 foreach (Shrapnel piece in pieces)
@@ -70,6 +70,10 @@ public class Shrapnel_Master : MonoBehaviour
                         piece.Activated = true;
                     }
                 }
+            }
+            else
+            {
+                Destroy(this.gameObject);
             }
         }
     }
