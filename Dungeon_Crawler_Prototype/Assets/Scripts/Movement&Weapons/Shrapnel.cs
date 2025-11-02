@@ -8,6 +8,7 @@ public class Shrapnel : MonoBehaviour
     public bool stopped;
     public bool Activated = false;
     public GameObject Explosion;
+    public GameObject Explosion_SFX;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +33,7 @@ public class Shrapnel : MonoBehaviour
         if (col.gameObject.CompareTag("Floor"))
         {
             Instantiate(Explosion, transform.position, Quaternion.identity);
+            Instantiate(Explosion_SFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

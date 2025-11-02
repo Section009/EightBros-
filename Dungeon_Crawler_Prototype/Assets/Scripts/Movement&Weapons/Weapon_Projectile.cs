@@ -32,7 +32,7 @@ public class Weapon_Projectile : MonoBehaviour
     //Skill
     public float skill_cooldown;
     public float skill_timer;
-    private bool skill_available;
+    public bool skill_available;
     private bool skill_active;
     //Mage Skill
     public GameObject missile;
@@ -43,7 +43,7 @@ public class Weapon_Projectile : MonoBehaviour
     //Ultimate
     public float ultimate_cooldown;
     public float ultimate_timer;
-    private bool ultimate_available;
+    public bool ultimate_available;
     private bool ultimate_active;
     public GameObject Ultimate;
     //Dash

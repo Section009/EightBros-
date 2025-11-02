@@ -124,6 +124,7 @@ MonoBehaviour:
   stopped: 0
   Activated: 0
   Explosion: {fileID: 6156014973674770674, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
+  Explosion_SFX: {fileID: 215806127100764525, guid: 313508f2d8f0e1f4691a79ae543f984b, type: 3}
 --- !u!54 &9137570128534338910
 Rigidbody:
   m_ObjectHideFlags: 0

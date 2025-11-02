@@ -14,6 +14,8 @@ public class Player_Movement : MonoBehaviour
     public Rigidbody rb;
     public bool slowed;
     public float slow_reduction;
+    public float health;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -77,5 +79,9 @@ public class Player_Movement : MonoBehaviour
         }
         
         
+    }
+    public void Damage_Player(float damage)
+    {
+        health -= damage;
     }
 }

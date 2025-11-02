@@ -472,8 +472,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -316, y: 145}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -165.0452, y: 113.99054}
+  m_SizeDelta: {x: 461.9096, y: 92.0189}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &586913623
 MonoBehaviour:
@@ -1161,6 +1161,13 @@ MonoBehaviour:
   ultimate_cooldown: 30
   ultimate_timer: 30
   Ultimate: {fileID: 4897438950160181954, guid: c5bfbc701b1da564eab3e4065568e03b, type: 3}
+  Dash_Time: 0
+  Dash_Speed: 0
+  Dashing: 0
+  dash_cooldown: 0
+  dash_cooldown_timer: 0
+  teleport: 0
+  Explosion: {fileID: 6156014973674770674, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
 --- !u!54 &1881429315
 Rigidbody:
   m_ObjectHideFlags: 0
