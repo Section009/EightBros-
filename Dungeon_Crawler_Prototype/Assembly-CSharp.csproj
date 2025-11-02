@@ -64,15 +64,19 @@
     <Compile Include="Assets\Audio\Audio_Obj_Controller.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Homing.cs" />
     <Compile Include="Assets\Dummy.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\EnemyMovementMelee1.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Special_Starter_Shot.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayText.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Player_Movement.cs" />
+    <Compile Include="Assets\Scripts\Health\Health.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Firework_Projectile.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Explosion.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Weapon_Projectile.cs" />
+    <Compile Include="Assets\Scripts\Health\HealthBar.cs" />
     <Compile Include="Assets\Scripts\World\LevelClear.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel_Master.cs" />
+    <Compile Include="Assets\Scripts\Projectile\DamagOnHit.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Projectile.cs" />
   </ItemGroup>
   <ItemGroup>
