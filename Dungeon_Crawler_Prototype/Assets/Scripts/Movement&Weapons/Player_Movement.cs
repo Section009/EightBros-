@@ -21,12 +21,14 @@ public class Player_Movement : MonoBehaviour
     }
     void Update()
     {
+        /*
         if ((Input.GetButtonDown("Jump")) && (Dashing == false))
         {
             print("Dash");
             Dashing = true;
             Locked = true;
         }
+        */
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -58,6 +60,7 @@ public class Player_Movement : MonoBehaviour
         }
         else
         {
+            /*
             if (Dashing)
             {
                 //transform.position += transform.forward * Dash_Speed * Time.deltaTime;
@@ -70,6 +73,7 @@ public class Player_Movement : MonoBehaviour
                     Locked = false;
                 }
             }
+            */
         }
         
         

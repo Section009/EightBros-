@@ -860,6 +860,12 @@ MonoBehaviour:
   ultimate_cooldown: 30
   ultimate_timer: 30
   Ultimate: {fileID: 6156014973674770674, guid: 44b7ab890309e2546964c27c01345dd1, type: 3}
+  Dash_Time: 0.3
+  Dash_Speed: 12
+  Dashing: 0
+  dash_cooldown: 3
+  dash_cooldown_timer: 0
+  Explosion: {fileID: 6156014973674770674, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
 --- !u!54 &1881429315
 Rigidbody:
   m_ObjectHideFlags: 0

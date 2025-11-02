@@ -46,6 +46,16 @@ public class Weapon_Projectile : MonoBehaviour
     private bool ultimate_available;
     private bool ultimate_active;
     public GameObject Ultimate;
+    //Dash
+    [SerializeField] float Dash_Time;
+    [SerializeField] float Dash_Speed;
+    private float Dash_Timer;
+    public bool Dashing;
+    //Mage Dash
+    public float dash_cooldown;
+    public float dash_cooldown_timer;
+    public bool teleport;
+    public GameObject Explosion;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,11 +86,33 @@ public class Weapon_Projectile : MonoBehaviour
                 c_shifting = false;
             }
         }
+        if (Dashing)
+        {
+            //transform.position += transform.forward * Dash_Speed * Time.deltaTime;
+            rb.velocity = transform.forward * Dash_Speed;
+            Dash_Timer += Time.deltaTime;
+            if (Dash_Timer >= Dash_Time)
+            {
+                Dash_Timer = 0;
+                Dashing = false;
+                pm.Locked = false;
+                GetComponent<MeshRenderer>().enabled = true;
+                Instantiate(Explosion, transform.position, Quaternion.identity);
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Dash
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false))
+        {
+            print("Dash");
+            Dashing = true;
+            pm.Locked = true;
+            GetComponent<MeshRenderer>().enabled = false;
+        }
         //Charge
         if (Input.GetButton("Fire1"))
         {
