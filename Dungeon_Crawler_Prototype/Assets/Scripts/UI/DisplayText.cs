@@ -23,8 +23,6 @@ public class DisplayText : MonoBehaviour
             // Example: Display combo count and cooldown
             textField.text =
                 "Combo: " + weaponProjectile.combo_count + " Skill Timer: " + weaponProjectile.skill_timer.ToString("F2");
-                //"Combo: " + weaponProjectile.combo_count +
-                //"\nSkill Timer: " + weaponProjectile.skill_timer.ToString("F2");
         }
     }
 }
