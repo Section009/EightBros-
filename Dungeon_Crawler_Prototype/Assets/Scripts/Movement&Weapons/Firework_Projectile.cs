@@ -29,6 +29,18 @@ public class Firework_Projectile : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(this.gameObject);
+            print("Kill");
+        }
+        Instantiate(Explosion, transform.position, Quaternion.identity);
+        Instantiate(Explosion_SFX, transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
+    }
+
     void OnTriggerEnter(Collider col)
     {
         print("col");
