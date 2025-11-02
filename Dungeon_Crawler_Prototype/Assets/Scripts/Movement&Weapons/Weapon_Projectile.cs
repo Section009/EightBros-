@@ -66,7 +66,7 @@ public class Weapon_Projectile : MonoBehaviour
     {
         if (shifting)
         {
-            rb.velocity = transform.forward * shift_speed;
+            rb.linearVelocity = transform.forward * shift_speed;
             //transform.position += transform.forward * shift_speed * Time.deltaTime;
             shift_timer += Time.deltaTime;
             if (shift_timer >= shift_timer_max)
@@ -77,7 +77,7 @@ public class Weapon_Projectile : MonoBehaviour
         }
         if (c_shifting)
         {
-            rb.velocity = transform.forward * c_shift_speed;
+            rb.linearVelocity = transform.forward * c_shift_speed;
             //transform.position += transform.forward * shift_speed * Time.deltaTime;
             c_shift_timer += Time.deltaTime;
             if (c_shift_timer >= c_shift_timer_max)
@@ -89,7 +89,7 @@ public class Weapon_Projectile : MonoBehaviour
         if (Dashing)
         {
             //transform.position += transform.forward * Dash_Speed * Time.deltaTime;
-            rb.velocity = transform.forward * Dash_Speed;
+            rb.linearVelocity = transform.forward * Dash_Speed;
             Dash_Timer += Time.deltaTime;
             if (Dash_Timer >= Dash_Time)
             {
@@ -274,7 +274,7 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Skill_Start()
     {
-        pm.rb.velocity = new Vector3(0f, 0f, 0f);
+        pm.rb.linearVelocity = new Vector3(0f, 0f, 0f);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
         if (Physics.Raycast(ray, out RaycastHit hit, 30f))

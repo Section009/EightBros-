@@ -44,16 +44,16 @@ public class Player_Movement : MonoBehaviour
             if (vec.magnitude != 0)
             {
                 //transform.position += transform.forward * Speed * Time.deltaTime;
-                rb.velocity = transform.forward * Speed;
+                rb.linearVelocity = transform.forward * Speed;
                 if (slowed)
                 {
-                    rb.velocity /= slow_reduction;
+                    rb.linearVelocity /= slow_reduction;
                 }
             }
 
             else
             {
-                rb.velocity = new Vector3(0f, 0f, 0f);
+                rb.linearVelocity = new Vector3(0f, 0f, 0f);
             }
             
             
