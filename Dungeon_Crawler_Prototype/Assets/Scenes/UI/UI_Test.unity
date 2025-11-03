@@ -846,6 +846,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4448959713449515321, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8327120210313659963, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
@@ -1126,6 +1130,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   slowed: 0
   slow_reduction: 3
+  health: 0
 --- !u!114 &1881429314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1154,12 +1159,14 @@ MonoBehaviour:
   c_shift_timer_max: 0.2
   skill_cooldown: 6
   skill_timer: 6
+  skill_available: 0
   missile: {fileID: 6156014973674770674, guid: c9fb6048a694d694d83fd01d7e5d0980, type: 3}
   big_missile: {fileID: 6156014973674770674, guid: 0311ae3c0ee5de14bb214da553c7549a, type: 3}
   skill_duration: 1.5
   bullet_cooldown: 0.1
   ultimate_cooldown: 30
   ultimate_timer: 30
+  ultimate_available: 1
   Ultimate: {fileID: 4897438950160181954, guid: c5bfbc701b1da564eab3e4065568e03b, type: 3}
   Dash_Time: 0
   Dash_Speed: 0
@@ -1203,6 +1210,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4448959713449515321, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8327120210313659963, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
