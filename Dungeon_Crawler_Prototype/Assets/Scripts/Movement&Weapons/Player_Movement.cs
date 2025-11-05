@@ -16,6 +16,8 @@ public class Player_Movement : MonoBehaviour
     public float slow_reduction;
     public float health;
 
+    private bool stunned = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,8 +41,8 @@ public class Player_Movement : MonoBehaviour
         float vertInput = Input.GetAxis("Vertical");
         
         Vector3 vec = new Vector3(horiInput, 0f, vertInput);
-        
-        if (Locked == false)
+
+        if (Locked == false && stunned == false)
         {
             transform.LookAt(transform.position + vec, Vector3.up);
             if (vec.magnitude != 0)
@@ -83,5 +85,18 @@ public class Player_Movement : MonoBehaviour
     public void Damage_Player(float damage)
     {
         health -= damage;
+    }
+
+    public void Stun_Player(float stunTime)
+    {
+        StartCoroutine(DoStun(stunTime));
+    }
+    IEnumerator DoStun(float stunTime)
+    {
+        
+        stunned = true;
+        rb.velocity *= 0;
+        yield return new WaitForSeconds(stunTime);
+        stunned = false;
     }
 }
