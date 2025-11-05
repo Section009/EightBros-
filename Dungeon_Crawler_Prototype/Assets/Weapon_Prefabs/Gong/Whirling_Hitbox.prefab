@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 5343486382351844432}
   - component: {fileID: 8841718841995091656}
   - component: {fileID: 695923045192230323}
-  - component: {fileID: 6720077828263682558}
+  - component: {fileID: 2232090054475300571}
   - component: {fileID: 833485831294716323}
   - component: {fileID: 2325595412780596450}
   m_Layer: 6
   m_Name: Whirling_Hitbox
-  m_TagString: Untagged
+  m_TagString: Explosion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6720077828263682558
+--- !u!114 &2232090054475300571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,10 +117,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7113027274051445475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48f5da56f74f1cb479dee0732e2864b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a8fbce119327ab468a5b59cb5efc324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer_max: 3
+  life_timer_max: 3
+  widen_speed: 0
+  damage: 0
+  knockback_time: 0.1
+  knockback_speed: -10
 --- !u!114 &833485831294716323
 MonoBehaviour:
   m_ObjectHideFlags: 0
