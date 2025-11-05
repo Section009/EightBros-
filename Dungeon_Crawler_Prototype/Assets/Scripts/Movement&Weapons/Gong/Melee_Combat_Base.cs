@@ -35,12 +35,12 @@ public class Melee_Combat_Base : MonoBehaviour
     public float skill_timer;
     public bool skill_available;
     private bool skill_active;
-    //Mage Skill
-    public GameObject missile;
-    public GameObject big_missile;
+    //Gong Skill
+    public float jump_height;
+    public float jump_time_max;
+    private float jump_dist;
+    public GameObject Landing_Explosion;
     public float skill_duration;
-    public float bullet_cooldown;
-    private float bullet_timer;
     //Ultimate
     public float ultimate_cooldown;
     public float ultimate_timer;
@@ -322,47 +322,32 @@ public class Melee_Combat_Base : MonoBehaviour
         {
             dir = hit.point;// - transform.position;
         }
-        Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
-        GameObject go = Instantiate(big_missile, transform.position, Quaternion.identity);
-        GameObject go2 = Instantiate(big_missile, transform.position, Quaternion.identity);
-        GameObject go3 = Instantiate(big_missile, transform.position, Quaternion.identity);
-        GameObject go4 = Instantiate(big_missile, transform.position, Quaternion.identity);
-        go.transform.LookAt(target, Vector3.up);
-        go2.transform.LookAt(target, Vector3.up);
-        go3.transform.LookAt(target, Vector3.up);
-        go4.transform.LookAt(target, Vector3.up);
-        go.transform.Rotate(Vector3.right * -120.0f);
-        go2.transform.Rotate(Vector3.right * -60.0f);
-        go3.transform.Rotate(Vector3.right * 60.0f);
-        go4.transform.Rotate(Vector3.right * 120.0f);
+        Vector3 target_pos = new Vector3(dir.x, transform.position.y, dir.z);
+        jump_dist = Vector3.Distance(target_pos, transform.position);
+        transform.LookAt(target_pos, Vector3.up);
         skill_timer = 0f;
         skill_active = true;
+
+        float vy = -((-9.81f) * jump_time_max / 2);
+        float vx = jump_dist / jump_time_max;
+
+        float normUp = vy / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
+        float normForward = vx / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
+        Vector3 forwardVec = transform.forward * vx;
+        pm.rb.AddForce((new Vector3(0f, vy, 0f) + forwardVec), ForceMode.VelocityChange);
+
     }
 
     private void Skill_Active()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Vector3 dir = new Vector3();
-        if (Physics.Raycast(ray, out RaycastHit hit, 30f))
-        {
-            dir = hit.point;// - transform.position;
-        }
-        Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
-        transform.LookAt(target, Vector3.up);
-        bullet_timer += Time.deltaTime;
-        if (bullet_timer >= bullet_cooldown)
-        {
-            GameObject go = Instantiate(missile, transform.position, Quaternion.identity);
-            go.transform.LookAt(target, Vector3.up);
-            bullet_timer = 0f;
-        }
+        
+        
         skill_timer += Time.deltaTime;
-        if (skill_timer >= skill_duration)
+        if (skill_timer >= jump_time_max)
         {
             skill_available = false;
             skill_active = false;
             skill_timer = 0f;
-            bullet_timer = 0f;
             pm.Locked = false;
         }
     }
