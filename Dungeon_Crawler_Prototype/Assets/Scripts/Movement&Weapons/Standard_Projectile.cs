@@ -33,7 +33,7 @@ public class Standard_Projectile : MonoBehaviour
         Dummy d = col.gameObject.GetComponent<Dummy>();
         if (d != null)
         {
-
+            d.KnockBack(transform, knockback_time, knockback_speed);
         }
         if (col.gameObject.CompareTag("Enemy"))
         {
