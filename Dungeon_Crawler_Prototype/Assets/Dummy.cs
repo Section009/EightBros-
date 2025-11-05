@@ -35,7 +35,7 @@ public class Dummy : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.CompareTag("Explosion"))
+        if (GetComponent<BellAI>() == null && col.gameObject.CompareTag("Explosion"))
         {
             Standard_Explosion se = col.gameObject.GetComponent<Standard_Explosion>();
             Health -= se.damage;

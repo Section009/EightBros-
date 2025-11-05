@@ -55,11 +55,11 @@
     <UnityVersion>2022.3.56f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.56f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.56f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Orbiting_Object.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Camera_Follow.cs" />
     <Compile Include="Assets\Audio\Audio_Obj_Controller.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Homing.cs" />
@@ -67,14 +67,18 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\EnemyMovementMelee1.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Special_Starter_Shot.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayText.cs" />
+    <Compile Include="Assets\Scripts\EnemySkills\BellClap.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Player_Movement.cs" />
     <Compile Include="Assets\Scripts\Health\Health.cs" />
+    <Compile Include="Assets\Scripts\EnemySkills\BellRing.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\BellAI.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Firework_Projectile.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Explosion.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Weapon_Projectile.cs" />
     <Compile Include="Assets\Scripts\Health\HealthBar.cs" />
     <Compile Include="Assets\Scripts\World\LevelClear.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Combat_Base.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel_Master.cs" />
     <Compile Include="Assets\Scripts\Projectile\DamagOnHit.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Projectile.cs" />
@@ -434,6 +438,10 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@3.8.1\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.56f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
