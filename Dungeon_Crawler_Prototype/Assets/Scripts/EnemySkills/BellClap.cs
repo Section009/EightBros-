@@ -13,7 +13,7 @@ public class BellClap : MonoBehaviour
             pm = other.GetComponent<Player_Movement>();
             pm.Damage_Player(5f);
             pm.Stun_Player(2f);
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 }

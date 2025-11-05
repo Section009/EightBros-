@@ -242,13 +242,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6279590967856197664, guid: 8a7b0096ca018244b97af839d473e995, type: 3}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
-      propertyPath: charge_timer_max
+      propertyPath: charge_cooldown
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: charge_timer_max
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: Charged_Ammo_Type
       value: 
-      objectReference: {fileID: 6156014973674770674, guid: ff985b9d8444ba4408ffbfc7254eb474, type: 3}
+      objectReference: {fileID: 7113027274051445475, guid: 67975676fe687a044bdb9d3c8172a721, type: 3}
+    - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: charge_move_speed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -412,6 +420,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8684709504842837995, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f8366566b2495a647beeaf8cab7eaf8b, type: 2}
     - target: {fileID: 8820118294494672627, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
       propertyPath: m_Name
       value: BellDummy

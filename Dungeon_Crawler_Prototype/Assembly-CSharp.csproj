@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\World\LevelClear.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Combat_Base.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel_Master.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Whirling_Hitbox_Object.cs" />
     <Compile Include="Assets\Scripts\Projectile\DamagOnHit.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Projectile.cs" />
   </ItemGroup>
