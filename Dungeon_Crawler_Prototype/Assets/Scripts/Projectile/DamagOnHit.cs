@@ -10,6 +10,13 @@ public class DamageOnHit : MonoBehaviour   // 注意这里是 ":" 不是 "="
     [Tooltip("destroyOnHit")]
     public bool destroyOnHit = false;
 
+    [Tooltip("Deal damage over time")]
+    public bool damageOverTime = false;
+
+    [Tooltip("Time between each damage tick (Only used if damageOverTime is true)")]
+    public float secsPerTick = 0.0f;
+    private float timer;
+
     [Tooltip("tag")]
     public string[] validTags = new string[] { "Enemy" };
 
@@ -29,6 +36,20 @@ public class DamageOnHit : MonoBehaviour   // 注意这里是 ":" 不是 "="
     void OnTriggerEnter(Collider other)
     {
         TryDamage(other);
+        timer = 0.0f;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (damageOverTime)
+        {
+            timer += Time.deltaTime;
+            if (timer >= secsPerTick)
+            {
+                timer = 0.0f;
+                TryDamage(other);
+            }
+        }
     }
 
     /*
