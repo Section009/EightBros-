@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 8466258805582064089}
   - component: {fileID: 8891079816294479621}
   - component: {fileID: 4296655737288367148}
+  - component: {fileID: 8671014765126818782}
   m_Layer: 7
   m_Name: Player_Melee
   m_TagString: Player
@@ -247,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113ce551e17a52949b161e3a5697ab53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ammo_Type: {fileID: 6156014973674770674, guid: 19dc129b9c7398c47b43d985a7053312, type: 3}
+  Ammo_Type: {fileID: 6279590967856197664, guid: 8a7b0096ca018244b97af839d473e995, type: 3}
   combo_count: 0
   cooldowns:
   - 0.1
@@ -258,18 +259,19 @@ MonoBehaviour:
   reset_cooldown: 0.3
   shift_speed: 6
   shift_timer_max: 0.05
-  Charged_Ammo_Type: {fileID: 0}
-  charge_timer_max: 5
-  charge_cooldown: 0
+  Charged_Ammo_Type: {fileID: 7113027274051445475, guid: 67975676fe687a044bdb9d3c8172a721, type: 3}
+  charge_timer_max: 1.5
+  charge_cooldown: 1
+  charge_move_speed: 3
   c_shift_speed: 0
   c_shift_timer_max: 0
-  skill_cooldown: 0
+  skill_cooldown: 1
   skill_timer: 0
   skill_available: 0
-  missile: {fileID: 0}
-  big_missile: {fileID: 0}
+  jump_height: 4
+  jump_time_max: 1
+  Landing_Explosion: {fileID: 6156014973674770674, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
   skill_duration: 0
-  bullet_cooldown: 0
   ultimate_cooldown: 0
   ultimate_timer: 0
   ultimate_available: 0
@@ -308,3 +310,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &8671014765126818782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117640305410757704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb5d6348996f7c54dbe0530a96b268a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 0}
+  SwapToPos: {fileID: 0}
+  New_Player: {fileID: 6117640305410757704, guid: 8dd55ff6a18129e44b76a35d7035324e, type: 3}
+  Place_Holder: {fileID: 6307254637506287342, guid: 43d11438e0f3f9345915e688cff94c5b, type: 3}
+  swap_timer_max: 0
+  swap_timer: 0
+  swap_available: 1

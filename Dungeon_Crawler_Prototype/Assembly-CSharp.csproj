@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Player_Movement.cs" />
     <Compile Include="Assets\Scripts\Health\Health.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellRing.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Swap_Characters.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\BellAI.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Firework_Projectile.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Explosion.cs" />

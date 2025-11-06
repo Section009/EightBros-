@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 8466258805582064089}
   - component: {fileID: 6782696265681876420}
   - component: {fileID: 4296655737288367148}
+  - component: {fileID: 8114710401389453924}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -306,3 +307,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &8114710401389453924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117640305410757704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb5d6348996f7c54dbe0530a96b268a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 0}
+  SwapToPos: {fileID: 0}
+  New_Player: {fileID: 6117640305410757704, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+  Place_Holder: {fileID: 6307254637506287342, guid: 43d11438e0f3f9345915e688cff94c5b, type: 3}
+  swap_timer_max: 0
+  swap_timer: 0
+  swap_available: 1

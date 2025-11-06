@@ -345,6 +345,7 @@ public class Melee_Combat_Base : MonoBehaviour
         skill_timer += Time.deltaTime;
         if (skill_timer >= jump_time_max)
         {
+            Instantiate(Landing_Explosion, transform.position, Quaternion.identity);
             skill_available = false;
             skill_active = false;
             skill_timer = 0f;
