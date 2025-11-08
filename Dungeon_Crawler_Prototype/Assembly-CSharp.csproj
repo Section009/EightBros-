@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Homing.cs" />
     <Compile Include="Assets\Dummy.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\EnemyMovementMelee1.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Shield code.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Special_Starter_Shot.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayText.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellClap.cs" />

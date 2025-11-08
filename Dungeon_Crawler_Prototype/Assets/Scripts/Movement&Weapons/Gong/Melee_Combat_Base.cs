@@ -52,11 +52,12 @@ public class Melee_Combat_Base : MonoBehaviour
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;
     public bool Dashing;
-    //Mage Dash
+    //Melee Dash
     public float dash_cooldown;
     public float dash_cooldown_timer;
     public bool teleport;
-    public GameObject Explosion;
+    public GameObject Shield;
+    private GameObject cur_Shield;
     // Start is called before the first frame update
     void Start()
     {
@@ -87,15 +88,11 @@ public class Melee_Combat_Base : MonoBehaviour
         }
         if (Dashing)
         {
-            rb.velocity = transform.forward * Dash_Speed;
+            Dash_Active();
             Dash_Timer += Time.deltaTime;
             if (Dash_Timer >= Dash_Time)
             {
-                Dash_Timer = 0;
-                Dashing = false;
-                pm.Locked = false;
-                GetComponent<MeshRenderer>().enabled = true;
-                Instantiate(Explosion, transform.position, Quaternion.identity);
+                End_Dash();
             }
         }
     }
@@ -106,10 +103,9 @@ public class Melee_Combat_Base : MonoBehaviour
         //Dash
         if ((Input.GetButtonDown("Jump")) && (Dashing == false))
         {
-            print("Dash");
+            Dash_Start();
             Dashing = true;
             pm.Locked = true;
-            GetComponent<MeshRenderer>().enabled = false;
         }
         //Charge
         if (Input.GetButton("Fire1"))
@@ -311,6 +307,33 @@ public class Melee_Combat_Base : MonoBehaviour
         {
             rb.velocity = new Vector3(0f, 0f, 0f);
         }
+    }
+
+    private void Dash_Start()
+    {
+        Vector3 pos = transform.position + transform.forward;
+        cur_Shield = Instantiate(Shield, pos, transform.rotation);
+        cur_Shield.transform.parent = transform;
+    }
+
+    private void Dash_Active()
+    {
+        float horiInput = Input.GetAxis("Horizontal");
+        float vertInput = Input.GetAxis("Vertical");
+
+        Vector3 vec = new Vector3(horiInput, 0f, vertInput);
+        if (vec.magnitude != 0)
+        {
+            transform.LookAt(transform.position + vec, Vector3.up);
+        }
+        rb.velocity = transform.forward * Dash_Speed;
+    }
+    public void End_Dash()
+    {
+        Destroy(cur_Shield);
+        Dash_Timer = 0;
+        Dashing = false;
+        pm.Locked = false;
     }
 
     private void Skill_Start()
