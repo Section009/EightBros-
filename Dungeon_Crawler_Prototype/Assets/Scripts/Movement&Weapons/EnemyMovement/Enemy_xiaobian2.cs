@@ -3,16 +3,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-/// <summary>
-/// Assassin-style pouncer with post-leave pause:
-/// - Globally tracks the player (no vision needed).
-/// - Approaches fast using NavMesh; stops at approachStopDistance (no overlapping).
-/// - On close, chooses ONE pattern:
-///    (A) Short pause at close range -> burst-leave (random dir) -> small pause -> re-approach
-///    (B) Latch behind for a while   -> burst-leave (slightly slower) -> small pause -> re-approach
-/// - While APPROACHING: taking damage causes knockback + stun, then resume.
-/// - This script controls locomotion windows only; hook attacks via events.
-/// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAssassinPouncerAI : MonoBehaviour
 {
@@ -21,41 +11,28 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     Transform player;
 
     [Header("Approach")]
-    [Tooltip("Enter the attack window when within this distance from the player.")]
     public float engageDistance = 2.0f;
-
-    [Tooltip("Agent stops approaching once within this distance (keeps a buffer; should be <= engageDistance).")]
     public float approachStopDistance = 1.6f;
-
-    [Tooltip("NavMeshAgent chase speed during approach.")]
     public float approachSpeed = 10f;
-
-    [Tooltip("How often to refresh SetDestination while approaching.")]
     public float approachRepathInterval = 0.1f;
 
     [Header("Attack Move Patterns")]
-    [Tooltip("Probability of choosing pattern B (Latch then leave). 0..1")]
     [Range(0f, 1f)] public float latchPatternProbability = 0.5f;
 
-    // Pattern A: Short pause then leave-fast
     [Header("Pattern A: Short Pause then Leave Fast")]
     public Vector2 shortPauseRange = new Vector2(0.2f, 0.5f);
-    public float leaveBurstSpeed = 16f;      // very fast leave speed
-    public float leaveDistance = 7f;         // max burst travel if not early-stopped
+    public float leaveBurstSpeed = 16f;
+    public float leaveDistance = 7f;
 
-    // Pattern B: Latch behind then leave (slightly slower but still fast)
     [Header("Pattern B: Latch Behind then Leave")]
-    public float latchDuration = 1.0f;       // time to stick behind player
-    public float behindOffset = 0.9f;        // distance behind player's back
-    public float latchFollowLerp = 12f;      // how tightly we follow behind
-    public float latchLeaveSpeed = 12f;      // leaving speed (still fast but < leaveBurstSpeed)
-    public float latchLeaveDistance = 8f;    // max burst travel if not early-stopped
+    public float latchDuration = 1.0f;
+    public float behindOffset = 0.9f;
+    public float latchFollowLerp = 12f;
+    public float latchLeaveSpeed = 12f;
+    public float latchLeaveDistance = 8f;
 
     [Header("Leave Stop & Post-Pause")]
-    [Tooltip("End the leave-burst early once distance to player >= this value, then pause.")]
     public float reengageStartDistance = 6.0f;
-
-    [Tooltip("Random small pause after leaving, before re-approach.")]
     public Vector2 postLeavePauseRange = new Vector2(0.25f, 0.5f);
 
     [Header("On-Damage Reaction (only during Approach)")]
@@ -68,13 +45,10 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     public float turnSpeed = 900f;
 
     [Header("Events (plug attacks here)")]
-    [Tooltip("Raised when entering the close-range attack window (before pause/latch).")]
     public UnityEvent onAttackWindowBegin;
-    [Tooltip("Raised when leaving the attack window (after pause/latch, right before burst-leave).")]
     public UnityEvent onAttackWindowEnd;
 
     [Header("Damage Aggro (global tracker)")]
-    [Tooltip("Enable aggro extension when taking damage; not strictly necessary because we already globally chase.")]
     public bool enableDamageAggro = true;
     public float damageAggroTimeout = 4f;
     float aggroTimer;
@@ -84,11 +58,12 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     enum State { Approach, ShortPause, LatchBehind, LeaveBurst, Knockback, Stunned }
     State state;
 
-    // Damage polling
     Health hp;           int lastHP = -1;
     FourHitHealth four;  int lastSeg = -1;
-
     float approachRepathTimer;
+
+    // NEW: invulnerability helper (optional)
+    InvulnerabilityToggle invuln;
 
     void Awake()
     {
@@ -97,9 +72,9 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         agent.speed = approachSpeed;
         agent.acceleration = Mathf.Max(agent.acceleration, approachSpeed * 2f);
         agent.autoBraking = false;
-
-        // ensure stop distance applies (we keep some buffer, do not overlap player)
         agent.stoppingDistance = Mathf.Max(0f, approachStopDistance);
+
+        invuln = GetComponent<InvulnerabilityToggle>(); // may be null if not added
     }
 
     void Start()
@@ -123,7 +98,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         {
             if (!player) { yield return null; continue; }
 
-            // Damage-aggro refresh (not required to start chase, but fine to keep)
             if (enableDamageAggro)
             {
                 if (WasDamagedThisFrame()) aggroTimer = damageAggroTimeout;
@@ -136,7 +110,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
             {
                 case State.Approach:
                 {
-                    // Periodically refresh navigation toward player
                     approachRepathTimer -= Time.deltaTime;
                     if (approachRepathTimer <= 0f)
                     {
@@ -147,7 +120,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
                         approachRepathTimer = approachRepathInterval;
                     }
 
-                    // Face in the moving direction
                     Vector3 vel = agent.desiredVelocity; vel.y = 0f;
                     if (vel.sqrMagnitude > 0.001f)
                     {
@@ -155,7 +127,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
                         transform.rotation = Quaternion.RotateTowards(transform.rotation, want, turnSpeed * Time.deltaTime);
                     }
 
-                    // Close enough to start the attack window (but we already stop early at approachStopDistance)
                     if (dist <= engageDistance)
                     {
                         onAttackWindowBegin?.Invoke();
@@ -173,7 +144,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
                     }
                     else
                     {
-                        // Only during APPROACH: if damaged, do knockback + stun
                         if (enableKnockbackOnDamage && WasDamagedThisFrame())
                         {
                             state = State.Knockback;
@@ -188,7 +158,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
                 case State.LeaveBurst:
                 case State.Knockback:
                 case State.Stunned:
-                    // handled in coroutines
                     break;
             }
 
@@ -196,10 +165,9 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         }
     }
 
-    // ------------------------- Pattern A -------------------------
+    // -------- Pattern A: Short pause -> leave -> post-pause -> re-approach --------
     IEnumerator DoShortPauseThenLeave()
     {
-        // Halt on spot and face the player briefly
         agent.isStopped = true;
         agent.ResetPath();
 
@@ -214,24 +182,23 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
 
         onAttackWindowEnd?.Invoke();
 
-        // Burst-leave (random direction) until far enough, then do a small post-leave pause
         state = State.LeaveBurst;
         yield return StartCoroutine(DoLeaveBurst(leaveBurstSpeed, leaveDistance));
 
-        // Post-leave small pause
         yield return StartCoroutine(DoPostLeavePause());
 
-        // Re-approach
         state = State.Approach;
         agent.isStopped = false;
         agent.speed = approachSpeed;
         if (player) agent.SetDestination(player.position);
     }
 
-    // ------------------------- Pattern B -------------------------
+    // -------- Pattern B: Latch (INVULNERABLE) -> leave -> post-pause -> re-approach --------
     IEnumerator DoLatchBehindThenLeave()
     {
-        // Temporarily take over movement to stick behind the player
+        // OPEN invulnerability while latched
+        invuln?.EnableInvulnerability();
+
         bool prevStopped = agent.isStopped;
         bool prevUpdPos  = agent.updatePosition;
         bool prevUpdRot  = agent.updateRotation;
@@ -257,7 +224,9 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
 
         onAttackWindowEnd?.Invoke();
 
-        // Restore agent control for the burst-leave
+        // CLOSE invulnerability before leaving
+        invuln?.DisableInvulnerability();
+
         agent.updatePosition = prevUpdPos;
         agent.updateRotation = prevUpdRot;
         agent.Warp(transform.position);
@@ -266,20 +235,17 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         state = State.LeaveBurst;
         yield return StartCoroutine(DoLeaveBurst(latchLeaveSpeed, latchLeaveDistance));
 
-        // Post-leave small pause
         yield return StartCoroutine(DoPostLeavePause());
 
-        // Resume approach
         state = State.Approach;
         agent.isStopped = false;
         agent.speed = approachSpeed;
         if (player) agent.SetDestination(player.position);
     }
 
-    // ------------------------- Leave (shared) -------------------------
+    // -------- Straight-line leave (random dir), with early stop by distance --------
     IEnumerator DoLeaveBurst(float speed, float maxDistance)
     {
-        // Disable agent for a straight-line burst
         bool prevStopped = agent.isStopped;
         bool prevUpdPos  = agent.updatePosition;
         bool prevUpdRot  = agent.updateRotation;
@@ -287,7 +253,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         agent.updatePosition = false;
         agent.updateRotation = false;
 
-        // Random horizontal direction
         Vector2 rnd = Random.insideUnitCircle.normalized;
         Vector3 dir = new Vector3(rnd.x, 0f, rnd.y);
         if (dir.sqrMagnitude < 0.001f) dir = transform.right;
@@ -300,12 +265,10 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         float traveled = 0f;
         while (traveled < 1f)
         {
-            // Early stop once we are far enough from the player
             if (player)
             {
                 float pd = Vector3.Distance(transform.position, player.position);
-                if (pd >= reengageStartDistance)
-                    break;
+                if (pd >= reengageStartDistance) break;
             }
 
             float step = (speed * Time.deltaTime) / Mathf.Max(0.001f, maxDistance);
@@ -319,7 +282,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
             yield return null;
         }
 
-        // Sync agent back
         agent.updatePosition = prevUpdPos;
         agent.updateRotation = prevUpdRot;
         agent.Warp(transform.position);
@@ -330,11 +292,9 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
 
     IEnumerator DoPostLeavePause()
     {
-        // Small pause after leaving before the next approach
         float t = 0f;
         float wait = Random.Range(postLeavePauseRange.x, postLeavePauseRange.y);
 
-        // Stop and (optionally) face the player
         bool prevStopped = agent.isStopped;
         agent.isStopped = true;
         agent.ResetPath();
@@ -342,17 +302,20 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         while (t < wait)
         {
             t += Time.deltaTime;
-            FacePlayer(); // looks nicer; remove if undesired
+            FacePlayer();
             yield return null;
         }
 
         agent.isStopped = prevStopped;
     }
 
-    // ------------------------- On-Damage Reaction -------------------------
+    // -------- On-damage reaction while approaching: Knockback -> Stun --------
     IEnumerator DoKnockbackThenStun()
     {
         if (!player) { state = State.Approach; yield break; }
+
+        // Safety: ensure invulnerability is OFF if interrupted during latch
+        invuln?.DisableInvulnerability();
 
         bool prevStopped = agent.isStopped;
         bool prevUpdPos  = agent.updatePosition;
@@ -382,7 +345,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
             yield return null;
         }
 
-        // Sync & enter stunned
         agent.updatePosition = prevUpdPos;
         agent.updateRotation = prevUpdRot;
         agent.Warp(transform.position);
@@ -391,14 +353,13 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         state = State.Stunned;
         yield return new WaitForSeconds(stunDuration);
 
-        // Recover
         agent.isStopped = prevStopped;
         state = State.Approach;
         agent.speed = approachSpeed;
         if (player) agent.SetDestination(player.position);
     }
 
-
+    // -------- Helpers --------
     void FacePlayer()
     {
         if (!player) return;

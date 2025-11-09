@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Weapon_Projectile.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\Onhit\AggroOnHit.cs" />
     <Compile Include="Assets\Player_Cooldown_Master.cs" />
+    <Compile Include="Assets\Scripts\Health\InvulnerabilityToggle.cs" />
     <Compile Include="Assets\Scripts\Health\HealthBar.cs" />
     <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObjectWeapon.cs" />
     <Compile Include="Assets\Scripts\World\LevelClear.cs" />
