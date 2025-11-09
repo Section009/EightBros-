@@ -276,6 +276,7 @@ MonoBehaviour:
   Dash_Time: 0.3
   Dash_Speed: 12
   Dashing: 0
+  Dash_Available: 0
   dash_cooldown: 3
   dash_cooldown_timer: 0
   teleport: 0

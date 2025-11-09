@@ -41,6 +41,7 @@ public class Melee_Combat_Base : MonoBehaviour
     private float jump_dist;
     public GameObject Landing_Explosion;
     public float skill_duration;
+    private float skill_duration_timer;
     //Ultimate
     public float ultimate_cooldown;
     public float ultimate_timer;
@@ -52,6 +53,7 @@ public class Melee_Combat_Base : MonoBehaviour
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;
     public bool Dashing;
+    public bool Dash_Available;
     //Melee Dash
     public float dash_cooldown;
     public float dash_cooldown_timer;
@@ -101,11 +103,19 @@ public class Melee_Combat_Base : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (Dash_Available))
         {
             Dash_Start();
             Dashing = true;
             pm.Locked = true;
+        }
+        if (Dash_Available == false)
+        {
+            dash_cooldown_timer += Time.deltaTime;
+            if (dash_cooldown_timer >= dash_cooldown)
+            {
+                Dash_Available = true;
+            }
         }
         //Charge
         if (Input.GetButton("Fire1"))
@@ -332,6 +342,8 @@ public class Melee_Combat_Base : MonoBehaviour
     {
         Destroy(cur_Shield);
         Dash_Timer = 0;
+        Dash_Available = false;
+        dash_cooldown_timer = 0f;
         Dashing = false;
         pm.Locked = false;
     }
@@ -365,13 +377,13 @@ public class Melee_Combat_Base : MonoBehaviour
     {
         
         
-        skill_timer += Time.deltaTime;
-        if (skill_timer >= jump_time_max)
+        skill_duration_timer += Time.deltaTime;
+        if (skill_duration_timer >= jump_time_max)
         {
             Instantiate(Landing_Explosion, transform.position, Quaternion.identity);
             skill_available = false;
             skill_active = false;
-            skill_timer = 0f;
+            skill_duration_timer = 0f;
             pm.Locked = false;
         }
     }

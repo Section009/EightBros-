@@ -38,6 +38,7 @@ public class Weapon_Projectile : MonoBehaviour
     public GameObject missile;
     public GameObject big_missile;
     public float skill_duration;
+    private float skill_duration_timer;
     public float bullet_cooldown;
     private float bullet_timer;
     //Ultimate
@@ -51,6 +52,7 @@ public class Weapon_Projectile : MonoBehaviour
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;
     public bool Dashing;
+    public bool Dash_Available;
     //Mage Dash
     public float dash_cooldown;
     public float dash_cooldown_timer;
@@ -88,16 +90,11 @@ public class Weapon_Projectile : MonoBehaviour
         }
         if (Dashing)
         {
-            //transform.position += transform.forward * Dash_Speed * Time.deltaTime;
-            rb.velocity = transform.forward * Dash_Speed;
+            Dash_Active();
             Dash_Timer += Time.deltaTime;
             if (Dash_Timer >= Dash_Time)
             {
-                Dash_Timer = 0;
-                Dashing = false;
-                pm.Locked = false;
-                GetComponent<MeshRenderer>().enabled = true;
-                Instantiate(Explosion, transform.position, Quaternion.identity);
+                End_Dash();
             }
         }
     }
@@ -106,12 +103,20 @@ public class Weapon_Projectile : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (Dash_Available))
         {
-            print("Dash");
+            Dash_Start();
             Dashing = true;
             pm.Locked = true;
-            GetComponent<MeshRenderer>().enabled = false;
+            
+        }
+        if (Dash_Available == false)
+        {
+            dash_cooldown_timer += Time.deltaTime;
+            if (dash_cooldown_timer >= dash_cooldown)
+            {
+                Dash_Available = true;
+            }
         }
         //Charge
         if (Input.GetButton("Fire1"))
@@ -162,7 +167,6 @@ public class Weapon_Projectile : MonoBehaviour
             skill_timer += Time.deltaTime;
             if (skill_timer >= skill_cooldown)
             {
-                skill_timer = 0f;
                 skill_available = true;
             }
         }
@@ -294,7 +298,6 @@ public class Weapon_Projectile : MonoBehaviour
         go2.transform.Rotate(Vector3.right * -60.0f);
         go3.transform.Rotate(Vector3.right * 60.0f);
         go4.transform.Rotate(Vector3.right * 120.0f);
-        skill_timer = 0f;
         skill_active = true;
     }
 
@@ -315,15 +318,36 @@ public class Weapon_Projectile : MonoBehaviour
             go.transform.LookAt(target, Vector3.up);
             bullet_timer = 0f;
         }
-        skill_timer += Time.deltaTime;
-        if (skill_timer >= skill_duration)
+        skill_duration_timer += Time.deltaTime;
+        if (skill_duration_timer >= skill_duration)
         {
             skill_available = false;
             skill_active = false;
-            skill_timer = 0f;
+            skill_duration_timer = 0f;
             bullet_timer = 0f;
             pm.Locked = false;
+            skill_timer = 0f;
         }
+    }
+
+    private void Dash_Start()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    private void Dash_Active()
+    {
+        rb.velocity = transform.forward * Dash_Speed;
+    }
+    public void End_Dash()
+    {
+        Dash_Timer = 0;
+        Dash_Available = false;
+        dash_cooldown_timer = 0f;
+        Dashing = false;
+        pm.Locked = false;
+        GetComponent<MeshRenderer>().enabled = true;
+        Instantiate(Explosion, transform.position, Quaternion.identity);
     }
 
     private void Ultimate_Start()
