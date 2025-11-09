@@ -18,6 +18,7 @@ public class Swap_Characters : MonoBehaviour
     private bool swap_active;
     private bool swap_in = false;
     public float swap_dist = 30f;
+    public bool first_swap = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,14 +50,26 @@ public class Swap_Characters : MonoBehaviour
 
             if ((Input.GetKeyDown("e")) && (swap_available))
             {
-                float dist = Vector3.Distance(transform.position, SwapToPos.transform.position);
-                if (dist <= swap_dist)
+                if (first_swap)
                 {
+                    SwapToPos = Instantiate(Place_Holder, transform.position, transform.rotation);
                     default_y = transform.position.y;
                     this.gameObject.GetComponent<Player_Movement>().Locked = true;
                     swap_active = true;
                     swap_available = false;
                     Camera.GetComponent<Camera_Follow>().active = false;
+                }
+                else
+                {
+                    float dist = Vector3.Distance(transform.position, SwapToPos.transform.position);
+                    if (dist <= swap_dist)
+                    {
+                        default_y = transform.position.y;
+                        this.gameObject.GetComponent<Player_Movement>().Locked = true;
+                        swap_active = true;
+                        swap_available = false;
+                        Camera.GetComponent<Camera_Follow>().active = false;
+                    }
                 }
             }
         }

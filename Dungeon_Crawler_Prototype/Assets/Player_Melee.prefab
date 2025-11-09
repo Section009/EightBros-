@@ -332,3 +332,4 @@ MonoBehaviour:
   swap_duration_speed: 20
   swap_available: 1
   swap_dist: 10
+  first_swap: 0
