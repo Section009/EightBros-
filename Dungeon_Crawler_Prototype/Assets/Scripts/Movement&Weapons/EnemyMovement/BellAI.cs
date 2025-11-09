@@ -37,6 +37,11 @@ public class BellAI : MonoBehaviour
 
     void Start()
     {
+        Assign_Player();
+    }
+
+    public void Assign_Player()
+    {
         var p = GameObject.FindGameObjectWithTag(playerTag);
         if (p) player = p.transform;
     }

@@ -52,7 +52,8 @@ public class Swap_Characters : MonoBehaviour
             {
                 if (first_swap)
                 {
-                    SwapToPos = Instantiate(Place_Holder, transform.position, transform.rotation);
+                    Vector3 newpos = transform.position + transform.forward;
+                    SwapToPos = Instantiate(Place_Holder, newpos, transform.rotation);
                     default_y = transform.position.y;
                     this.gameObject.GetComponent<Player_Movement>().Locked = true;
                     swap_active = true;
@@ -99,14 +100,29 @@ public class Swap_Characters : MonoBehaviour
 
     void Swap_In()
     {
+        
         GetComponent<Rigidbody>().velocity = new Vector3(0f, -1f * swap_duration_speed, 0f);
-        swap_duration_timer += Time.deltaTime;
-        if (swap_duration_timer >= swap_duration_timer_max)
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if ((swap_in)&&(col.gameObject.CompareTag("Floor")))
         {
-            swap_duration_timer = 0f;
             this.gameObject.GetComponent<Player_Movement>().Locked = false;
             Camera.GetComponent<Camera_Follow>().active = true;
             swap_in = false;
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                if (enemy.GetComponent<EnemyAI>() != null)
+                {
+                    enemy.GetComponent<EnemyAI>().Assign_Player();
+                }
+                else if (enemy.GetComponent<BellAI>() != null)
+                {
+                    enemy.GetComponent<BellAI>().Assign_Player();
+                }
+            }
         }
     }
 }
