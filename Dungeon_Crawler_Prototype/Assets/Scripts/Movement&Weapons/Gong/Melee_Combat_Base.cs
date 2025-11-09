@@ -149,7 +149,6 @@ public class Melee_Combat_Base : MonoBehaviour
             ultimate_timer += Time.deltaTime;
             if (ultimate_timer >= ultimate_cooldown)
             {
-                ultimate_timer = 0f;
                 ultimate_available = true;
             }
         }
@@ -360,7 +359,6 @@ public class Melee_Combat_Base : MonoBehaviour
         Vector3 target_pos = new Vector3(dir.x, transform.position.y, dir.z);
         jump_dist = Vector3.Distance(target_pos, transform.position);
         transform.LookAt(target_pos, Vector3.up);
-        skill_timer = 0f;
         skill_active = true;
 
         float vy = -((-9.81f) * jump_time_max / 2);
@@ -385,6 +383,7 @@ public class Melee_Combat_Base : MonoBehaviour
             skill_active = false;
             skill_duration_timer = 0f;
             pm.Locked = false;
+            skill_timer = 0f;
         }
     }
 
