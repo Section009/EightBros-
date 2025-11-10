@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Swap_Characters : MonoBehaviour
 {
+    public Player_Cooldown_Master pcm;
     public GameObject Camera;
     public GameObject SwapToPos;
     public GameObject New_Player;
@@ -22,7 +23,7 @@ public class Swap_Characters : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
     }
 
     // Update is called once per frame
@@ -38,17 +39,8 @@ public class Swap_Characters : MonoBehaviour
             {
                 Swap_Active();
             }
-            else if (swap_available == false)
-            {
-                swap_timer += Time.deltaTime;
-                if (swap_timer >= swap_timer_max)
-                {
-                    swap_available = true;
-                    swap_timer = 0;
-                }
-            }
 
-            if ((Input.GetKeyDown("e")) && (swap_available))
+            if ((Input.GetKeyDown("e")) && (pcm.Swap_Available))
             {
                 if (first_swap)
                 {
@@ -108,6 +100,8 @@ public class Swap_Characters : MonoBehaviour
     {
         if ((swap_in)&&(col.gameObject.CompareTag("Floor")))
         {
+            pcm.Swap_Available = false;
+            pcm.Swap_Cooldown_timer = 0f;
             this.gameObject.GetComponent<Player_Movement>().Locked = false;
             Camera.GetComponent<Camera_Follow>().active = true;
             swap_in = false;

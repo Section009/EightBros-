@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon_Projectile : MonoBehaviour
 {
+    public Player_Cooldown_Master pcm;
     private Player_Movement pm;
     private Rigidbody rb;
     public GameObject Ammo_Type;
@@ -63,6 +64,7 @@ public class Weapon_Projectile : MonoBehaviour
     {
         pm = GetComponent<Player_Movement>();
         rb = GetComponent<Rigidbody>();
+        pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
     }
     void FixedUpdate()
     {
@@ -103,20 +105,12 @@ public class Weapon_Projectile : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (Dash_Available))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Firework_Dash_Available))
         {
             Dash_Start();
             Dashing = true;
             pm.Locked = true;
             
-        }
-        if (Dash_Available == false)
-        {
-            dash_cooldown_timer += Time.deltaTime;
-            if (dash_cooldown_timer >= dash_cooldown)
-            {
-                Dash_Available = true;
-            }
         }
         //Charge
         if (Input.GetButton("Fire1"))
@@ -138,39 +132,22 @@ public class Weapon_Projectile : MonoBehaviour
             pm.slowed = false;
         }
         //Ultimate Prep
-        if (ultimate_available)
+        if (pcm.Firework_Ultimate_Available)
         {
             if (ultimate_active)
             {
                 Ultimate_Active();
             }
         }
-        else
-        {
-            ultimate_timer += Time.deltaTime;
-            if (ultimate_timer >= ultimate_cooldown)
-            {
-                ultimate_timer = 0f;
-                ultimate_available = true;
-            }
-        }
         //Skill Prep
-        if (skill_available)
+        if (pcm.Firework_Skill_Available)
         {
             if (skill_active)
             {
                 Skill_Active();
             }
         }
-        else
-        {
-            skill_timer += Time.deltaTime;
-            if (skill_timer >= skill_cooldown)
-            {
-                skill_available = true;
-            }
-        }
-        if ((Input.GetButton("Fire3") && (ultimate_available) && (pm.Locked == false)))
+        if ((Input.GetButton("Fire3") && (pcm.Firework_Ultimate_Available) && (pm.Locked == false)))
         {
             Ultimate_Start();
         }
@@ -186,7 +163,7 @@ public class Weapon_Projectile : MonoBehaviour
             Debug.DrawLine(transform.position, dir);
         }
         //Skill Fire
-        if ((Input.GetButtonUp("Fire2")) && (skill_available) && (pm.Locked == false))
+        if ((Input.GetButtonUp("Fire2")) && (pcm.Firework_Skill_Available) && (pm.Locked == false))
         {
             print("Fire");
             Skill_Start();
@@ -324,6 +301,8 @@ public class Weapon_Projectile : MonoBehaviour
             skill_available = false;
             skill_active = false;
             skill_duration_timer = 0f;
+            pcm.Firework_Skill_Cooldown_timer = 0f;
+            pcm.Firework_Skill_Available = false;
             bullet_timer = 0f;
             pm.Locked = false;
             skill_timer = 0f;
@@ -344,6 +323,8 @@ public class Weapon_Projectile : MonoBehaviour
         Dash_Timer = 0;
         Dash_Available = false;
         dash_cooldown_timer = 0f;
+        pcm.Firework_Dash_Cooldown_timer = 0f;
+        pcm.Firework_Dash_Available = false;
         Dashing = false;
         pm.Locked = false;
         GetComponent<MeshRenderer>().enabled = true;
@@ -354,6 +335,8 @@ public class Weapon_Projectile : MonoBehaviour
     {
         ultimate_timer = 0f;
         ultimate_available = false;
+        pcm.Firework_Ultimate_Cooldown_timer = 0f;
+        pcm.Firework_Ultimate_Available = false;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
     }
 

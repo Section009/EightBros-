@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113ce551e17a52949b161e3a5697ab53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pcm: {fileID: 0}
   Ammo_Type: {fileID: 6279590967856197664, guid: 8a7b0096ca018244b97af839d473e995, type: 3}
   combo_count: 0
   cooldowns:
@@ -279,8 +280,9 @@ MonoBehaviour:
   Dash_Time: 2
   Dash_Speed: 10
   Dashing: 0
+  Dash_Available: 0
   dash_cooldown: 0
-  dash_cooldown_timer: 0
+  dash_cooldown_timer: 3
   teleport: 0
   Shield: {fileID: 4193721960446790597, guid: da5b95c7908eeda41b8799fa979f3a23, type: 3}
 --- !u!54 &4296655737288367148

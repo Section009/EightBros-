@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Melee_Combat_Base : MonoBehaviour
 {
+    public Player_Cooldown_Master pcm;
     private Player_Movement pm;
     private Rigidbody rb;
     public GameObject Ammo_Type;
@@ -65,6 +66,7 @@ public class Melee_Combat_Base : MonoBehaviour
     {
         pm = GetComponent<Player_Movement>();
         rb = GetComponent<Rigidbody>();
+        pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
     }
     void FixedUpdate()
     {
@@ -103,19 +105,11 @@ public class Melee_Combat_Base : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (Dash_Available))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Melee_Dash_Available))
         {
             Dash_Start();
             Dashing = true;
             pm.Locked = true;
-        }
-        if (Dash_Available == false)
-        {
-            dash_cooldown_timer += Time.deltaTime;
-            if (dash_cooldown_timer >= dash_cooldown)
-            {
-                Dash_Available = true;
-            }
         }
         //Charge
         if (Input.GetButton("Fire1"))
@@ -137,39 +131,22 @@ public class Melee_Combat_Base : MonoBehaviour
             pm.slowed = false;
         }
         //Ultimate Prep
-        if (ultimate_available)
+        if (pcm.Melee_Ultimate_Available)
         {
             if (ultimate_active)
             {
                 Ultimate_Active();
             }
         }
-        else
-        {
-            ultimate_timer += Time.deltaTime;
-            if (ultimate_timer >= ultimate_cooldown)
-            {
-                ultimate_available = true;
-            }
-        }
         //Skill Prep
-        if (skill_available)
+        if (pcm.Melee_Skill_Available)
         {
             if (skill_active)
             {
                 Skill_Active();
             }
         }
-        else
-        {
-            skill_timer += Time.deltaTime;
-            if (skill_timer >= skill_cooldown)
-            {
-                skill_timer = 0f;
-                skill_available = true;
-            }
-        }
-        if ((Input.GetButton("Fire3") && (ultimate_available) && (pm.Locked == false)))
+        if ((Input.GetButton("Fire3") && (pcm.Melee_Ultimate_Available) && (pm.Locked == false)))
         {
             Ultimate_Start();
         }
@@ -185,7 +162,7 @@ public class Melee_Combat_Base : MonoBehaviour
             Debug.DrawLine(transform.position, dir);
         }
         //Skill Fire
-        if ((Input.GetButtonUp("Fire2")) && (skill_available) && (pm.Locked == false))
+        if ((Input.GetButtonUp("Fire2")) && (pcm.Melee_Skill_Available) && (pm.Locked == false))
         {
             print("Fire");
             Skill_Start();
@@ -343,6 +320,8 @@ public class Melee_Combat_Base : MonoBehaviour
         Dash_Timer = 0;
         Dash_Available = false;
         dash_cooldown_timer = 0f;
+        pcm.Melee_Dash_Available = false;
+        pcm.Melee_Dash_Cooldown_timer = 0f;
         Dashing = false;
         pm.Locked = false;
     }
@@ -384,6 +363,8 @@ public class Melee_Combat_Base : MonoBehaviour
             skill_duration_timer = 0f;
             pm.Locked = false;
             skill_timer = 0f;
+            pcm.Melee_Skill_Available = false;
+            pcm.Melee_Skill_Cooldown_timer = 0f;
         }
     }
 
@@ -391,6 +372,8 @@ public class Melee_Combat_Base : MonoBehaviour
     {
         ultimate_timer = 0f;
         ultimate_available = false;
+        pcm.Melee_Ultimate_Available = false;
+        pcm.Melee_Ultimate_Cooldown_timer = 0f;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
     }
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player_Cooldown_Master : MonoBehaviour
 {
-    public GameObject Player;
     [Header("Firework Cooldowns")]
     public bool Firework_Skill_Available;
     public float Firework_Skill_Cooldown_Max;
@@ -32,7 +31,6 @@ public class Player_Cooldown_Master : MonoBehaviour
 
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
     }
     // Update cooldowns of all weapon abilities
     void Update()
@@ -85,7 +83,17 @@ public class Player_Cooldown_Master : MonoBehaviour
             Melee_Ultimate_Cooldown_timer += Time.deltaTime;
             if (Melee_Ultimate_Cooldown_timer >= Melee_Ultimate_Cooldown_Max)
             {
-                Firework_Ultimate_Available = true;
+                Melee_Ultimate_Available = true;
+            }
+        }
+
+        //Swap cooldown
+        if (Swap_Available == false)
+        {
+            Swap_Cooldown_timer += Time.deltaTime;
+            if (Swap_Cooldown_timer >= Swap_Cooldown_Max)
+            {
+                Swap_Available = true;
             }
         }
     }
