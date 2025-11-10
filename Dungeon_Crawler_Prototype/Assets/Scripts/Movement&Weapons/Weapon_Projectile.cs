@@ -311,7 +311,7 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Dash_Start()
     {
-        GetComponent<MeshRenderer>().enabled = false;
+        Set_Player_Visible(false);
     }
 
     private void Dash_Active()
@@ -327,7 +327,7 @@ public class Weapon_Projectile : MonoBehaviour
         pcm.Firework_Dash_Available = false;
         Dashing = false;
         pm.Locked = false;
-        GetComponent<MeshRenderer>().enabled = true;
+        Set_Player_Visible(true);
         Instantiate(Explosion, transform.position, Quaternion.identity);
     }
 
@@ -343,5 +343,18 @@ public class Weapon_Projectile : MonoBehaviour
     private void Ultimate_Active()
     {
 
+    }
+    
+    private void Set_Player_Visible(bool visible)
+    {
+        Transform model = transform.GetChild(0);
+        foreach (Transform child in model)
+        {
+            MeshRenderer MR = child.gameObject.GetComponent<MeshRenderer>();
+            if (MR != null)
+            {
+                MR.enabled = visible;
+            }
+        }
     }
 }
