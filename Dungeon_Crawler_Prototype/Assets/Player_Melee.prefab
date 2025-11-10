@@ -276,7 +276,7 @@ MonoBehaviour:
   ultimate_cooldown: 30
   ultimate_timer: 0
   ultimate_available: 1
-  Ultimate: {fileID: 6156014973674770674, guid: a866c6d0c6bb7c64f98b593612c9c603, type: 3}
+  Ultimate: {fileID: 2102911601427978849, guid: c5bc46605900f7040b8f53da6dedb124, type: 3}
   Dash_Time: 2
   Dash_Speed: 10
   Dashing: 0
@@ -285,6 +285,7 @@ MonoBehaviour:
   dash_cooldown_timer: 3
   teleport: 0
   Shield: {fileID: 4193721960446790597, guid: da5b95c7908eeda41b8799fa979f3a23, type: 3}
+  dash_winddown_max: 0.25
 --- !u!54 &4296655737288367148
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -324,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb5d6348996f7c54dbe0530a96b268a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pcm: {fileID: 0}
   Camera: {fileID: 0}
   SwapToPos: {fileID: 0}
   New_Player: {fileID: 6117640305410757704, guid: 8dd55ff6a18129e44b76a35d7035324e, type: 3}

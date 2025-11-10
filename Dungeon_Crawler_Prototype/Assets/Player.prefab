@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e326d8bea93da34eafbe148c0986ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pcm: {fileID: 0}
   Ammo_Type: {fileID: 6156014973674770674, guid: f940e5a4acc06604a9109d4a75da61a0, type: 3}
   combo_count: 0
   cooldowns:
@@ -320,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb5d6348996f7c54dbe0530a96b268a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pcm: {fileID: 0}
   Camera: {fileID: 0}
   SwapToPos: {fileID: 0}
   New_Player: {fileID: 6117640305410757704, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}

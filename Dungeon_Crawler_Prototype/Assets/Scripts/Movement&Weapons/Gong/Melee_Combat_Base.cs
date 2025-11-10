@@ -61,6 +61,9 @@ public class Melee_Combat_Base : MonoBehaviour
     public bool teleport;
     public GameObject Shield;
     private GameObject cur_Shield;
+    public float dash_winddown_max;
+    private float dash_winddown_timer;
+    private bool dash_winddown;
     // Start is called before the first frame update
     void Start()
     {
@@ -98,6 +101,10 @@ public class Melee_Combat_Base : MonoBehaviour
             {
                 End_Dash();
             }
+        }
+        if (dash_winddown)
+        {
+            Dash_Winddown();
         }
     }
 
@@ -317,13 +324,26 @@ public class Melee_Combat_Base : MonoBehaviour
     public void End_Dash()
     {
         Destroy(cur_Shield);
+        dash_winddown = true;
         Dash_Timer = 0;
         Dash_Available = false;
+        Dashing = false;
         dash_cooldown_timer = 0f;
         pcm.Melee_Dash_Available = false;
         pcm.Melee_Dash_Cooldown_timer = 0f;
-        Dashing = false;
-        pm.Locked = false;
+        //pm.rb.velocity = new Vector3(0f, 0f, 0f);
+    }
+
+    private void Dash_Winddown()
+    {
+        print("winding");
+        dash_winddown_timer += Time.deltaTime;
+        if (dash_winddown_timer >= dash_winddown_max)
+        {
+            dash_winddown_timer = 0f;
+            dash_winddown = false;
+            pm.Locked = false;
+        }
     }
 
     private void Skill_Start()

@@ -272,7 +272,7 @@ PrefabInstance:
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: Ultimate
       value: 
-      objectReference: {fileID: 6156014973674770674, guid: a866c6d0c6bb7c64f98b593612c9c603, type: 3}
+      objectReference: {fileID: 2102911601427978849, guid: c5bc46605900f7040b8f53da6dedb124, type: 3}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: Ammo_Type
       value: 
@@ -316,6 +316,10 @@ PrefabInstance:
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: charge_move_speed
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: dash_winddown_max
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: ultimate_cooldown
@@ -985,6 +989,10 @@ PrefabInstance:
     - target: {fileID: 4152189931990754601, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
       propertyPath: m_Name
       value: Cooldown_Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
+      propertyPath: Melee_Ultimate_Available
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
