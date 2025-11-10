@@ -140,6 +140,7 @@ MonoBehaviour:
   damage: 0
   knockback_time: 0.1
   knockback_speed: 4
+  VFX_Impact: {fileID: 7421653933561361290, guid: fe151b5f6aefdde4e8af5f21b3b13b66, type: 3}
 --- !u!114 &2164089620941035504
 MonoBehaviour:
   m_ObjectHideFlags: 0
