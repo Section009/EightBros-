@@ -7,6 +7,8 @@ TagManager:
   - Explosion
   - Enemy
   - Floor
+  - Wall
+  - Cooldown_Tracker
   layers:
   - Default
   - TransparentFX

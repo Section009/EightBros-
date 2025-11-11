@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Melee_Combat_Base : MonoBehaviour
 {
+    public Player_Cooldown_Master pcm;
     private Player_Movement pm;
     private Rigidbody rb;
     public GameObject Ammo_Type;
@@ -41,6 +42,7 @@ public class Melee_Combat_Base : MonoBehaviour
     private float jump_dist;
     public GameObject Landing_Explosion;
     public float skill_duration;
+    private float skill_duration_timer;
     //Ultimate
     public float ultimate_cooldown;
     public float ultimate_timer;
@@ -52,16 +54,22 @@ public class Melee_Combat_Base : MonoBehaviour
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;
     public bool Dashing;
-    //Mage Dash
+    public bool Dash_Available;
+    //Melee Dash
     public float dash_cooldown;
     public float dash_cooldown_timer;
     public bool teleport;
-    public GameObject Explosion;
+    public GameObject Shield;
+    private GameObject cur_Shield;
+    public float dash_winddown_max;
+    private float dash_winddown_timer;
+    private bool dash_winddown;
     // Start is called before the first frame update
     void Start()
     {
         pm = GetComponent<Player_Movement>();
         rb = GetComponent<Rigidbody>();
+        pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
     }
     void FixedUpdate()
     {
@@ -87,16 +95,16 @@ public class Melee_Combat_Base : MonoBehaviour
         }
         if (Dashing)
         {
-            rb.velocity = transform.forward * Dash_Speed;
+            Dash_Active();
             Dash_Timer += Time.deltaTime;
             if (Dash_Timer >= Dash_Time)
             {
-                Dash_Timer = 0;
-                Dashing = false;
-                pm.Locked = false;
-                GetComponent<MeshRenderer>().enabled = true;
-                Instantiate(Explosion, transform.position, Quaternion.identity);
+                End_Dash();
             }
+        }
+        if (dash_winddown)
+        {
+            Dash_Winddown();
         }
     }
 
@@ -104,12 +112,11 @@ public class Melee_Combat_Base : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Melee_Dash_Available))
         {
-            print("Dash");
+            Dash_Start();
             Dashing = true;
             pm.Locked = true;
-            GetComponent<MeshRenderer>().enabled = false;
         }
         //Charge
         if (Input.GetButton("Fire1"))
@@ -131,40 +138,22 @@ public class Melee_Combat_Base : MonoBehaviour
             pm.slowed = false;
         }
         //Ultimate Prep
-        if (ultimate_available)
+        if (pcm.Melee_Ultimate_Available)
         {
             if (ultimate_active)
             {
                 Ultimate_Active();
             }
         }
-        else
-        {
-            ultimate_timer += Time.deltaTime;
-            if (ultimate_timer >= ultimate_cooldown)
-            {
-                ultimate_timer = 0f;
-                ultimate_available = true;
-            }
-        }
         //Skill Prep
-        if (skill_available)
+        if (pcm.Melee_Skill_Available)
         {
             if (skill_active)
             {
                 Skill_Active();
             }
         }
-        else
-        {
-            skill_timer += Time.deltaTime;
-            if (skill_timer >= skill_cooldown)
-            {
-                skill_timer = 0f;
-                skill_available = true;
-            }
-        }
-        if ((Input.GetButton("Fire3") && (ultimate_available) && (pm.Locked == false)))
+        if ((Input.GetButton("Fire3") && (pcm.Melee_Ultimate_Available) && (pm.Locked == false)))
         {
             Ultimate_Start();
         }
@@ -180,7 +169,7 @@ public class Melee_Combat_Base : MonoBehaviour
             Debug.DrawLine(transform.position, dir);
         }
         //Skill Fire
-        if ((Input.GetButtonUp("Fire2")) && (skill_available) && (pm.Locked == false))
+        if ((Input.GetButtonUp("Fire2")) && (pcm.Melee_Skill_Available) && (pm.Locked == false))
         {
             print("Fire");
             Skill_Start();
@@ -313,6 +302,50 @@ public class Melee_Combat_Base : MonoBehaviour
         }
     }
 
+    private void Dash_Start()
+    {
+        Vector3 pos = transform.position + transform.forward;
+        cur_Shield = Instantiate(Shield, pos, transform.rotation);
+        cur_Shield.transform.parent = transform;
+    }
+
+    private void Dash_Active()
+    {
+        float horiInput = Input.GetAxis("Horizontal");
+        float vertInput = Input.GetAxis("Vertical");
+
+        Vector3 vec = new Vector3(horiInput, 0f, vertInput);
+        if (vec.magnitude != 0)
+        {
+            transform.LookAt(transform.position + vec, Vector3.up);
+        }
+        rb.velocity = transform.forward * Dash_Speed;
+    }
+    public void End_Dash()
+    {
+        Destroy(cur_Shield);
+        dash_winddown = true;
+        Dash_Timer = 0;
+        Dash_Available = false;
+        Dashing = false;
+        dash_cooldown_timer = 0f;
+        pcm.Melee_Dash_Available = false;
+        pcm.Melee_Dash_Cooldown_timer = 0f;
+        //pm.rb.velocity = new Vector3(0f, 0f, 0f);
+    }
+
+    private void Dash_Winddown()
+    {
+        print("winding");
+        dash_winddown_timer += Time.deltaTime;
+        if (dash_winddown_timer >= dash_winddown_max)
+        {
+            dash_winddown_timer = 0f;
+            dash_winddown = false;
+            pm.Locked = false;
+        }
+    }
+
     private void Skill_Start()
     {
         pm.rb.velocity = new Vector3(0f, 0f, 0f);
@@ -325,7 +358,6 @@ public class Melee_Combat_Base : MonoBehaviour
         Vector3 target_pos = new Vector3(dir.x, transform.position.y, dir.z);
         jump_dist = Vector3.Distance(target_pos, transform.position);
         transform.LookAt(target_pos, Vector3.up);
-        skill_timer = 0f;
         skill_active = true;
 
         float vy = -((-9.81f) * jump_time_max / 2);
@@ -342,13 +374,17 @@ public class Melee_Combat_Base : MonoBehaviour
     {
         
         
-        skill_timer += Time.deltaTime;
-        if (skill_timer >= jump_time_max)
+        skill_duration_timer += Time.deltaTime;
+        if (skill_duration_timer >= jump_time_max)
         {
+            Instantiate(Landing_Explosion, transform.position, Quaternion.identity);
             skill_available = false;
             skill_active = false;
-            skill_timer = 0f;
+            skill_duration_timer = 0f;
             pm.Locked = false;
+            skill_timer = 0f;
+            pcm.Melee_Skill_Available = false;
+            pcm.Melee_Skill_Cooldown_timer = 0f;
         }
     }
 
@@ -356,6 +392,8 @@ public class Melee_Combat_Base : MonoBehaviour
     {
         ultimate_timer = 0f;
         ultimate_available = false;
+        pcm.Melee_Ultimate_Available = false;
+        pcm.Melee_Ultimate_Cooldown_timer = 0f;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
     }
 

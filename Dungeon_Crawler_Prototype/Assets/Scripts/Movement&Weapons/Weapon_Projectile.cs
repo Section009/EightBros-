@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon_Projectile : MonoBehaviour
 {
+    public Player_Cooldown_Master pcm;
     private Player_Movement pm;
     private Rigidbody rb;
     public GameObject Ammo_Type;
@@ -38,6 +39,7 @@ public class Weapon_Projectile : MonoBehaviour
     public GameObject missile;
     public GameObject big_missile;
     public float skill_duration;
+    private float skill_duration_timer;
     public float bullet_cooldown;
     private float bullet_timer;
     //Ultimate
@@ -51,6 +53,7 @@ public class Weapon_Projectile : MonoBehaviour
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;
     public bool Dashing;
+    public bool Dash_Available;
     //Mage Dash
     public float dash_cooldown;
     public float dash_cooldown_timer;
@@ -61,6 +64,7 @@ public class Weapon_Projectile : MonoBehaviour
     {
         pm = GetComponent<Player_Movement>();
         rb = GetComponent<Rigidbody>();
+        pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
     }
     void FixedUpdate()
     {
@@ -88,16 +92,11 @@ public class Weapon_Projectile : MonoBehaviour
         }
         if (Dashing)
         {
-            //transform.position += transform.forward * Dash_Speed * Time.deltaTime;
-            rb.velocity = transform.forward * Dash_Speed;
+            Dash_Active();
             Dash_Timer += Time.deltaTime;
             if (Dash_Timer >= Dash_Time)
             {
-                Dash_Timer = 0;
-                Dashing = false;
-                pm.Locked = false;
-                GetComponent<MeshRenderer>().enabled = true;
-                Instantiate(Explosion, transform.position, Quaternion.identity);
+                End_Dash();
             }
         }
     }
@@ -106,12 +105,12 @@ public class Weapon_Projectile : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Firework_Dash_Available))
         {
-            print("Dash");
+            Dash_Start();
             Dashing = true;
             pm.Locked = true;
-            GetComponent<MeshRenderer>().enabled = false;
+            
         }
         //Charge
         if (Input.GetButton("Fire1"))
@@ -133,40 +132,22 @@ public class Weapon_Projectile : MonoBehaviour
             pm.slowed = false;
         }
         //Ultimate Prep
-        if (ultimate_available)
+        if (pcm.Firework_Ultimate_Available)
         {
             if (ultimate_active)
             {
                 Ultimate_Active();
             }
         }
-        else
-        {
-            ultimate_timer += Time.deltaTime;
-            if (ultimate_timer >= ultimate_cooldown)
-            {
-                ultimate_timer = 0f;
-                ultimate_available = true;
-            }
-        }
         //Skill Prep
-        if (skill_available)
+        if (pcm.Firework_Skill_Available)
         {
             if (skill_active)
             {
                 Skill_Active();
             }
         }
-        else
-        {
-            skill_timer += Time.deltaTime;
-            if (skill_timer >= skill_cooldown)
-            {
-                skill_timer = 0f;
-                skill_available = true;
-            }
-        }
-        if ((Input.GetButton("Fire3") && (ultimate_available) && (pm.Locked == false)))
+        if ((Input.GetButton("Fire3") && (pcm.Firework_Ultimate_Available) && (pm.Locked == false)))
         {
             Ultimate_Start();
         }
@@ -182,7 +163,7 @@ public class Weapon_Projectile : MonoBehaviour
             Debug.DrawLine(transform.position, dir);
         }
         //Skill Fire
-        if ((Input.GetButtonUp("Fire2")) && (skill_available) && (pm.Locked == false))
+        if ((Input.GetButtonUp("Fire2")) && (pcm.Firework_Skill_Available) && (pm.Locked == false))
         {
             print("Fire");
             Skill_Start();
@@ -294,7 +275,6 @@ public class Weapon_Projectile : MonoBehaviour
         go2.transform.Rotate(Vector3.right * -60.0f);
         go3.transform.Rotate(Vector3.right * 60.0f);
         go4.transform.Rotate(Vector3.right * 120.0f);
-        skill_timer = 0f;
         skill_active = true;
     }
 
@@ -315,26 +295,66 @@ public class Weapon_Projectile : MonoBehaviour
             go.transform.LookAt(target, Vector3.up);
             bullet_timer = 0f;
         }
-        skill_timer += Time.deltaTime;
-        if (skill_timer >= skill_duration)
+        skill_duration_timer += Time.deltaTime;
+        if (skill_duration_timer >= skill_duration)
         {
             skill_available = false;
             skill_active = false;
-            skill_timer = 0f;
+            skill_duration_timer = 0f;
+            pcm.Firework_Skill_Cooldown_timer = 0f;
+            pcm.Firework_Skill_Available = false;
             bullet_timer = 0f;
             pm.Locked = false;
+            skill_timer = 0f;
         }
+    }
+
+    private void Dash_Start()
+    {
+        Set_Player_Visible(false);
+    }
+
+    private void Dash_Active()
+    {
+        rb.velocity = transform.forward * Dash_Speed;
+    }
+    public void End_Dash()
+    {
+        Dash_Timer = 0;
+        Dash_Available = false;
+        dash_cooldown_timer = 0f;
+        pcm.Firework_Dash_Cooldown_timer = 0f;
+        pcm.Firework_Dash_Available = false;
+        Dashing = false;
+        pm.Locked = false;
+        Set_Player_Visible(true);
+        Instantiate(Explosion, transform.position, Quaternion.identity);
     }
 
     private void Ultimate_Start()
     {
         ultimate_timer = 0f;
         ultimate_available = false;
+        pcm.Firework_Ultimate_Cooldown_timer = 0f;
+        pcm.Firework_Ultimate_Available = false;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
     }
 
     private void Ultimate_Active()
     {
 
+    }
+    
+    private void Set_Player_Visible(bool visible)
+    {
+        Transform model = transform.GetChild(0);
+        foreach (Transform child in model)
+        {
+            MeshRenderer MR = child.gameObject.GetComponent<MeshRenderer>();
+            if (MR != null)
+            {
+                MR.enabled = visible;
+            }
+        }
     }
 }

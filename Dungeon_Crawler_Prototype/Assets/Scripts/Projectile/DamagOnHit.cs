@@ -1,32 +1,34 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider))]
-public class DamageOnHit : MonoBehaviour   // 注意这里是 ":" 不是 "="
+public class DamageOnHit : MonoBehaviour
 {
     [Header("Damage")]
     public int damage = 10;
 
-    [Tooltip("destroyOnHit")]
     public bool destroyOnHit = false;
 
-    [Tooltip("Deal damage over time")]
+    [Header("Damage Over Time (DoT)")]
     public bool damageOverTime = false;
 
-    [Tooltip("Time between each damage tick (Only used if damageOverTime is true)")]
-    public float secsPerTick = 0.0f;
-    private float timer;
+    public float secsPerTick = 0.2f;
 
-    [Tooltip("tag")]
+    [Header("Filters")]
     public string[] validTags = new string[] { "Enemy" };
+
+    [Header("Anti-Multi-Hit")]
+    public float hitCooldownSeconds = 0.05f;
+
+    private readonly Dictionary<int, float> _nextAllowedTime = new Dictionary<int, float>(); // key: targetID -> next time
+    private readonly Dictionary<int, float> _tickTimer = new Dictionary<int, float>();       // key: targetID -> accumulated secs
 
     void Reset()
     {
-        // 建议子弹用触发器
         var col = GetComponent<Collider>();
         if (col) col.isTrigger = true;
 
-        // 如果用刚体推进，保持Kinematic避免物理反弹
         var rb = GetComponent<Rigidbody>();
         if (!rb) rb = gameObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;
@@ -35,46 +37,98 @@ public class DamageOnHit : MonoBehaviour   // 注意这里是 ":" 不是 "="
 
     void OnTriggerEnter(Collider other)
     {
-        TryDamage(other);
-        timer = 0.0f;
+        TryHitNow(other);
+        int key = TargetKey(other);
+        if (key != 0) _tickTimer[key] = 0f;
     }
 
     void OnTriggerStay(Collider other)
     {
-        if (damageOverTime)
+        if (!damageOverTime) return;
+
+        int key = TargetKey(other);
+        if (key == 0) return;
+
+
+        if (!_tickTimer.ContainsKey(key)) _tickTimer[key] = 0f;
+        _tickTimer[key] += Time.deltaTime;
+
+        if (_tickTimer[key] >= Mathf.Max(0.01f, secsPerTick))
         {
-            timer += Time.deltaTime;
-            if (timer >= secsPerTick)
-            {
-                timer = 0.0f;
-                TryDamage(other);
-            }
+            _tickTimer[key] = 0f;
+            TryHitNow(other);
         }
     }
 
-    /*
-    void OnCollisionEnter(Collision c)  { TryDamage(c.collider); }
-    void OnCollisionStay(Collision c)   { TryDamage(c.collider); }
-    */
-
-    private void TryDamage(Collider other)
+    private void TryHitNow(Collider other)
     {
-        if (!TagAllowed(other.tag)) return;
+        if (!IsTagAllowed(other)) return;
 
-        var h = other.GetComponent<Health>();
-        if (h != null)
+        var four = other.GetComponentInParent<FourHitHealth>();
+        if (four != null)
         {
-            h.TakeDamage(damage);
-            // Debug.Log($"[DamageOnHit] {name} hit {other.name}, -{damage}");
-            if (destroyOnHit) Destroy(gameObject);
+            if (!HitCooldownPassed(four)) return;
+            four.RegisterHit();
+            PostHit();
+            return;
+        }
+
+        var hp = other.GetComponentInParent<Health>();
+        if (hp != null)
+        {
+            if (!HitCooldownPassed(hp)) return;
+            if (damage > 0) hp.TakeDamage(damage);
+            PostHit();
+            return;
+        }
+
+    }
+
+    private void PostHit()
+    {
+        if (destroyOnHit && !damageOverTime)
+        {
+            Destroy(gameObject);
         }
     }
 
-    private bool TagAllowed(string tag)
+
+    private bool HitCooldownPassed(Component target)
+    {
+        int id = target.GetInstanceID();
+        float now = Time.time;
+        if (_nextAllowedTime.TryGetValue(id, out float nextT) && now < nextT)
+            return false;
+
+        _nextAllowedTime[id] = now + Mathf.Max(0f, hitCooldownSeconds);
+        return true;
+    }
+
+
+    private int TargetKey(Collider other)
+    {
+        var four = other.GetComponentInParent<FourHitHealth>();
+        if (four) return four.GetInstanceID();
+
+        var hp = other.GetComponentInParent<Health>();
+        if (hp) return hp.GetInstanceID();
+
+        return other.transform.root ? other.transform.root.GetInstanceID() : 0;
+    }
+
+
+    private bool IsTagAllowed(Collider other)
     {
         if (validTags == null || validTags.Length == 0) return true;
+
+        string t1 = other.tag;
+        string t2 = other.transform.root ? other.transform.root.tag : null;
+
         for (int i = 0; i < validTags.Length; i++)
-            if (tag == validTags[i]) return true;
+        {
+            string vt = validTags[i];
+            if (t1 == vt || t2 == vt) return true;
+        }
         return false;
     }
 }

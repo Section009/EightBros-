@@ -10,6 +10,7 @@ public class Standard_Projectile : MonoBehaviour
     private float life_timer;
     public float knockback_time;
     public float knockback_speed;
+    public GameObject VFX_Impact;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,7 @@ public class Standard_Projectile : MonoBehaviour
         }
         if (col.gameObject.CompareTag("Enemy"))
         {
+            Instantiate(VFX_Impact, transform.position, transform.rotation);
             Destroy(this.gameObject);
             print("Kill");
         }

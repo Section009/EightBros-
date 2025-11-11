@@ -139,8 +139,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   destroyOnHit: 0
+  damageOverTime: 0
+  secsPerTick: 0.2
   validTags:
   - Enemy
+  hitCooldownSeconds: 0.05
 --- !u!54 &7872643095785894628
 Rigidbody:
   m_ObjectHideFlags: 0
