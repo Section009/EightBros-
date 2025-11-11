@@ -9,7 +9,9 @@ public class DisplayText : MonoBehaviour
     // Start is called before the first frame update
     public GameObject player;
 
-    public Weapon_Projectile weaponProjectile; 
+    public Weapon_Projectile weaponProjectile;
+
+    public Melee_Combat_Base meleeCombat;
     void Start()
     {
         
@@ -23,6 +25,12 @@ public class DisplayText : MonoBehaviour
             // Example: Display combo count and cooldown
             textField.text =
                 "Combo: " + weaponProjectile.combo_count + " Skill Timer: " + weaponProjectile.skill_timer.ToString("F2");
+        }
+
+        if (textField != null && meleeCombat != null)
+        {
+            textField.text =
+                "Combo: " + meleeCombat.combo_count;
         }
     }
 }
