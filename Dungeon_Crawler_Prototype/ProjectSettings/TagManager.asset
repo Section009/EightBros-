@@ -9,6 +9,7 @@ TagManager:
   - Floor
   - Wall
   - Cooldown_Tracker
+  - Wave1
   layers:
   - Default
   - TransparentFX
