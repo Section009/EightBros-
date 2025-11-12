@@ -19,6 +19,20 @@ public class EnemyAI : MonoBehaviour
     [Tooltip("Agent will stop chasing (and dash will also end) once within this distance from the player.")]
     public float approachStopDistance = 1.5f;
 
+    // ------------------   NEW: stride cadence (step-pause rhythm) ------------------
+    [Header("Stride Cadence (step-pause rhythm)")]
+    [Tooltip("Enable step-pause movement rhythm while chasing (not during dash).")]
+    public bool enableStrideCadence = true;
+
+    [Tooltip("Move time range (seconds) per stride cycle. A value will be sampled each cycle.")]
+    public Vector2 moveDurationRange = new Vector2(0.45f, 0.75f);
+
+    [Tooltip("Idle time range (seconds) per stride cycle. A value will be sampled each cycle.")]
+    public Vector2 idleDurationRange = new Vector2(0.20f, 0.40f);
+
+    [Tooltip("While idling in cadence, keep facing the player (nice for animation).")]
+    public bool facePlayerDuringIdle = true;
+
     // existing pause/attack-window settings
     [Header("Pause After Close Approach")]
     [Tooltip("If enemy is within this distance from the player after approach/dash, it will pause on the spot.")]
@@ -52,13 +66,18 @@ public class EnemyAI : MonoBehaviour
     private bool charging;
     private bool onCooldown;
 
+    // --- cadence internals ---
+    enum StrideState { Moving, Idling }
+    StrideState _strideState = StrideState.Moving;
+    float _strideTimer = 0f;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = true;
         agent.speed = normalSpeed;
 
-        // ------------------   make agent naturally stop earlier ------------------
+        // stop a bit before overlapping
         agent.stoppingDistance = Mathf.Max(0f, approachStopDistance);
     }
 
@@ -66,11 +85,13 @@ public class EnemyAI : MonoBehaviour
     {
         Assign_Player();
 
-        // damage-aggro baselines (no change to your health scripts)
+        // damage-aggro baselines
         _hp   = GetComponent<Health>();
         _four = GetComponent<FourHitHealth>();
         if (_hp)   _lastHP  = _hp.currentHealth;
         if (_four) _lastSeg = _four.GetState().current;
+
+        ResetStrideCycle(StrideState.Moving); // initialize cadence
     }
 
     public void Assign_Player()
@@ -91,20 +112,57 @@ public class EnemyAI : MonoBehaviour
         }
 
         float dist = Vector3.Distance(transform.position, player.position);
-        if (charging) return; // dash in progress
+        if (charging) return; // dash in progress - cadence is ignored
 
         bool shouldChase = (dist <= detectRange) || (_aggroTimer > 0f);
 
         if (shouldChase)
         {
-            agent.isStopped = false;
-            agent.speed = normalSpeed;
+            // keep stop distance up-to-date
+            agent.stoppingDistance = Mathf.Max(0f, approachStopDistance);
 
-            // Let the agent walk toward the player but it will stop at 'stoppingDistance'
-            agent.stoppingDistance = Mathf.Max(0f, approachStopDistance); // keep in sync if tweaked at runtime
-            agent.SetDestination(player.position);
+            if (enableStrideCadence && dist > approachStopDistance)
+            {
+                // --- cadence logic while chasing ---
+                _strideTimer -= Time.deltaTime;
 
-            // trigger dash if close enough (dash itself will also respect approachStopDistance)
+                if (_strideState == StrideState.Moving)
+                {
+                    agent.isStopped = false;
+                    agent.speed = normalSpeed;
+                    agent.SetDestination(player.position);
+
+                    if (_strideTimer <= 0f)
+                        ResetStrideCycle(StrideState.Idling);
+                }
+                else // Idling
+                {
+                    agent.isStopped = true;
+
+                    if (facePlayerDuringIdle && player)
+                    {
+                        Vector3 to = (player.position - transform.position);
+                        to.y = 0f;
+                        if (to.sqrMagnitude > 0.0001f)
+                        {
+                            Quaternion want = Quaternion.LookRotation(to.normalized, Vector3.up);
+                            transform.rotation = Quaternion.RotateTowards(transform.rotation, want, 720f * Time.deltaTime);
+                        }
+                    }
+
+                    if (_strideTimer <= 0f)
+                        ResetStrideCycle(StrideState.Moving);
+                }
+            }
+            else
+            {
+                // no cadence (either disabled or already within stop distance)
+                agent.isStopped = false;
+                agent.speed = normalSpeed;
+                agent.SetDestination(player.position);
+            }
+
+            // trigger dash if close enough (dash ignores cadence)
             if (!onCooldown && dist <= chargeRange)
             {
                 StartCoroutine(DoCharge());
@@ -128,20 +186,18 @@ public class EnemyAI : MonoBehaviour
 
         float timer = 0f;
 
-        // temporarily step out of agent movement while dashing straight
+        // dash: step out of agent movement
         agent.isStopped = true;
 
-        // ------------------   end dash early once close enough ------------------
         while (timer < chargeDuration)
         {
             // Move straight
             Vector3 next = transform.position + chargeDir * chargeSpeed * Time.deltaTime;
 
-            // If next step would overshoot into the player's feet, clamp by stop distance:
+            // end early once we hit the stop distance
             float nextDist = Vector3.Distance(next, player.position);
             if (nextDist <= approachStopDistance)
             {
-                // snap just outside the stop distance (optional small epsilon)
                 Vector3 fromPlayer = (next - player.position);
                 fromPlayer.y = 0f;
                 if (fromPlayer.sqrMagnitude > 0.0001f)
@@ -149,7 +205,7 @@ public class EnemyAI : MonoBehaviour
                     next = player.position + fromPlayer.normalized * approachStopDistance;
                 }
                 transform.position = next;
-                break; // end dash early
+                break;
             }
 
             transform.position = next;
@@ -160,13 +216,16 @@ public class EnemyAI : MonoBehaviour
         charging = false;
         agent.isStopped = false;
 
-        // Pause window if close enough now
+        // optional: pause window if close enough now (unchanged)
         if (Vector3.Distance(transform.position, player.position) <= closeStopRange)
         {
             yield return StartCoroutine(DoPauseWindow());
         }
 
-        // cooldown before next dash
+        // reset cadence after dash so rhythm feels intentional
+        ResetStrideCycle(StrideState.Moving);
+
+        // cooldown
         yield return new WaitForSeconds(chargeCooldown);
         onCooldown = false;
     }
@@ -186,12 +245,12 @@ public class EnemyAI : MonoBehaviour
         {
             t += Time.deltaTime;
 
-            // keep facing the player while pausing (nice for attacks)
+            // keep facing the player while pausing
             if (player)
             {
                 Vector3 to = (player.position - transform.position);
                 to.y = 0f;
-                if (to.sqrMagnitude > 0.0001f)
+                if (to.sqrMagnitude > 0f)
                 {
                     Quaternion want = Quaternion.LookRotation(to.normalized, Vector3.up);
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, want, 720f * Time.deltaTime);
@@ -231,5 +290,21 @@ public class EnemyAI : MonoBehaviour
         }
 
         return hit;
+    }
+
+    // --- cadence helpers ---
+    void ResetStrideCycle(StrideState next)
+    {
+        _strideState = next;
+        if (_strideState == StrideState.Moving)
+        {
+            float t = Mathf.Clamp(Random.Range(moveDurationRange.x, moveDurationRange.y), 0.01f, 999f);
+            _strideTimer = t;
+        }
+        else
+        {
+            float t = Mathf.Clamp(Random.Range(idleDurationRange.x, idleDurationRange.y), 0.01f, 999f);
+            _strideTimer = t;
+        }
     }
 }
