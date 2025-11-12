@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6545921812312744510}
   - component: {fileID: 9137570128534338910}
   - component: {fileID: 4257850438238981330}
+  - component: {fileID: 4272884658466647978}
   m_Layer: 6
   m_Name: Bullet
   m_TagString: Untagged
@@ -123,6 +124,9 @@ MonoBehaviour:
   speed: 16
   life_time: 0.5
   damage: 0
+  knockback_time: 0
+  knockback_speed: 0
+  VFX_Impact: {fileID: 0}
 --- !u!54 &9137570128534338910
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -164,5 +168,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   destroyOnHit: 1
+  damageOverTime: 0
+  secsPerTick: 0.2
   validTags:
   - Enemy
+  hitCooldownSeconds: 0.05
+--- !u!114 &4272884658466647978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156014973674770674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27030b9e4947399419680fe86f929e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Enemy
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  applySlow: 1
+  slowMultiplier: 0.6
+  slowDuration: 2
+  applyStun: 0
+  stunDuration: 1
+  applyDot: 1
+  dotDps: 5
+  dotDuration: 3
+  dotTickRate: -1
+  destroyAfterApply: 1

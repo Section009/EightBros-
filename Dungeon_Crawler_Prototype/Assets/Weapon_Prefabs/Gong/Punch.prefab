@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5792023240983018398}
   - component: {fileID: -4052215928417869855}
   - component: {fileID: 1544221686120707529}
+  - component: {fileID: -7471153006604707613}
   m_Layer: 6
   m_Name: Punch
   m_TagString: Untagged
@@ -173,6 +174,32 @@ MonoBehaviour:
   validTags:
   - Enemy
   hitCooldownSeconds: 0.05
+--- !u!114 &-7471153006604707613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6279590967856197664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27030b9e4947399419680fe86f929e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Enemy
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  applySlow: 0
+  slowMultiplier: 0.1
+  slowDuration: 2
+  applyStun: 1
+  stunDuration: 1
+  applyDot: 1
+  dotDps: 20
+  dotDuration: 3
+  dotTickRate: -1
+  destroyAfterApply: 1
 --- !u!1001 &471908391765877157
 PrefabInstance:
   m_ObjectHideFlags: 0
