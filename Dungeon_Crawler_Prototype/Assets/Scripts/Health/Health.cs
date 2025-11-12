@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Health : MonoBehaviour
 
     [Header("Optional Damage Numbers")]
     public bool display_damage_numbers = false;
+    public GameObject Canvas;
     public GameObject Numbers;
 
     void Awake()
@@ -32,6 +34,11 @@ public class Health : MonoBehaviour
         if (amount <= 0 || currentHealth <= 0) return;
         currentHealth = Mathf.Max(0, currentHealth - amount);
         if (healthBar) healthBar.Set(currentHealth, maxHealth);
+        if (display_damage_numbers)
+        {
+            GameObject go = Instantiate(Numbers, Canvas.transform);
+            go.GetComponent<Text>().text = amount.ToString();
+        }
         if (currentHealth == 0)
         {
             onDie?.Invoke();

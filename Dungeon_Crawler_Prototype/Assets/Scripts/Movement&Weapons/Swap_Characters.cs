@@ -73,7 +73,7 @@ public class Swap_Characters : MonoBehaviour
 
     void Swap_Active()
     {
-        GetComponent<Rigidbody>().velocity = new Vector3(0f, swap_duration_speed, 0f);
+        //GetComponent<Rigidbody>().velocity = new Vector3(0f, swap_duration_speed, 0f);
         swap_duration_timer += Time.deltaTime;
         if (swap_duration_timer >= swap_duration_timer_max)
         {
@@ -95,10 +95,32 @@ public class Swap_Characters : MonoBehaviour
 
     void Swap_In()
     {
-        
-        GetComponent<Rigidbody>().velocity = new Vector3(0f, -1f * swap_duration_speed, 0f);
-    }
 
+        //GetComponent<Rigidbody>().velocity = new Vector3(0f, -1f * swap_duration_speed, 0f);
+        swap_duration_timer += Time.deltaTime;
+        if (swap_duration_timer >= swap_duration_timer_max)
+        {
+            swap_duration_timer = 0f;
+            pcm.Swap_Available = false;
+            pcm.Swap_Cooldown_timer = 0f;
+            this.gameObject.GetComponent<Player_Movement>().Locked = false;
+            Camera.GetComponent<Camera_Follow>().active = true;
+            swap_in = false;
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                if (enemy.GetComponent<EnemyAI>() != null)
+                {
+                    enemy.GetComponent<EnemyAI>().Assign_Player();
+                }
+                else if (enemy.GetComponent<BellAI>() != null)
+                {
+                    enemy.GetComponent<BellAI>().Assign_Player();
+                }
+            }
+        }
+    }
+    /*
     void OnTriggerEnter(Collider col)
     {
         if ((swap_in)&&(col.gameObject.CompareTag("Floor")))
@@ -122,4 +144,5 @@ public class Swap_Characters : MonoBehaviour
             }
         }
     }
+    */
 }
