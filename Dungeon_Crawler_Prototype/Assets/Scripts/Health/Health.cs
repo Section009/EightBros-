@@ -13,6 +13,10 @@ public class Health : MonoBehaviour
     [Header("Optional UI")]
     public HealthBarUI healthBar;
 
+    [Header("Optional Damage Numbers")]
+    public bool display_damage_numbers = false;
+    public GameObject Numbers;
+
     void Awake()
     {
         currentHealth = maxHealth;
