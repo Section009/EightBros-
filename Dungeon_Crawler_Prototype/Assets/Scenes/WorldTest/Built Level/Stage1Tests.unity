@@ -320,11 +320,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &241346212 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6812387443672546814, guid: 54a8a6741afa0a54c8628a5ec9c82406, type: 3}
-  m_PrefabInstance: {fileID: 1307517370}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &291101700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,11 +1257,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5275972890508636044, guid: 54a8a6741afa0a54c8628a5ec9c82406, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.08
+      value: 0.59
       objectReference: {fileID: 0}
     - target: {fileID: 5275972890508636044, guid: 54a8a6741afa0a54c8628a5ec9c82406, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.6659088
+      value: 0.22
       objectReference: {fileID: 0}
     - target: {fileID: 5275972890508636044, guid: 54a8a6741afa0a54c8628a5ec9c82406, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1707,7 +1702,7 @@ Transform:
   m_GameObject: {fileID: 1840535630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.6828142, z: -0, w: 0.7305921}
-  m_LocalPosition: {x: 35.933624, y: 4.5768356, z: 4.43}
+  m_LocalPosition: {x: 35.933624, y: 1, z: 4.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1747,7 +1742,7 @@ MonoBehaviour:
   enemySpawnPoints:
   - {fileID: 1476781936}
   - {fileID: 1580233112}
-  doorPrefab: {fileID: 241346212}
+  doorPrefab: {fileID: 6812387443672546814, guid: 54a8a6741afa0a54c8628a5ec9c82406, type: 3}
   doorSpawnPoint: {fileID: 1840535631}
   enemyTag: Enemy
   triggerOnce: 1
