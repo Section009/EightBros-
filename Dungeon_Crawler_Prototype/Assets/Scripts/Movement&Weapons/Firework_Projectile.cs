@@ -52,7 +52,7 @@ public class Firework_Projectile : MonoBehaviour
             Destroy(this.gameObject);
             print("Kill");
         }
-        else
+        else if (col.gameObject.CompareTag("Wall"))
         {
             Instantiate(Explosion_Auto, transform.position, Quaternion.identity);
             Instantiate(Explosion_SFX, transform.position, Quaternion.identity);

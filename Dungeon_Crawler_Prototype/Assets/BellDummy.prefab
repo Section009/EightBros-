@@ -585,7 +585,7 @@ MonoBehaviour:
   onDie:
     m_PersistentCalls:
       m_Calls: []
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 2896891471812068072}
 --- !u!114 &939327252748892509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,8 +598,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ef603a1556b694da18d031626318af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clapBox: {fileID: 0}
-  ringBox: {fileID: 0}
+  clapBox: {fileID: 6951569948676124485, guid: 9fee0193c8e4c5f4eb6edeeed69c77a0, type: 3}
+  ringBox: {fileID: 3061030257499518898, guid: 1a9d773aede310e48a1486d7703be491, type: 3}
   playerTag: Player
   detectRange: 12
   chargeRange: 4

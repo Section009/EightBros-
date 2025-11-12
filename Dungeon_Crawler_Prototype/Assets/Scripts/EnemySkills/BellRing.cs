@@ -6,6 +6,7 @@ public class BellRing : MonoBehaviour
 {
     private Player_Movement pm;
     private BellAI ba;
+    public float damage = 10f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,8 +15,8 @@ public class BellRing : MonoBehaviour
             pm = other.GetComponent<Player_Movement>();
             ba = transform.parent.GetComponent<BellAI>();
 
-            if (ba.ringing) pm.Damage_Player(10f);
-            else pm.Damage_Player(5f);
+            if (ba.ringing) pm.Damage_Player(damage);
+            else pm.Damage_Player(damage/2f);
 
             Destroy(gameObject);
         }
