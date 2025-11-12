@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4679790005155980852}
   - component: {fileID: 7872643095785894628}
   m_Layer: 6
-  m_Name: Firework
+  m_Name: Firework_Good
   m_TagString: Explosion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,11 +120,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8fbce119327ab468a5b59cb5efc324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life_timer_max: 0.3
-  widen_speed: 5
+  life_timer_max: 0.4
+  widen_speed: 4
   damage: 0
   knockback_time: 0.2
-  knockback_speed: 10
+  knockback_speed: 7
 --- !u!114 &4679790005155980852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   destroyOnHit: 0
-  damageOverTime: 0
+  damageOverTime: 1
   secsPerTick: 0.2
   validTags:
   - Enemy

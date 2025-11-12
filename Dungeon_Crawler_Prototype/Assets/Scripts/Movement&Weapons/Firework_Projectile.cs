@@ -8,7 +8,8 @@ public class Firework_Projectile : MonoBehaviour
     public float life_time;
     public int damage;
     private float life_timer;
-    public GameObject Explosion;
+    public GameObject Explosion_Auto;
+    public GameObject Explosion_Enemy_Hit;
     public GameObject Explosion_SFX;
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class Firework_Projectile : MonoBehaviour
         transform.position += transform.forward * speed * Time.deltaTime;
         if (life_timer >= life_time)
         {
-            Instantiate(Explosion, transform.position, Quaternion.identity);
+            Instantiate(Explosion_Auto, transform.position, Quaternion.identity);
             Instantiate(Explosion_SFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
@@ -31,25 +32,31 @@ public class Firework_Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
+        print("col");
         if (col.gameObject.CompareTag("Enemy"))
         {
             Destroy(this.gameObject);
             print("Kill");
         }
-        Instantiate(Explosion, transform.position, Quaternion.identity);
+        Instantiate(Explosion_Enemy_Hit, transform.position, Quaternion.identity);
         Instantiate(Explosion_SFX, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 
     void OnTriggerEnter(Collider col)
     {
-        print("col");
         if (col.gameObject.CompareTag("Enemy"))
         {
-            Instantiate(Explosion, transform.position, Quaternion.identity);
+            Instantiate(Explosion_Enemy_Hit, transform.position, Quaternion.identity);
             Instantiate(Explosion_SFX, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
             print("Kill");
+        }
+        else
+        {
+            Instantiate(Explosion_Auto, transform.position, Quaternion.identity);
+            Instantiate(Explosion_SFX, transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
         }
     }
 }
