@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\EnemySkills\Onhit\AggroOnHit.cs" />
     <Compile Include="Assets\Player_Cooldown_Master.cs" />
     <Compile Include="Assets\Scripts\Health\InvulnerabilityToggle.cs" />
+    <Compile Include="Assets\Scripts\UI\DisplayDamage.cs" />
     <Compile Include="Assets\Scripts\Health\HealthBar.cs" />
     <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObjectWeapon.cs" />
     <Compile Include="Assets\Scripts\World\LevelClear.cs" />
@@ -463,6 +464,10 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@3.8.1\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.56f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
