@@ -498,16 +498,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pcm: {fileID: 0}
   Camera: {fileID: 0}
-  SwapToPos: {fileID: 0}
   New_Player: {fileID: 6117640305410757704, guid: 8dd55ff6a18129e44b76a35d7035324e, type: 3}
-  Place_Holder: {fileID: 6307254637506287342, guid: 43d11438e0f3f9345915e688cff94c5b, type: 3}
+  Smoke_Prefab: {fileID: 8564509892852523737, guid: 84476377f37388349b4586e4fd88cf5a, type: 3}
+  Smoke: {fileID: 0}
   swap_timer_max: 0
   swap_timer: 0
   swap_duration_timer_max: 0.25
-  swap_duration_speed: 40
   swap_available: 1
-  swap_dist: 10
-  first_swap: 0
 --- !u!114 &4628235342050136240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +523,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   healthBar: {fileID: 7522875645212645298}
+  display_damage_numbers: 0
+  Canvas: {fileID: 0}
+  Numbers: {fileID: 0}
 --- !u!1 &6847781616385754924
 GameObject:
   m_ObjectHideFlags: 0

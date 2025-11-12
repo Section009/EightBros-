@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    [SerializeField] float Speed;
+    public float Speed;
     [SerializeField] float Dash_Time;
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;

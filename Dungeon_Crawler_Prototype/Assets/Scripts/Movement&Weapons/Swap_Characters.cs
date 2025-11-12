@@ -7,20 +7,16 @@ public class Swap_Characters : MonoBehaviour
     public Player_Cooldown_Master pcm;
     private Player_Movement pm;
     public GameObject Camera;
-    public GameObject SwapToPos;
     public GameObject New_Player;
-    public GameObject Place_Holder;
+    public GameObject Smoke_Prefab;
+    public GameObject Smoke;
     public float swap_timer_max;
     public float swap_timer;
     private float swap_duration_timer;
     public float swap_duration_timer_max;
-    public float swap_duration_speed;
-    private float default_y;
     public bool swap_available;
     private bool swap_active;
     private bool swap_in = false;
-    public float swap_dist = 30f;
-    public bool first_swap = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,28 +40,12 @@ public class Swap_Characters : MonoBehaviour
 
             if ((Input.GetKeyDown("e")) && (pcm.Swap_Available) && (pm.Locked == false))
             {
-                if (first_swap)
-                {
-                    Vector3 newpos = transform.position + transform.forward;
-                    SwapToPos = Instantiate(Place_Holder, newpos, transform.rotation);
-                    default_y = transform.position.y;
-                    pm.Locked = true;
-                    swap_active = true;
-                    swap_available = false;
-                    Camera.GetComponent<Camera_Follow>().active = false;
-                }
-                else
-                {
-                    float dist = Vector3.Distance(transform.position, SwapToPos.transform.position);
-                    if (dist <= swap_dist)
-                    {
-                        default_y = transform.position.y;
-                        pm.Locked = true;
-                        swap_active = true;
-                        swap_available = false;
-                        Camera.GetComponent<Camera_Follow>().active = false;
-                    }
-                }
+                GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+                Smoke = Instantiate(Smoke_Prefab, transform.position + new Vector3(0f, -0.5f, 0f), transform.rotation);
+                //Smoke.transform.parent = transform;
+                pm.Locked = true;
+                swap_active = true;
+                //Camera.GetComponent<Camera_Follow>().active = false;
             }
         }
         
@@ -73,21 +53,16 @@ public class Swap_Characters : MonoBehaviour
 
     void Swap_Active()
     {
-        //GetComponent<Rigidbody>().velocity = new Vector3(0f, swap_duration_speed, 0f);
+        Swap_Movement();
         swap_duration_timer += Time.deltaTime;
         if (swap_duration_timer >= swap_duration_timer_max)
         {
-            Vector3 newSpawnPos = new Vector3(SwapToPos.transform.position.x, transform.position.y, SwapToPos.transform.position.z);
-            GameObject go = Instantiate(New_Player, newSpawnPos, SwapToPos.transform.rotation);
-            Destroy(SwapToPos);
+            GameObject go = Instantiate(New_Player, transform.position, transform.rotation);
             Camera.GetComponent<Camera_Follow>().follow = go;
-            Vector3 newpos = new Vector3(transform.position.x, default_y, transform.position.z);
-            GameObject temp = Instantiate(Place_Holder, newpos, transform.rotation);
-            go.GetComponent<Swap_Characters>().SwapToPos = temp;
             go.GetComponent<Swap_Characters>().Camera = Camera;
-            Camera.transform.position = SwapToPos.transform.position + Camera.GetComponent<Camera_Follow>().offset;
             go.GetComponent<Swap_Characters>().swap_in = true;
             go.GetComponent<Player_Movement>().Locked = true;
+            go.GetComponent<Swap_Characters>().Smoke = Smoke;
             go.GetComponent<Health>().currentHealth = GetComponent<Health>().currentHealth;
             Destroy(this.gameObject);
         }
@@ -95,17 +70,17 @@ public class Swap_Characters : MonoBehaviour
 
     void Swap_In()
     {
-
-        //GetComponent<Rigidbody>().velocity = new Vector3(0f, -1f * swap_duration_speed, 0f);
+        Swap_Movement();
         swap_duration_timer += Time.deltaTime;
         if (swap_duration_timer >= swap_duration_timer_max)
         {
             swap_duration_timer = 0f;
             pcm.Swap_Available = false;
             pcm.Swap_Cooldown_timer = 0f;
-            this.gameObject.GetComponent<Player_Movement>().Locked = false;
+            pm.Locked = false;
             Camera.GetComponent<Camera_Follow>().active = true;
             swap_in = false;
+            Destroy(Smoke);
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject enemy in enemies)
             {
@@ -120,29 +95,22 @@ public class Swap_Characters : MonoBehaviour
             }
         }
     }
-    /*
-    void OnTriggerEnter(Collider col)
+    
+    void Swap_Movement()
     {
-        if ((swap_in)&&(col.gameObject.CompareTag("Floor")))
+        float horiInput = Input.GetAxis("Horizontal");
+        float vertInput = Input.GetAxis("Vertical");
+
+        Vector3 vec = new Vector3(horiInput, 0f, vertInput);
+
+        transform.LookAt(transform.position + vec, Vector3.up);
+        if (vec.magnitude != 0)
         {
-            pcm.Swap_Available = false;
-            pcm.Swap_Cooldown_timer = 0f;
-            this.gameObject.GetComponent<Player_Movement>().Locked = false;
-            Camera.GetComponent<Camera_Follow>().active = true;
-            swap_in = false;
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject enemy in enemies)
-            {
-                if (enemy.GetComponent<EnemyAI>() != null)
-                {
-                    enemy.GetComponent<EnemyAI>().Assign_Player();
-                }
-                else if (enemy.GetComponent<BellAI>() != null)
-                {
-                    enemy.GetComponent<BellAI>().Assign_Player();
-                }
-            }
+            pm.rb.velocity = transform.forward * pm.Speed;
+        }
+        else
+        {
+            pm.rb.velocity = new Vector3(0f, 0f, 0f);
         }
     }
-    */
 }
