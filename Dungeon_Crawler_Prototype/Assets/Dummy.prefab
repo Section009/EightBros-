@@ -409,6 +409,7 @@ GameObject:
   - component: {fileID: 123966529274491057}
   - component: {fileID: 882462838326135901}
   - component: {fileID: 7444965149113068753}
+  - component: {fileID: 7556438734689530660}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Enemy
@@ -586,6 +587,19 @@ MonoBehaviour:
   chargeSpeed: 5
   chargeDuration: 0.6
   chargeCooldown: 1.5
+  approachStopDistance: 1.5
+  closeStopRange: 2
+  quickPauseRange: {x: 0.3, y: 0.6}
+  heavyPauseRange: {x: 3, y: 4}
+  useHeavyAttackPause: 0
+  onPauseAttackBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  onPauseAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  enableDamageAggro: 1
+  damageAggroTimeout: 6
 --- !u!114 &7444965149113068753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,3 +618,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   healthBar: {fileID: 0}
+--- !u!114 &7556438734689530660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920204670915173105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d36cb930ff2f14bad4d2838e9d3c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpeedMultiplier: 0.1
+  defaultDotTickRate: 0.5
+  dotIgnoresInvulnerability: 0
+  immuneToDot: 0

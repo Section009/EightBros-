@@ -86,6 +86,7 @@ public class Swap_Characters : MonoBehaviour
             Camera.transform.position = SwapToPos.transform.position + Camera.GetComponent<Camera_Follow>().offset;
             go.GetComponent<Swap_Characters>().swap_in = true;
             go.GetComponent<Player_Movement>().Locked = true;
+            go.GetComponent<Health>().currentHealth = GetComponent<Health>().currentHealth;
             Destroy(this.gameObject);
         }
     }

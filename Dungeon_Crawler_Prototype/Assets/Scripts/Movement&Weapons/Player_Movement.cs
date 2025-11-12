@@ -14,7 +14,8 @@ public class Player_Movement : MonoBehaviour
     public Rigidbody rb;
     public bool slowed;
     public float slow_reduction;
-    public float health;
+    private Health health_hub;
+
 
     private bool stunned = false;
 
@@ -22,6 +23,7 @@ public class Player_Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        health_hub = GetComponent<Health>();
     }
     void Update()
     {
@@ -84,7 +86,7 @@ public class Player_Movement : MonoBehaviour
     }
     public void Damage_Player(float damage)
     {
-        health -= damage;
+        health_hub.TakeDamage(Mathf.RoundToInt(damage));
     }
 
     public void Stun_Player(float stunTime)
