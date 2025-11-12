@@ -5,6 +5,7 @@ using UnityEngine;
 public class Swap_Characters : MonoBehaviour
 {
     public Player_Cooldown_Master pcm;
+    private Player_Movement pm;
     public GameObject Camera;
     public GameObject SwapToPos;
     public GameObject New_Player;
@@ -23,6 +24,7 @@ public class Swap_Characters : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pm = GetComponent<Player_Movement>();
         pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
     }
 
@@ -40,14 +42,14 @@ public class Swap_Characters : MonoBehaviour
                 Swap_Active();
             }
 
-            if ((Input.GetKeyDown("e")) && (pcm.Swap_Available))
+            if ((Input.GetKeyDown("e")) && (pcm.Swap_Available) && (pm.Locked == false))
             {
                 if (first_swap)
                 {
                     Vector3 newpos = transform.position + transform.forward;
                     SwapToPos = Instantiate(Place_Holder, newpos, transform.rotation);
                     default_y = transform.position.y;
-                    this.gameObject.GetComponent<Player_Movement>().Locked = true;
+                    pm.Locked = true;
                     swap_active = true;
                     swap_available = false;
                     Camera.GetComponent<Camera_Follow>().active = false;
@@ -58,7 +60,7 @@ public class Swap_Characters : MonoBehaviour
                     if (dist <= swap_dist)
                     {
                         default_y = transform.position.y;
-                        this.gameObject.GetComponent<Player_Movement>().Locked = true;
+                        pm.Locked = true;
                         swap_active = true;
                         swap_available = false;
                         Camera.GetComponent<Camera_Follow>().active = false;

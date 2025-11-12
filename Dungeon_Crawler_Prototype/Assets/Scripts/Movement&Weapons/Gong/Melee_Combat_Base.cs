@@ -112,7 +112,7 @@ public class Melee_Combat_Base : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Melee_Dash_Available))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Melee_Dash_Available) && (pm.Locked == false))
         {
             Dash_Start();
             Dashing = true;

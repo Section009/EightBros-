@@ -105,7 +105,7 @@ public class Weapon_Projectile : MonoBehaviour
     void Update()
     {
         //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Firework_Dash_Available))
+        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Firework_Dash_Available) && (pm.Locked == false))
         {
             Dash_Start();
             Dashing = true;
