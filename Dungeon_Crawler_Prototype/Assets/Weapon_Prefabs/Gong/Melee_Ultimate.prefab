@@ -189,11 +189,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   applySlow: 1
-  slowMultiplier: 0.1
+  slowMultiplier: 0.3
   slowDuration: 2
-  applyStun: 0
-  stunDuration: 1
-  applyDot: 1
+  applyStun: 1
+  stunDuration: 1.5
+  applyDot: 0
   dotDps: 20
   dotDuration: 3
   dotTickRate: 0.5
