@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9083609303771276214}
   - component: {fileID: 4679790005155980852}
   - component: {fileID: 7872643095785894628}
+  - component: {fileID: 5835193845020172563}
   m_Layer: 6
   m_Name: Firework_Good
   m_TagString: Explosion
@@ -171,3 +172,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &5835193845020172563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156014973674770674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27030b9e4947399419680fe86f929e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Enemy
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  applySlow: 0
+  slowMultiplier: 0.6
+  slowDuration: 2
+  applyStun: 0
+  stunDuration: 1
+  applyDot: 1
+  dotDps: 3
+  dotDuration: 10
+  dotTickRate: -1
+  destroyAfterApply: 0

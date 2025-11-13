@@ -588,6 +588,10 @@ MonoBehaviour:
   chargeDuration: 0.6
   chargeCooldown: 1.5
   approachStopDistance: 1.5
+  enableStrideCadence: 1
+  moveDurationRange: {x: 0.45, y: 0.75}
+  idleDurationRange: {x: 0.2, y: 0.4}
+  facePlayerDuringIdle: 1
   closeStopRange: 2
   quickPauseRange: {x: 0.3, y: 0.6}
   heavyPauseRange: {x: 3, y: 4}
@@ -618,6 +622,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   healthBar: {fileID: 0}
+  display_damage_numbers: 1
+  Canvas: {fileID: 1933489222546175156}
+  Numbers: {fileID: 5326588419481503721, guid: a5969567d9e7cae49b66534a5512fb27, type: 3}
 --- !u!114 &7556438734689530660
 MonoBehaviour:
   m_ObjectHideFlags: 0
