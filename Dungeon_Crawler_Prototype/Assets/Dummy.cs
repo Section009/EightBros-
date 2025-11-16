@@ -8,6 +8,7 @@ public class Dummy : MonoBehaviour
     private bool knocked_back;
     private float knocked_time;
     private float knocked_speed;
+    public float knockback_Multiplier = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,10 +53,13 @@ public class Dummy : MonoBehaviour
     
     public void KnockBack(Transform obj, float t_knocked_time, float t_knocked_speed)
     {
-        knocked_back = true;
-        knocked_time = t_knocked_time;
-        knocked_speed = t_knocked_speed;
-        Vector3 facePos = new Vector3(obj.position.x, transform.position.y, obj.position.z);
-        transform.LookAt(facePos, Vector3.up);
+        if (knockback_Multiplier != 0f)
+        {
+            knocked_back = true;
+            knocked_time = t_knocked_time;
+            knocked_speed = t_knocked_speed * knockback_Multiplier;
+            Vector3 facePos = new Vector3(obj.position.x, transform.position.y, obj.position.z);
+            transform.LookAt(facePos, Vector3.up);
+        }
     }
 }
