@@ -523,9 +523,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   healthBar: {fileID: 7522875645212645298}
-  display_damage_numbers: 0
-  Canvas: {fileID: 0}
-  Numbers: {fileID: 0}
+  display_damage_numbers: 1
+  Canvas: {fileID: 6847781616385754924}
+  Numbers: {fileID: 5326588419481503721, guid: c87552d27231f214e90e667e258e961f, type: 3}
 --- !u!1 &6847781616385754924
 GameObject:
   m_ObjectHideFlags: 0
