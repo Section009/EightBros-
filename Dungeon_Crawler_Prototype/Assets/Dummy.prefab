@@ -407,7 +407,6 @@ GameObject:
   - component: {fileID: 4429831812492694520}
   - component: {fileID: 3678807544246550523}
   - component: {fileID: 123966529274491057}
-  - component: {fileID: 882462838326135901}
   - component: {fileID: 7444965149113068753}
   - component: {fileID: 7556438734689530660}
   m_Layer: 0
@@ -568,42 +567,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &882462838326135901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8920204670915173105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb75c68e46d85a44ca7dd4ec2436bb1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTag: Player
-  detectRange: 12
-  chargeRange: 4
-  normalSpeed: 1.5
-  chargeSpeed: 5
-  chargeDuration: 0.6
-  chargeCooldown: 1.5
-  approachStopDistance: 1.5
-  enableStrideCadence: 1
-  moveDurationRange: {x: 0.45, y: 0.75}
-  idleDurationRange: {x: 0.2, y: 0.4}
-  facePlayerDuringIdle: 1
-  closeStopRange: 2
-  quickPauseRange: {x: 0.3, y: 0.6}
-  heavyPauseRange: {x: 3, y: 4}
-  useHeavyAttackPause: 0
-  onPauseAttackBegin:
-    m_PersistentCalls:
-      m_Calls: []
-  onPauseAttackEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  enableDamageAggro: 1
-  damageAggroTimeout: 6
 --- !u!114 &7444965149113068753
 MonoBehaviour:
   m_ObjectHideFlags: 0

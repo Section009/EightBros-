@@ -636,7 +636,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6117640305410757704, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1253629033}
   m_SourcePrefab: {fileID: 100100000, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
 --- !u!1 &583135563
 GameObject:
@@ -743,6 +746,107 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583135563}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &635560072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8920204670915173105, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+  m_PrefabInstance: {fileID: 1341377981751143014}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635560073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635560072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863fae1d5ea99d54ea6302294c3164c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  targetTag: Player
+  radius: 5
+  baseDps: 10
+  tickRate: 0.5
+  preferToggle: 1
+  fallbackSwitchLayer: 0
+  invulnerableLayerName: Invulnerable
+  debugGizmos: 0
+--- !u!114 &635560074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635560072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18cd35b32a0c494b8cf7c634f27a93a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  targetTag: Player
+  radius: 2.5
+  halfAngleDeg: 60
+  verticalTolerance: 1.8
+  damage: 10
+  applyStun: 1
+  stunDuration: 0.75
+  debugGizmos: 0
+--- !u!114 &635560075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635560072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb75c68e46d85a44ca7dd4ec2436bb1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTag: Player
+  detectRange: 12
+  chargeRange: 4
+  normalSpeed: 3.5
+  chargeSpeed: 10
+  chargeDuration: 0.6
+  chargeCooldown: 1.5
+  approachStopDistance: 1.5
+  enableStrideCadence: 1
+  moveDurationRange: {x: 0.45, y: 0.75}
+  idleDurationRange: {x: 0.2, y: 0.4}
+  facePlayerDuringIdle: 1
+  useFixedCadence: 0
+  fixedMoveDuration: 0.5
+  fixedIdleDuration: 0.3
+  cadenceTimeScale: 1
+  closeStopRange: 2
+  quickPauseRange: {x: 0.3, y: 0.6}
+  heavyPauseRange: {x: 3, y: 4}
+  heavyAttackChance: 1
+  betweenAttacksDelayRange: {x: 1, y: 1.25}
+  facePlayerDuringBetweenDelay: 1
+  requireLOSInsideRange: 0
+  losBlockers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  useHeavyAttackPause: 0
+  onPauseAttackBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  onPauseAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  enableDamageAggro: 1
+  damageAggroTimeout: 6
+  debugCadence: 0
+  cadenceState: 
+  cadenceRemain: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,6 +1255,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113ce551e17a52949b161e3a5697ab53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1253629033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253629021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddbbf8daa5ed0f54b93f9309a630638a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavioursToDisable:
+  - {fileID: 0}
+  onStunStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onStunEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1282578994
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,6 +2141,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4526914692967418552, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+      propertyPath: knockback_Multiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7556438734689530660, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+      propertyPath: immuneToDot
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8327120210313659963, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
@@ -2068,7 +2200,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8920204670915173105, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 635560075}
+    - targetCorrespondingSourceObject: {fileID: 8920204670915173105, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 635560074}
+    - targetCorrespondingSourceObject: {fileID: 8920204670915173105, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 635560073}
   m_SourcePrefab: {fileID: 100100000, guid: 28b68fd09f277fe419fdf2507ada37d3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
