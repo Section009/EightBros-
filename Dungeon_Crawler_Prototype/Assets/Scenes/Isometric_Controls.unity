@@ -999,6 +999,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
+      propertyPath: Melee_Skill_Available
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
+      propertyPath: Melee_Skill_Cooldown_Max
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
       propertyPath: Melee_Ultimate_Available
       value: 1
       objectReference: {fileID: 0}

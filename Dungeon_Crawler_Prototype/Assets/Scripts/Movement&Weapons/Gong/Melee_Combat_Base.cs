@@ -172,8 +172,9 @@ public class Melee_Combat_Base : MonoBehaviour
         if ((Input.GetButtonUp("Fire2")) && (pcm.Melee_Skill_Available) && (pm.Locked == false))
         {
             print("Fire");
-            Skill_Start();
             pm.Locked = true;
+            Skill_Start();
+            
 
         }
         //Charged_Whirlwind
@@ -357,17 +358,28 @@ public class Melee_Combat_Base : MonoBehaviour
         }
         Vector3 target_pos = new Vector3(dir.x, transform.position.y, dir.z);
         jump_dist = Vector3.Distance(target_pos, transform.position);
+        LayerMask lm = LayerMask.GetMask("Wall");
         transform.LookAt(target_pos, Vector3.up);
-        skill_active = true;
+        RaycastHit rayhit;
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * jump_dist, Color.blue, 4.0f);
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out rayhit, jump_dist))
+        {
+            print("ILLEGAL");
+            pm.Locked = false;
+        }
+        else
+        {
+            skill_active = true;
 
-        float vy = -((-9.81f) * jump_time_max / 2);
-        float vx = jump_dist / jump_time_max;
+            float vy = -((-9.81f) * jump_time_max / 2);
+            float vx = jump_dist / jump_time_max;
 
-        float normUp = vy / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
-        float normForward = vx / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
-        Vector3 forwardVec = transform.forward * vx;
-        pm.rb.AddForce((new Vector3(0f, vy, 0f) + forwardVec), ForceMode.VelocityChange);
-
+            float normUp = vy / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
+            float normForward = vx / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
+            Vector3 forwardVec = transform.forward * vx;
+            pm.rb.AddForce((new Vector3(0f, vy, 0f) + forwardVec), ForceMode.VelocityChange);
+        }
     }
 
     private void Skill_Active()
