@@ -5,6 +5,7 @@ using UnityEngine;
 public class Orbiting_Object : MonoBehaviour
 {
     public GameObject target;
+    public GameObject Punch_Model;
     public float speed;
     public float lifetime;
     private float life_timer;
@@ -39,5 +40,11 @@ public class Orbiting_Object : MonoBehaviour
         {
             print("Kill");
         }
+    }
+
+    public void Flip()
+    {
+        //Punch_Model.transform.localPosition = new Vector3(0f, 0f, -4f);
+        //Punch_Model.transform.Rotate(180f, 180f, 0f);
     }
 }

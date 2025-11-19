@@ -230,30 +230,33 @@ public class Melee_Combat_Base : MonoBehaviour
     private void Basic_Shot_Start()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 dir = new Vector3();
-            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
-            {
-                dir = hit.point;// - transform.position;
-            }
-            Vector3 pos = transform.position - (2 * transform.right);
-            if (combo_count % 2 == 0)
-            {
-                pos += 4 * transform.right;
-            }
-            GameObject go = Instantiate(Ammo_Type, pos, Quaternion.identity);
-            go.transform.parent = transform;
-            go.GetComponent<Orbiting_Object>().target = this.gameObject;
-            if (combo_count%2 == 0)
-            {
-                go.GetComponent<Orbiting_Object>().speed *= -1.0f;
-            }
-            Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
-            transform.LookAt(target, Vector3.up);
-            shifting = true;
-            firing = true;
-            pm.Locked = true;
-            timer = 0f;
-            charge_timer = 0f;
+        Vector3 dir = new Vector3();
+        if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+        {
+            dir = hit.point;// - transform.position;
+        }
+        Vector3 pos = transform.position - (2 * transform.right);
+        if (combo_count % 2 == 0)
+        {
+            pos += 4 * transform.right;
+        }
+        GameObject go = Instantiate(Ammo_Type, pos, new Quaternion(0f, 0f, 0f, 1));
+        go.transform.LookAt(transform.position);
+        //go.transform.localRotation = Quaternion.identity;// = new Quaternion(0f, 0f, 0f, 1);
+        go.transform.parent = transform;
+        go.GetComponent<Orbiting_Object>().target = this.gameObject;
+        if (combo_count%2 == 0)
+        {
+            go.GetComponent<Orbiting_Object>().speed *= -1.0f;
+            
+        }
+        Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
+        transform.LookAt(target, Vector3.up);
+        shifting = true;
+        firing = true;
+        pm.Locked = true;
+        timer = 0f;
+        charge_timer = 0f;
     }
 
     private void Basic_Shot_Active()
