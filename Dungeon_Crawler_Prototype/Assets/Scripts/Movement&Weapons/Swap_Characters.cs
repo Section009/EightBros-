@@ -58,6 +58,7 @@ public class Swap_Characters : MonoBehaviour
         if (swap_duration_timer >= swap_duration_timer_max)
         {
             GameObject go = Instantiate(New_Player, transform.position, transform.rotation);
+            pcm.Melee_Open = !pcm.Melee_Open;
             Camera.GetComponent<Camera_Follow>().follow = go;
             go.GetComponent<Swap_Characters>().Camera = Camera;
             go.GetComponent<Swap_Characters>().swap_in = true;

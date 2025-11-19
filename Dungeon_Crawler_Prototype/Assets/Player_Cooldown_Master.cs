@@ -28,6 +28,7 @@ public class Player_Cooldown_Master : MonoBehaviour
     public bool Swap_Available;
     public float Swap_Cooldown_Max;
     public float Swap_Cooldown_timer;
+    public bool Melee_Open = true;
 
     void Start()
     {
