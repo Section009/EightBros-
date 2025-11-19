@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Main_Menu.unity
+    guid: edfc75c033c85a942af61f9a772a8480
+  - enabled: 1
     path: Assets/Scenes/WorldTest/SceneSelection_Test.unity
     guid: 7de0f5cede5e30547acb287f411b0cc8
   - enabled: 1
@@ -17,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WorldTest/RandomResult_3.unity
     guid: 40eff043f33130b4b81147a31c991a3e
+  - enabled: 1
+    path: Assets/Scenes/WorldTest/Built Level/StageOutlines/Outline1.unity
+    guid: 909dcf0a9294074428fb779129735eb6
+  - enabled: 1
+    path: Assets/Scenes/WorldTest/Built Level/StageOutlines/Outline2.unity
+    guid: 5e1cb832cc0b4544988b56ad71eb89f7
   m_configObjects: {}
