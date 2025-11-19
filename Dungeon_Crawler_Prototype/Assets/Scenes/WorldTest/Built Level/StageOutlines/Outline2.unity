@@ -8237,7 +8237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   follow: {fileID: 1253629021}
-  offset: {x: 0, y: 10, z: -8.5}
+  offset: {x: 0, y: 13, z: -11.5}
   active: 1
 --- !u!1001 &965909727
 PrefabInstance:
