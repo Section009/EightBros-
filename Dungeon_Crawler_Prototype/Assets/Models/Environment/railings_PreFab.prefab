@@ -48,10 +48,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3528989111876355775, guid: a6c07588b30f0f343949931e9fff2592, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fbda8b09015a8f47af813b75832fea8, type: 2}
+    - target: {fileID: -1922024524095636273, guid: a6c07588b30f0f343949931e9fff2592, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fbda8b09015a8f47af813b75832fea8, type: 2}
+    - target: {fileID: -1587872914235478350, guid: a6c07588b30f0f343949931e9fff2592, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fbda8b09015a8f47af813b75832fea8, type: 2}
+    - target: {fileID: 103132874489642872, guid: a6c07588b30f0f343949931e9fff2592, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fbda8b09015a8f47af813b75832fea8, type: 2}
     - target: {fileID: 919132149155446097, guid: a6c07588b30f0f343949931e9fff2592, type: 3}
       propertyPath: m_Name
       value: railings_PreFab
       objectReference: {fileID: 0}
+    - target: {fileID: 5739197743882224563, guid: a6c07588b30f0f343949931e9fff2592, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fbda8b09015a8f47af813b75832fea8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
