@@ -26,17 +26,7 @@ public class Player_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         health_hub = GetComponent<Health>();
     }
-    void Update()
-    {
-        /*
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false))
-        {
-            print("Dash");
-            Dashing = true;
-            Locked = true;
-        }
-        */
-    }
+    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -67,6 +57,31 @@ public class Player_Movement : MonoBehaviour
             }
         }
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("t"))
+        {
+            Paused = !Paused;
+            if (Paused)
+            {
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
+            GameObject Head_UI = GameObject.FindWithTag("UI_Handler");
+            Head_UI.GetComponent<UI_Master>().Set_Paused(Paused);
+        }
+    }
+
+    public void Unpause()
+    {
+        Paused = false;
+        Time.timeScale = 1f;
+    }
+
     public void Damage_Player(float damage)
     {
         health_hub.TakeDamage(Mathf.RoundToInt(damage));

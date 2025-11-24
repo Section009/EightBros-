@@ -9,6 +9,7 @@ public class Button_Handler : MonoBehaviour
     public string NextLevel;
     public void OnStart()
     {
+        print("Pressed");
         SceneManager.LoadScene(NextLevel);
     }
     public void OnQuit()
