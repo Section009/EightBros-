@@ -3640,6 +3640,14 @@ PrefabInstance:
       propertyPath: display_damage_numbers
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4628235342050136240, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628235342050136240, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5632646874671268001, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

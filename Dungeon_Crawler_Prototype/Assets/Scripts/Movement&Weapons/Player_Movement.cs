@@ -60,6 +60,11 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown("q"))
+        {
+            Damage_Player(100.0f);
+        }
+
         if (Input.GetKeyDown("t"))
         {
             Paused = !Paused;
@@ -80,6 +85,11 @@ public class Player_Movement : MonoBehaviour
     {
         Paused = false;
         Time.timeScale = 1f;
+    }
+    public void Game_Over()
+    {
+        GameObject Head_UI = GameObject.FindWithTag("UI_Handler");
+        Head_UI.GetComponent<UI_Master>().Death_Screen_Activate();
     }
 
     public void Damage_Player(float damage)

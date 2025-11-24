@@ -23,4 +23,9 @@ public class UI_Master : MonoBehaviour
         player.GetComponent<Player_Movement>().Unpause();
         Set_Paused(false);
     }
+    public void Death_Screen_Activate()
+    {
+        Standard_UI.SetActive(false);
+        Game_Over_Menu.SetActive(true);
+    }
 }

@@ -16,4 +16,10 @@ public class Button_Handler : MonoBehaviour
     {
         Application.Quit();
     }
+    public void Restart()
+    {
+        Scene curScene = SceneManager.GetActiveScene();
+        string curLevel = curScene.name;
+        SceneManager.LoadScene(curLevel);
+    }
 }

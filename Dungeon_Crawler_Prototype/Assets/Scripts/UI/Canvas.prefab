@@ -1656,9 +1656,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4851677043955716876}
         m_TargetAssemblyTypeName: Button_Handler, Assembly-CSharp
-        m_MethodName: OnStart
+        m_MethodName: Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
