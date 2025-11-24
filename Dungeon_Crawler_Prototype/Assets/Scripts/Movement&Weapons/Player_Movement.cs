@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
+    public bool Paused;
     public float Speed;
     [SerializeField] float Dash_Time;
     [SerializeField] float Dash_Speed;
@@ -39,50 +40,32 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float horiInput = Input.GetAxis("Horizontal");
-        float vertInput = Input.GetAxis("Vertical");
-        
-        Vector3 vec = new Vector3(horiInput, 0f, vertInput);
-
-        if (Locked == false && stunned == false)
+        if (Paused == false)
         {
-            transform.LookAt(transform.position + vec, Vector3.up);
-            if (vec.magnitude != 0)
+            float horiInput = Input.GetAxis("Horizontal");
+            float vertInput = Input.GetAxis("Vertical");
+
+            Vector3 vec = new Vector3(horiInput, 0f, vertInput);
+
+            if (Locked == false && stunned == false)
             {
-                //transform.position += transform.forward * Speed * Time.deltaTime;
-                rb.velocity = transform.forward * Speed;
-                if (slowed)
+                transform.LookAt(transform.position + vec, Vector3.up);
+                if (vec.magnitude != 0)
                 {
-                    rb.velocity /= slow_reduction;
+                    //transform.position += transform.forward * Speed * Time.deltaTime;
+                    rb.velocity = transform.forward * Speed;
+                    if (slowed)
+                    {
+                        rb.velocity /= slow_reduction;
+                    }
+                }
+
+                else
+                {
+                    rb.velocity = new Vector3(0f, 0f, 0f);
                 }
             }
-
-            else
-            {
-                rb.velocity = new Vector3(0f, 0f, 0f);
-            }
-            
-            
         }
-        else
-        {
-            /*
-            if (Dashing)
-            {
-                //transform.position += transform.forward * Dash_Speed * Time.deltaTime;
-                rb.velocity = transform.forward * Dash_Speed;
-                Dash_Timer += Time.deltaTime;
-                if (Dash_Timer >= Dash_Time)
-                {
-                    Dash_Timer = 0;
-                    Dashing = false;
-                    Locked = false;
-                }
-            }
-            */
-        }
-        
-        
     }
     public void Damage_Player(float damage)
     {

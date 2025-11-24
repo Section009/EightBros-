@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Ultimate_Manager.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayText.cs" />
     <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObject.cs" />
+    <Compile Include="Assets\Scripts\UI\UI_Master.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellClap.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\StunPlayer.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellFanConeAttack.cs" />

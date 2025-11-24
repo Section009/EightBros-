@@ -73,157 +73,163 @@ public class Melee_Combat_Base : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (shifting)
+        if (pm.Paused == false)
         {
-            rb.velocity = transform.forward * shift_speed;
-            shift_timer += Time.deltaTime;
-            if (shift_timer >= shift_timer_max)
+            if (shifting)
             {
-                shift_timer = 0f;
-                shifting = false;
+                rb.velocity = transform.forward * shift_speed;
+                shift_timer += Time.deltaTime;
+                if (shift_timer >= shift_timer_max)
+                {
+                    shift_timer = 0f;
+                    shifting = false;
+                }
             }
-        }
-        if (c_shifting)
-        {
-            rb.velocity = transform.forward * c_shift_speed;
-            c_shift_timer += Time.deltaTime;
-            if (c_shift_timer >= c_shift_timer_max)
+            if (c_shifting)
             {
-                c_shift_timer = 0f;
-                c_shifting = false;
+                rb.velocity = transform.forward * c_shift_speed;
+                c_shift_timer += Time.deltaTime;
+                if (c_shift_timer >= c_shift_timer_max)
+                {
+                    c_shift_timer = 0f;
+                    c_shifting = false;
+                }
             }
-        }
-        if (Dashing)
-        {
-            Dash_Active();
-            Dash_Timer += Time.deltaTime;
-            if (Dash_Timer >= Dash_Time)
+            if (Dashing)
             {
-                End_Dash();
+                Dash_Active();
+                Dash_Timer += Time.deltaTime;
+                if (Dash_Timer >= Dash_Time)
+                {
+                    End_Dash();
+                }
             }
-        }
-        if (dash_winddown)
-        {
-            Dash_Winddown();
+            if (dash_winddown)
+            {
+                Dash_Winddown();
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Melee_Dash_Available) && (pm.Locked == false))
+        if (pm.Paused == false)
         {
-            Dash_Start();
-            Dashing = true;
-            pm.Locked = true;
-        }
-        //Charge
-        if (Input.GetButton("Fire1"))
-        {
-            print("Charge");
-            pm.slowed = true;
-            if (charged == false)
+            //Dash
+            if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Melee_Dash_Available) && (pm.Locked == false))
             {
-                charge_timer += Time.deltaTime;
-                if (charge_timer >= charge_timer_max)
+                Dash_Start();
+                Dashing = true;
+                pm.Locked = true;
+            }
+            //Charge
+            if (Input.GetButton("Fire1"))
+            {
+                print("Charge");
+                pm.slowed = true;
+                if (charged == false)
                 {
-                    charge_timer = 0f;
-                    charged = true;
+                    charge_timer += Time.deltaTime;
+                    if (charge_timer >= charge_timer_max)
+                    {
+                        charge_timer = 0f;
+                        charged = true;
+                    }
                 }
             }
-        }
-        else
-        {
-            pm.slowed = false;
-        }
-        //Ultimate Prep
-        if (pcm.Melee_Ultimate_Available)
-        {
-            if (ultimate_active)
+            else
             {
-                Ultimate_Active();
+                pm.slowed = false;
             }
-        }
-        //Skill Prep
-        if (pcm.Melee_Skill_Available)
-        {
-            if (skill_active)
+            //Ultimate Prep
+            if (pcm.Melee_Ultimate_Available)
             {
-                Skill_Active();
+                if (ultimate_active)
+                {
+                    Ultimate_Active();
+                }
             }
-        }
-        if ((Input.GetButton("Fire3") && (pcm.Melee_Ultimate_Available) && (pm.Locked == false)))
-        {
-            Ultimate_Start();
-        }
-        if (Input.GetButton("Fire2"))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 dir = new Vector3();
-            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+            //Skill Prep
+            if (pcm.Melee_Skill_Available)
             {
-                dir = hit.point;// - transform.position;
+                if (skill_active)
+                {
+                    Skill_Active();
+                }
             }
+            if ((Input.GetButton("Fire3") && (pcm.Melee_Ultimate_Available) && (pm.Locked == false)))
+            {
+                Ultimate_Start();
+            }
+            if (Input.GetButton("Fire2"))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Vector3 dir = new Vector3();
+                if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+                {
+                    dir = hit.point;// - transform.position;
+                }
 
-            Debug.DrawLine(transform.position, dir);
-        }
-        //Skill Fire
-        if ((Input.GetButtonUp("Fire2")) && (pcm.Melee_Skill_Available) && (pm.Locked == false))
-        {
-            print("Fire");
-            pm.Locked = true;
-            Skill_Start();
-            
-
-        }
-        //Charged_Whirlwind
-        if ((Input.GetButtonUp("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
-        {
-            Charged_Shot_Start();
-        }
-        //Standard Punch
-        if ((Input.GetButtonDown("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
-        {
-            Basic_Shot_Start();
-        }
-        if (c_firing == true)
-        {
-            Charged_Shot_Active();
-            timer += Time.deltaTime;
-            if (timer >= charge_cooldown)
-            {
-                pm.Locked = false;
-                c_firing = false;
-                timer = 0f;
+                Debug.DrawLine(transform.position, dir);
             }
-        }
-        //basic cooldown
-        if (firing == true)
-        {
-            Basic_Shot_Active();
-            timer += Time.deltaTime;
-            if (timer >= cooldowns[combo_count])
+            //Skill Fire
+            if ((Input.GetButtonUp("Fire2")) && (pcm.Melee_Skill_Available) && (pm.Locked == false))
             {
-                combo_count++;
-                pm.Locked = false;
-                firing = false;
-                timer = 0f;
-                if (combo_count == cooldowns.Length)
+                print("Fire");
+                pm.Locked = true;
+                Skill_Start();
+
+
+            }
+            //Charged_Whirlwind
+            if ((Input.GetButtonUp("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
+            {
+                Charged_Shot_Start();
+            }
+            //Standard Punch
+            if ((Input.GetButtonDown("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
+            {
+                Basic_Shot_Start();
+            }
+            if (c_firing == true)
+            {
+                Charged_Shot_Active();
+                timer += Time.deltaTime;
+                if (timer >= charge_cooldown)
+                {
+                    pm.Locked = false;
+                    c_firing = false;
+                    timer = 0f;
+                }
+            }
+            //basic cooldown
+            if (firing == true)
+            {
+                Basic_Shot_Active();
+                timer += Time.deltaTime;
+                if (timer >= cooldowns[combo_count])
+                {
+                    combo_count++;
+                    pm.Locked = false;
+                    firing = false;
+                    timer = 0f;
+                    if (combo_count == cooldowns.Length)
+                    {
+                        combo_count = 0;
+                    }
+                }
+            }
+            //end combo
+            if ((combo_count > 0) && (firing == false))
+            {
+                timer += Time.deltaTime;
+                if (timer >= reset_cooldown)
                 {
                     combo_count = 0;
-                }
-            }
-        }
-        //end combo
-        if ((combo_count > 0) && (firing == false))
-        {
-            timer += Time.deltaTime;
-            if (timer >= reset_cooldown)
-            {
-                combo_count = 0;
-                timer = 0f;
+                    timer = 0f;
 
+                }
             }
         }
     }
