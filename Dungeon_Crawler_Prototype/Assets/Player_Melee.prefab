@@ -443,8 +443,9 @@ MonoBehaviour:
   skill_available: 0
   jump_height: 4
   jump_time_max: 1
-  Landing_Explosion: {fileID: 6156014973674770674, guid: 96d1924acf5901b4490def5e38fcbd0c, type: 3}
+  Landing_Explosion: {fileID: 6156014973674770674, guid: 65510d9265a316b4295279952f5edd5a, type: 3}
   skill_duration: 0
+  Bounty_Points: 0
   ultimate_cooldown: 30
   ultimate_timer: 0
   ultimate_available: 1

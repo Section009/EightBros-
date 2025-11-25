@@ -10,6 +10,7 @@ public class Standard_Explosion : MonoBehaviour
     private float timer;
     public float knockback_time;
     public float knockback_speed;
+    public float Bounty_Gained;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +31,6 @@ public class Standard_Explosion : MonoBehaviour
     public void Gong_Effect()
     {
         GameObject player = GameObject.FindWithTag("Player");
-        player.GetComponent<Melee_Combat_Base>().Bounty_Points += 0.25f;
+        player.GetComponent<Melee_Combat_Base>().Bounty_Points += Bounty_Gained;
     }
 }
