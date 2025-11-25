@@ -32,8 +32,8 @@ public class Player_Movement : MonoBehaviour
     {
         if (Paused == false)
         {
-            float horiInput = Input.GetAxis("Horizontal");
-            float vertInput = Input.GetAxis("Vertical");
+            float horiInput = Input.GetAxisRaw("Horizontal");
+            float vertInput = Input.GetAxisRaw("Vertical");
 
             Vector3 vec = new Vector3(horiInput, 0f, vertInput);
 
@@ -42,7 +42,6 @@ public class Player_Movement : MonoBehaviour
                 transform.LookAt(transform.position + vec, Vector3.up);
                 if (vec.magnitude != 0)
                 {
-                    //transform.position += transform.forward * Speed * Time.deltaTime;
                     rb.velocity = transform.forward * Speed;
                     if (slowed)
                     {

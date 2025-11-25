@@ -47,6 +47,8 @@ public class Weapon_Projectile : MonoBehaviour
     public float ultimate_timer;
     public bool ultimate_available;
     private bool ultimate_active;
+    public float ultimate_duration = 8.0f;
+    private float ultimate_duration_timer;
     public GameObject Ultimate;
     //Dash
     [SerializeField] float Dash_Time;
@@ -152,7 +154,7 @@ public class Weapon_Projectile : MonoBehaviour
                     Skill_Active();
                 }
             }
-            if ((Input.GetButton("Fire3") && (pcm.Firework_Ultimate_Available) && (pm.Locked == false)))
+            if ((Input.GetButton("Fire3") && (pcm.Firework_Ultimate_Available) && (pm.Locked == false) && (ultimate_active == false)))
             {
                 Ultimate_Start();
             }
@@ -339,16 +341,29 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Ultimate_Start()
     {
+        /*
         ultimate_timer = 0f;
         ultimate_available = false;
         pcm.Firework_Ultimate_Cooldown_timer = 0f;
         pcm.Firework_Ultimate_Available = false;
+        */
+        pm.Speed *= 2;
+        ultimate_active = true;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
     }
 
     private void Ultimate_Active()
     {
-
+        ultimate_duration_timer += Time.deltaTime;
+        if (ultimate_duration_timer >= ultimate_duration)
+        {
+            pm.Speed /= 2;
+            ultimate_duration_timer = 0f;
+            ultimate_timer = 0f;
+            ultimate_available = false;
+            pcm.Firework_Ultimate_Available = false;
+            pcm.Firework_Ultimate_Cooldown_timer = 0f;
+        }
     }
     
     private void Set_Player_Visible(bool visible)

@@ -6324,6 +6324,8 @@ MonoBehaviour:
   follow: {fileID: 1253629021}
   offset: {x: 0, y: 13, z: -11.5}
   active: 1
+  shake_intensity: 1
+  camera_shaking: 0
 --- !u!1001 &1021623567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13226,6 +13228,10 @@ PrefabInstance:
     - target: {fileID: 4152189931990754601, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
       propertyPath: m_Name
       value: Cooldown_Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
+      propertyPath: Firework_Ultimate_Available
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
