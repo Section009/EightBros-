@@ -152,7 +152,7 @@ public class BellAI : MonoBehaviour
         attacking = true;
         onCooldown = true;
 
-        if (Random.value <= 0.5f)
+        if (Random.value <= 1f)
         {
             UnityEngine.Debug.Log("Storm Clap");
             //Vector3 playerDir = (player.position - transform.position).normalized;
