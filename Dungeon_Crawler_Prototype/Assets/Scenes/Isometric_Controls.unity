@@ -321,7 +321,7 @@ PrefabInstance:
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: Landing_Explosion
       value: 
-      objectReference: {fileID: 6156014973674770674, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
+      objectReference: {fileID: 6156014973674770674, guid: 96d1924acf5901b4490def5e38fcbd0c, type: 3}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: charge_move_speed
       value: 3
@@ -454,8 +454,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3061030257499518898, guid: 1a9d773aede310e48a1486d7703be491, type: 3}
     - target: {fileID: 939327252748892509, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: clapRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 939327252748892509, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
       propertyPath: attackRange
-      value: 3
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 939327252748892509, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: chargeRange
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 939327252748892509, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: chargeSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 939327252748892509, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: normalSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502691671052523637, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: m_Speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502691671052523637, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: m_AutoBraking
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502691671052523637, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: m_Acceleration
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502691671052523637, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8218427790939863472, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -626,6 +658,8 @@ MonoBehaviour:
   follow: {fileID: 1253629021}
   offset: {x: 0, y: 6, z: -4.5}
   active: 1
+  shake_intensity: 1
+  camera_shaking: 0
 --- !u!1 &995405498
 GameObject:
   m_ObjectHideFlags: 0

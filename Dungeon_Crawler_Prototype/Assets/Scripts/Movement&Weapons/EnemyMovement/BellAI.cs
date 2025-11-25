@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,30 +11,39 @@ public class BellAI : MonoBehaviour
     public GameObject ringBox;
     public string playerTag = "Player";
     public float detectRange = 12f;     // 发现/开始追击距离
-    public float chargeRange = 4f;      // 进入冲刺的触发距离
+    public float chargeRange = 12f;      // 进入冲刺的触发距离
     public float normalSpeed = 3.5f;    // 追击速度
     public float chargeSpeed = 10f;     // 冲刺速度
     public float chargeDuration = 0.6f; // 冲刺持续时长
     public float chargeCooldown = 1.5f; // 冷却
-    public float attackRange = 2f;
-    public float attackCooldown = 5f;
+    public float attackRange = 12f;
+    public float clapRange = 1f;
+    public float attackCooldown = 0f;
 
     public bool ringing = false;
+    public bool clapping = false;
 
     private Transform player;
     private NavMeshAgent agent;
-    private Dummy dm;
+    private Health h;
+    private StatusReceiver SR;
     private bool charging;
     private bool onCooldown;
     private bool attacking;
+    private bool stunned;
+    private bool moving;
+    private bool OnChargeCooldown;
+    private float ActSpeed;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        dm = GetComponent<Dummy>();
+        h = GetComponent<Health>();
+        SR = GetComponent<StatusReceiver>();
         agent.stoppingDistance = 0f;
         agent.updateRotation = true;
         agent.speed = normalSpeed;
+        ActSpeed = normalSpeed;
     }
 
     void Start()
@@ -44,6 +55,8 @@ public class BellAI : MonoBehaviour
     {
         var p = GameObject.FindGameObjectWithTag(playerTag);
         if (p) player = p.transform;
+        agent.isStopped = false;
+        agent.speed = normalSpeed;
     }
 
     void Update()
@@ -51,16 +64,31 @@ public class BellAI : MonoBehaviour
         if (!player) return;
 
         float dist = Vector3.Distance(transform.position, player.position);
+        UnityEngine.Debug.Log(agent.speed);
 
-        if (charging) return; // 冲刺中由协程控制
-        if (attacking) return;
+        //if (charging) return; // 冲刺中由协程控制
+        //if (stunned) return;
 
         if (dist <= detectRange)
         {
             // 追击
-            agent.isStopped = false;
-            agent.speed = normalSpeed;
+
             agent.SetDestination(player.position);
+
+            if (clapping && dist <= clapRange)
+            {
+                UnityEngine.Debug.Log("clapped");
+                clapping = false;
+                agent.isStopped = true;
+                agent.speed = normalSpeed;
+                Vector3 playerDir = (player.position - transform.position).normalized;
+                Vector3 spawnPosition = transform.position + playerDir;
+
+                GameObject spawnedHitbox = Instantiate(clapBox, spawnPosition, transform.rotation);
+                attacking = false;
+
+                StartCoroutine(WaitForOne());
+            }
 
             if (!onCooldown)
             {
@@ -68,7 +96,7 @@ public class BellAI : MonoBehaviour
                 {
                     StartCoroutine(DoAttack());
                 }
-                else if (dist <= chargeRange)
+                else if (dist <= chargeRange && !OnChargeCooldown)
                 {
                     StartCoroutine(DoCharge());
                 }
@@ -83,15 +111,40 @@ public class BellAI : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.CompareTag("Explosion"))
+        if (col.gameObject.layer == LayerMask.NameToLayer("Player_Attacks"))
         {
-            Standard_Explosion se = col.gameObject.GetComponent<Standard_Explosion>();
+            StatusOnHit stats = col.gameObject.GetComponent<StatusOnHit>();
+            DamageOnHit dam = col.gameObject.GetComponent<DamageOnHit>();
 
-            if (ringing) dm.Health -= se.damage / 2;
-            else dm.Health -= se.damage;
+            if (charging == true)
+            {
+                StopCoroutine(DoCharge());
+                charging = false;
+                stats.applyStun = true;
+            }
 
-            dm.KnockBack(col.gameObject.transform, se.knockback_time, se.knockback_speed);
+            if (stats.applySlow == true)
+            {
+                SR.AddSlow(stats.slowMultiplier, stats.slowDuration);
+            }
+
+            if (stats.applyStun == true && !stunned)
+            {
+                SR.AddStun(stats.stunDuration);
+            }
+
+            if (stats.applyDot == true)
+            {
+                SR.AddDot(stats.dotDps, stats.dotDuration);
+            }
+
         }
+    }
+
+    IEnumerator WaitForOne()
+    {
+        yield return new WaitForSeconds(1f);
+        agent.isStopped = false;
     }
 
     IEnumerator DoAttack()
@@ -101,11 +154,21 @@ public class BellAI : MonoBehaviour
 
         if (Random.value <= 0.5f)
         {
-            Debug.Log("Clapped");
-            Vector3 playerDir = (player.position - transform.position).normalized;
-            Vector3 spawnPosition = transform.position + playerDir;
+            UnityEngine.Debug.Log("Storm Clap");
+            //Vector3 playerDir = (player.position - transform.position).normalized;
+            //Vector3 spawnPosition = transform.position + playerDir;
 
-            GameObject spawnedHitbox = Instantiate(clapBox, spawnPosition, transform.rotation);
+            //GameObject spawnedHitbox = Instantiate(clapBox, spawnPosition, transform.rotation);
+
+            agent.speed = chargeSpeed;
+            clapping = true;
+
+            yield return new WaitForSeconds(2f);
+            if (clapping)
+            {
+                clapping = false;
+                agent.speed = normalSpeed;
+            }
 
             yield return new WaitForSeconds(0.3f);
 
@@ -113,15 +176,17 @@ public class BellAI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Rung");
-            Vector3 spawnPosition = transform.position;
+            UnityEngine.Debug.Log("Ringing");
+            agent.isStopped = true;
+            //Vector3 spawnPosition = transform.position;
 
-            GameObject spawnedHitbox = Instantiate(ringBox, spawnPosition, transform.rotation, gameObject.transform);
+            //GameObject spawnedHitbox = Instantiate(ringBox, spawnPosition, transform.rotation, gameObject.transform);
+            yield return new WaitForSeconds(5f);
 
+            agent.isStopped = false;
             yield return new WaitForSeconds(0.3f);
 
             attacking = false;
-            if (!ringing) RingCooldown();
         }
 
 
@@ -138,6 +203,7 @@ public class BellAI : MonoBehaviour
 
     IEnumerator DoCharge()
     {
+        /*
         charging = true;
         onCooldown = true;
 
@@ -160,5 +226,15 @@ public class BellAI : MonoBehaviour
         // 冷却
         yield return new WaitForSeconds(chargeCooldown);
         onCooldown = false;
+        */
+
+        charging = true;
+        OnChargeCooldown = true;
+        agent.speed = chargeSpeed;
+        yield return new WaitForSeconds(chargeDuration);
+        agent.speed = normalSpeed;
+        charging = false;
+        yield return new WaitForSeconds(chargeCooldown);
+        OnChargeCooldown = false;
     }
 }
