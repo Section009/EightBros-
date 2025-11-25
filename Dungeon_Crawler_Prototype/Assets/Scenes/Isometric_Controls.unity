@@ -475,7 +475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2502691671052523637, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
       propertyPath: m_Speed
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2502691671052523637, guid: 4792122bcd9e35a4e8fe9f24f8921ff6, type: 3}
       propertyPath: m_AutoBraking
