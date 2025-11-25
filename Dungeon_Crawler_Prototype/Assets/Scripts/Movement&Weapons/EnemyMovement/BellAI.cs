@@ -40,7 +40,7 @@ public class BellAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         h = GetComponent<Health>();
         SR = GetComponent<StatusReceiver>();
-        agent.stoppingDistance = 0f;
+        agent.stoppingDistance = 1f;
         agent.updateRotation = true;
         agent.speed = normalSpeed;
         ActSpeed = normalSpeed;
@@ -120,9 +120,10 @@ public class BellAI : MonoBehaviour
             {
                 StopCoroutine(DoCharge());
                 charging = false;
-                stats.applyStun = true;
+                SR.AddStun(stats.stunDuration);
             }
 
+            /*
             if (stats.applySlow == true)
             {
                 SR.AddSlow(stats.slowMultiplier, stats.slowDuration);
@@ -137,7 +138,7 @@ public class BellAI : MonoBehaviour
             {
                 SR.AddDot(stats.dotDps, stats.dotDuration);
             }
-
+            */
         }
     }
 
