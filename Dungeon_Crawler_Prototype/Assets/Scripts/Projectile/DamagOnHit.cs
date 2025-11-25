@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -14,6 +15,9 @@ public class DamageOnHit : MonoBehaviour
     public bool damageOverTime = false;
 
     public float secsPerTick = 0.2f;
+
+    [Header("Events")]
+    public UnityEvent onHit;
 
     [Header("Filters")]
     public string[] validTags = new string[] { "Enemy" };
@@ -77,6 +81,7 @@ public class DamageOnHit : MonoBehaviour
         if (hp != null)
         {
             if (!HitCooldownPassed(hp)) return;
+            onHit?.Invoke();
             if (damage > 0) hp.TakeDamage(damage);
             PostHit();
             return;

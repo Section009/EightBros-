@@ -44,6 +44,7 @@ public class Melee_Combat_Base : MonoBehaviour
     public float skill_duration;
     private float skill_duration_timer;
     //Ultimate
+    public float Bounty_Points;
     public float ultimate_cooldown;
     public float ultimate_timer;
     public bool ultimate_available;

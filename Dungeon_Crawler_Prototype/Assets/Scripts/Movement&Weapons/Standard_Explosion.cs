@@ -26,4 +26,10 @@ public class Standard_Explosion : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    public void Gong_Effect()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        player.GetComponent<Melee_Combat_Base>().Bounty_Points += 0.25f;
+    }
 }
