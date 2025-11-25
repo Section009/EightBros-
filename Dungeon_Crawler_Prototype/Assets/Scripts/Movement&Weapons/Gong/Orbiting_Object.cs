@@ -38,7 +38,10 @@ public class Orbiting_Object : MonoBehaviour
         }
         if (col.gameObject.CompareTag("Enemy"))
         {
-            print("Kill");
+            Melee_Combat_Base MCB = target.GetComponent<Melee_Combat_Base>();
+            if (MCB != null) {
+                MCB.Bounty_Points += 0.5f;
+            }
         }
     }
 

@@ -613,8 +613,10 @@ MonoBehaviour:
   chargeDuration: 0.6
   chargeCooldown: 1.5
   attackRange: 1
+  clapRange: 1
   attackCooldown: 5
   ringing: 0
+  clapping: 0
 --- !u!114 &1679976790481271035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,7 +632,7 @@ MonoBehaviour:
   minSpeedMultiplier: 0.1
   defaultDotTickRate: 0.5
   dotIgnoresInvulnerability: 0
-  immuneToDot: 0
+  immuneToDot: 1
 --- !u!1001 &5793292458060716198
 PrefabInstance:
   m_ObjectHideFlags: 0
