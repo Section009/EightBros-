@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player_Cooldown_Master : MonoBehaviour
 {
+    public bool Paused = false;
     [Header("Firework Cooldowns")]
     public bool Firework_Skill_Available;
     public float Firework_Skill_Cooldown_Max;
@@ -36,65 +37,67 @@ public class Player_Cooldown_Master : MonoBehaviour
     // Update cooldowns of all weapon abilities
     void Update()
     {
-        //Firework cooldowns
-        if (Firework_Skill_Available == false)
-        {
-            Firework_Skill_Cooldown_timer += Time.deltaTime;
-            if (Firework_Skill_Cooldown_timer >= Firework_Skill_Cooldown_Max)
+        if (Paused == false){
+            //Firework cooldowns
+            if (Firework_Skill_Available == false)
             {
-                Firework_Skill_Available = true;
+                Firework_Skill_Cooldown_timer += Time.deltaTime;
+                if (Firework_Skill_Cooldown_timer >= Firework_Skill_Cooldown_Max)
+                {
+                    Firework_Skill_Available = true;
+                }
             }
-        }
-        if (Firework_Dash_Available == false)
-        {
-            Firework_Dash_Cooldown_timer += Time.deltaTime;
-            if (Firework_Dash_Cooldown_timer >= Firework_Dash_Cooldown_Max)
+            if (Firework_Dash_Available == false)
             {
-                Firework_Dash_Available = true;
+                Firework_Dash_Cooldown_timer += Time.deltaTime;
+                if (Firework_Dash_Cooldown_timer >= Firework_Dash_Cooldown_Max)
+                {
+                    Firework_Dash_Available = true;
+                }
             }
-        }
-        if (Firework_Ultimate_Available == false)
-        {
-            Firework_Ultimate_Cooldown_timer += Time.deltaTime;
-            if (Firework_Ultimate_Cooldown_timer >= Firework_Ultimate_Cooldown_Max)
+            if (Firework_Ultimate_Available == false)
             {
-                Firework_Ultimate_Available = true;
+                Firework_Ultimate_Cooldown_timer += Time.deltaTime;
+                if (Firework_Ultimate_Cooldown_timer >= Firework_Ultimate_Cooldown_Max)
+                {
+                    Firework_Ultimate_Available = true;
+                }
             }
-        }
 
-        //Melee cooldowns
-        if (Melee_Skill_Available == false)
-        {
-            Melee_Skill_Cooldown_timer += Time.deltaTime;
-            if (Melee_Skill_Cooldown_timer >= Melee_Skill_Cooldown_Max)
+            //Melee cooldowns
+            if (Melee_Skill_Available == false)
             {
-                Melee_Skill_Available = true;
+                Melee_Skill_Cooldown_timer += Time.deltaTime;
+                if (Melee_Skill_Cooldown_timer >= Melee_Skill_Cooldown_Max)
+                {
+                    Melee_Skill_Available = true;
+                }
             }
-        }
-        if (Melee_Dash_Available == false)
-        {
-            Melee_Dash_Cooldown_timer += Time.deltaTime;
-            if (Melee_Dash_Cooldown_timer >= Melee_Dash_Cooldown_Max)
+            if (Melee_Dash_Available == false)
             {
-                Melee_Dash_Available = true;
+                Melee_Dash_Cooldown_timer += Time.deltaTime;
+                if (Melee_Dash_Cooldown_timer >= Melee_Dash_Cooldown_Max)
+                {
+                    Melee_Dash_Available = true;
+                }
             }
-        }
-        if (Melee_Ultimate_Available == false)
-        {
-            Melee_Ultimate_Cooldown_timer += Time.deltaTime;
-            if (Melee_Ultimate_Cooldown_timer >= Melee_Ultimate_Cooldown_Max)
+            if (Melee_Ultimate_Available == false)
             {
-                Melee_Ultimate_Available = true;
+                Melee_Ultimate_Cooldown_timer += Time.deltaTime;
+                if (Melee_Ultimate_Cooldown_timer >= Melee_Ultimate_Cooldown_Max)
+                {
+                    Melee_Ultimate_Available = true;
+                }
             }
-        }
 
-        //Swap cooldown
-        if (Swap_Available == false)
-        {
-            Swap_Cooldown_timer += Time.deltaTime;
-            if (Swap_Cooldown_timer >= Swap_Cooldown_Max)
+            //Swap cooldown
+            if (Swap_Available == false)
             {
-                Swap_Available = true;
+                Swap_Cooldown_timer += Time.deltaTime;
+                if (Swap_Cooldown_timer >= Swap_Cooldown_Max)
+                {
+                    Swap_Available = true;
+                }
             }
         }
     }

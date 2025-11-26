@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - Cooldown_Tracker
   - Wave1
+  - UI_Handler
   layers:
   - Default
   - TransparentFX

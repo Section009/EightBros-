@@ -125,6 +125,7 @@ MonoBehaviour:
   damage: 0
   knockback_time: 0.1
   knockback_speed: -10
+  Bounty_Gained: 0.25
 --- !u!114 &833485831294716323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,8 +142,24 @@ MonoBehaviour:
   destroyOnHit: 0
   damageOverTime: 1
   secsPerTick: 0.25
+  onHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2232090054475300571}
+        m_TargetAssemblyTypeName: Standard_Explosion, Assembly-CSharp
+        m_MethodName: Gong_Effect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   validTags:
   - Enemy
+  hitCooldownSeconds: 0.05
 --- !u!54 &2325595412780596450
 Rigidbody:
   m_ObjectHideFlags: 0

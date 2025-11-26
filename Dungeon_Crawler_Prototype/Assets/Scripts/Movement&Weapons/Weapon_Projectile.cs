@@ -47,6 +47,8 @@ public class Weapon_Projectile : MonoBehaviour
     public float ultimate_timer;
     public bool ultimate_available;
     private bool ultimate_active;
+    public float ultimate_duration = 8.0f;
+    private float ultimate_duration_timer;
     public GameObject Ultimate;
     //Dash
     [SerializeField] float Dash_Time;
@@ -68,35 +70,38 @@ public class Weapon_Projectile : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (shifting)
+        if (pm.Paused == false)
         {
-            rb.velocity = transform.forward * shift_speed;
-            //transform.position += transform.forward * shift_speed * Time.deltaTime;
-            shift_timer += Time.deltaTime;
-            if (shift_timer >= shift_timer_max)
+            if (shifting)
             {
-                shift_timer = 0f;
-                shifting = false;
+                rb.velocity = transform.forward * shift_speed;
+                //transform.position += transform.forward * shift_speed * Time.deltaTime;
+                shift_timer += Time.deltaTime;
+                if (shift_timer >= shift_timer_max)
+                {
+                    shift_timer = 0f;
+                    shifting = false;
+                }
             }
-        }
-        if (c_shifting)
-        {
-            rb.velocity = transform.forward * c_shift_speed;
-            //transform.position += transform.forward * shift_speed * Time.deltaTime;
-            c_shift_timer += Time.deltaTime;
-            if (c_shift_timer >= c_shift_timer_max)
+            if (c_shifting)
             {
-                c_shift_timer = 0f;
-                c_shifting = false;
+                rb.velocity = transform.forward * c_shift_speed;
+                //transform.position += transform.forward * shift_speed * Time.deltaTime;
+                c_shift_timer += Time.deltaTime;
+                if (c_shift_timer >= c_shift_timer_max)
+                {
+                    c_shift_timer = 0f;
+                    c_shifting = false;
+                }
             }
-        }
-        if (Dashing)
-        {
-            Dash_Active();
-            Dash_Timer += Time.deltaTime;
-            if (Dash_Timer >= Dash_Time)
+            if (Dashing)
             {
-                End_Dash();
+                Dash_Active();
+                Dash_Timer += Time.deltaTime;
+                if (Dash_Timer >= Dash_Time)
+                {
+                    End_Dash();
+                }
             }
         }
     }
@@ -104,151 +109,154 @@ public class Weapon_Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Dash
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Firework_Dash_Available) && (pm.Locked == false))
+        if (pm.Paused == false)
         {
-            Dash_Start();
-            Dashing = true;
-            pm.Locked = true;
-            
-        }
-        //Charge
-        if (Input.GetButton("Fire1"))
-        {
-            print("Charge");
-            pm.slowed = true;
-            if (charged == false)
+            //Dash
+            if ((Input.GetButtonDown("Jump")) && (Dashing == false) && (pcm.Firework_Dash_Available) && (pm.Locked == false))
             {
-                charge_timer += Time.deltaTime;
-                if (charge_timer >= charge_timer_max)
+                Dash_Start();
+                Dashing = true;
+                pm.Locked = true;
+
+            }
+            //Charge
+            if (Input.GetButton("Fire1"))
+            {
+                print("Charge");
+                pm.slowed = true;
+                if (charged == false)
                 {
-                    charge_timer = 0f;
-                    charged = true;
+                    charge_timer += Time.deltaTime;
+                    if (charge_timer >= charge_timer_max)
+                    {
+                        charge_timer = 0f;
+                        charged = true;
+                    }
                 }
             }
-        }
-        else
-        {
-            pm.slowed = false;
-        }
-        //Ultimate Prep
-        if (pcm.Firework_Ultimate_Available)
-        {
-            if (ultimate_active)
+            else
             {
-                Ultimate_Active();
+                pm.slowed = false;
             }
-        }
-        //Skill Prep
-        if (pcm.Firework_Skill_Available)
-        {
-            if (skill_active)
+            //Ultimate Prep
+            if (pcm.Firework_Ultimate_Available)
             {
-                Skill_Active();
+                if (ultimate_active)
+                {
+                    Ultimate_Active();
+                }
             }
-        }
-        if ((Input.GetButton("Fire3") && (pcm.Firework_Ultimate_Available) && (pm.Locked == false)))
-        {
-            Ultimate_Start();
-        }
-        if (Input.GetButton("Fire2"))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 dir = new Vector3();
-            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+            //Skill Prep
+            if (pcm.Firework_Skill_Available)
             {
-                dir = hit.point;// - transform.position;
+                if (skill_active)
+                {
+                    Skill_Active();
+                }
             }
+            if ((Input.GetButton("Fire3") && (pcm.Firework_Ultimate_Available) && (pm.Locked == false) && (ultimate_active == false)))
+            {
+                Ultimate_Start();
+            }
+            if (Input.GetButton("Fire2"))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Vector3 dir = new Vector3();
+                if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+                {
+                    dir = hit.point;// - transform.position;
+                }
 
-            Debug.DrawLine(transform.position, dir);
-        }
-        //Skill Fire
-        if ((Input.GetButtonUp("Fire2")) && (pcm.Firework_Skill_Available) && (pm.Locked == false))
-        {
-            print("Fire");
-            Skill_Start();
-            pm.Locked = true;
-
-        }
-        //Charge Fire
-        if ((Input.GetButtonUp("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
-        { 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 dir = new Vector3();
-            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
-            {
-                dir = hit.point;// - transform.position;
+                Debug.DrawLine(transform.position, dir);
             }
-            if (charged)
+            //Skill Fire
+            if ((Input.GetButtonUp("Fire2")) && (pcm.Firework_Skill_Available) && (pm.Locked == false))
             {
-                GameObject go = Instantiate(Charged_Ammo_Type, transform.position, Quaternion.identity);
+                print("Fire");
+                Skill_Start();
+                pm.Locked = true;
+
+            }
+            //Charge Fire
+            if ((Input.GetButtonUp("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Vector3 dir = new Vector3();
+                if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+                {
+                    dir = hit.point;// - transform.position;
+                }
+                if (charged)
+                {
+                    GameObject go = Instantiate(Charged_Ammo_Type, transform.position, Quaternion.identity);
+                    Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
+                    transform.LookAt(target, Vector3.up);
+                    go.transform.LookAt(target, Vector3.up);
+                    c_shifting = true;
+                    print("Charge_Shot");
+                    c_firing = true;
+                    pm.Locked = true;
+                    timer = 0f;
+                    charge_timer = 0f;
+                    charged = false;
+                }
+            }
+            //Standard Fire
+            if ((Input.GetButtonDown("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Vector3 dir = new Vector3();
+                if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+                {
+                    dir = hit.point;// - transform.position;
+                }
+                GameObject go = Instantiate(Ammo_Type, transform.position, Quaternion.identity);
                 Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
                 transform.LookAt(target, Vector3.up);
+                shifting = true;
                 go.transform.LookAt(target, Vector3.up);
-                c_shifting = true;
-                print("Charge_Shot");
-                c_firing = true;
+                firing = true;
                 pm.Locked = true;
                 timer = 0f;
                 charge_timer = 0f;
-                charged = false;
-            }
-        }
-            //Standard Fire
-        if ((Input.GetButtonDown("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 dir = new Vector3();
-            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
-            {
-                dir = hit.point;// - transform.position;
-            }
-            GameObject go = Instantiate(Ammo_Type, transform.position, Quaternion.identity);
-            Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
-            transform.LookAt(target, Vector3.up);
-            shifting = true;
-            go.transform.LookAt(target, Vector3.up);
-            firing = true;
-            pm.Locked = true;
-            timer = 0f;
-            charge_timer = 0f;
 
-        }
-        if (c_firing == true)
-        {
-            timer += Time.deltaTime;
-            if (timer >= charge_cooldown)
-            {
-                pm.Locked = false;
-                c_firing = false;
-                timer = 0f;
             }
-        }
-        //basic cooldown
-        if (firing == true)
-        {
-            timer += Time.deltaTime;
-            if (timer >= cooldowns[combo_count])
+            if (c_firing == true)
             {
-                combo_count++;
-                pm.Locked = false;
-                firing = false;
-                timer = 0f;
-                if (combo_count == cooldowns.Length)
+                timer += Time.deltaTime;
+                if (timer >= charge_cooldown)
                 {
-                    combo_count = 0;
+                    pm.Locked = false;
+                    c_firing = false;
+                    timer = 0f;
                 }
             }
-        }
-        //end combo
-        if ((combo_count > 0) && (firing == false))
-        {
-            timer += Time.deltaTime;
-            if (timer >= reset_cooldown)
+            //basic cooldown
+            if (firing == true)
             {
-                combo_count = 0;
-                timer = 0f;
+                timer += Time.deltaTime;
+                if (timer >= cooldowns[combo_count])
+                {
+                    combo_count++;
+                    pm.Locked = false;
+                    firing = false;
+                    timer = 0f;
+                    if (combo_count == cooldowns.Length)
+                    {
+                        combo_count = 0;
+                    }
+                }
+            }
+            //end combo
+            if ((combo_count > 0) && (firing == false))
+            {
+                timer += Time.deltaTime;
+                if (timer >= reset_cooldown)
+                {
+                    combo_count = 0;
+                    timer = 0f;
 
+                }
             }
         }
     }
@@ -333,16 +341,29 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Ultimate_Start()
     {
+        /*
         ultimate_timer = 0f;
         ultimate_available = false;
         pcm.Firework_Ultimate_Cooldown_timer = 0f;
         pcm.Firework_Ultimate_Available = false;
+        */
+        pm.Speed *= 2;
+        ultimate_active = true;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
     }
 
     private void Ultimate_Active()
     {
-
+        ultimate_duration_timer += Time.deltaTime;
+        if (ultimate_duration_timer >= ultimate_duration)
+        {
+            pm.Speed /= 2;
+            ultimate_duration_timer = 0f;
+            ultimate_timer = 0f;
+            ultimate_available = false;
+            pcm.Firework_Ultimate_Available = false;
+            pcm.Firework_Ultimate_Cooldown_timer = 0f;
+        }
     }
     
     private void Set_Player_Visible(bool visible)

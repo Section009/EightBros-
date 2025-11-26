@@ -8,6 +8,7 @@ public class Dummy : MonoBehaviour
     private bool knocked_back;
     private float knocked_time;
     private float knocked_speed;
+    private bool stunned;
     public float knockback_Multiplier = 1.0f;
     // Start is called before the first frame update
     void Start()

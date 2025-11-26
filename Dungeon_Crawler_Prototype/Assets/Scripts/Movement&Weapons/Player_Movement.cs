@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
+    public bool Paused;
     public float Speed;
     [SerializeField] float Dash_Time;
     [SerializeField] float Dash_Speed;
@@ -25,65 +26,71 @@ public class Player_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         health_hub = GetComponent<Health>();
     }
-    void Update()
-    {
-        /*
-        if ((Input.GetButtonDown("Jump")) && (Dashing == false))
-        {
-            print("Dash");
-            Dashing = true;
-            Locked = true;
-        }
-        */
-    }
+    
     // Update is called once per frame
     void FixedUpdate()
     {
-        float horiInput = Input.GetAxis("Horizontal");
-        float vertInput = Input.GetAxis("Vertical");
-        
-        Vector3 vec = new Vector3(horiInput, 0f, vertInput);
-
-        if (Locked == false && stunned == false)
+        if (Paused == false)
         {
-            transform.LookAt(transform.position + vec, Vector3.up);
-            if (vec.magnitude != 0)
+            float horiInput = Input.GetAxisRaw("Horizontal");
+            float vertInput = Input.GetAxisRaw("Vertical");
+
+            Vector3 vec = new Vector3(horiInput, 0f, vertInput);
+
+            if (Locked == false && stunned == false)
             {
-                //transform.position += transform.forward * Speed * Time.deltaTime;
-                rb.velocity = transform.forward * Speed;
-                if (slowed)
+                transform.LookAt(transform.position + vec, Vector3.up);
+                if (vec.magnitude != 0)
                 {
-                    rb.velocity /= slow_reduction;
+                    rb.velocity = transform.forward * Speed;
+                    if (slowed)
+                    {
+                        rb.velocity /= slow_reduction;
+                    }
+                }
+
+                else
+                {
+                    rb.velocity = new Vector3(0f, 0f, 0f);
                 }
             }
+        }
+    }
 
+    void Update()
+    {
+        if (Input.GetKeyDown("q"))
+        {
+            Damage_Player(100.0f);
+        }
+
+        if (Input.GetKeyDown("t"))
+        {
+            Paused = !Paused;
+            if (Paused)
+            {
+                Time.timeScale = 0f;
+            }
             else
             {
-                rb.velocity = new Vector3(0f, 0f, 0f);
+                Time.timeScale = 1f;
             }
-            
-            
+            GameObject Head_UI = GameObject.FindWithTag("UI_Handler");
+            Head_UI.GetComponent<UI_Master>().Set_Paused(Paused);
         }
-        else
-        {
-            /*
-            if (Dashing)
-            {
-                //transform.position += transform.forward * Dash_Speed * Time.deltaTime;
-                rb.velocity = transform.forward * Dash_Speed;
-                Dash_Timer += Time.deltaTime;
-                if (Dash_Timer >= Dash_Time)
-                {
-                    Dash_Timer = 0;
-                    Dashing = false;
-                    Locked = false;
-                }
-            }
-            */
-        }
-        
-        
     }
+
+    public void Unpause()
+    {
+        Paused = false;
+        Time.timeScale = 1f;
+    }
+    public void Game_Over()
+    {
+        GameObject Head_UI = GameObject.FindWithTag("UI_Handler");
+        Head_UI.GetComponent<UI_Master>().Death_Screen_Activate();
+    }
+
     public void Damage_Player(float damage)
     {
         health_hub.TakeDamage(Mathf.RoundToInt(damage));

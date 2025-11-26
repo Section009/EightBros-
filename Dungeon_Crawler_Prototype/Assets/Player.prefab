@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bbe43007d020649a874a19996fd98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Paused: 0
   Speed: 6
   Dash_Time: 0.3
   Dash_Speed: 12
@@ -353,7 +354,19 @@ MonoBehaviour:
   currentHealth: 100
   onDie:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8466258805582064089}
+        m_TargetAssemblyTypeName: Player_Movement, Assembly-CSharp
+        m_MethodName: Game_Over
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   healthBar: {fileID: 2343635840666584992}
   display_damage_numbers: 1
   Canvas: {fileID: 8580802557768345197}

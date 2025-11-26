@@ -27,28 +27,30 @@ public class Swap_Characters : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (swap_in)
+        if (pm.Paused == false)
         {
-            Swap_In();
-        }
-        else
-        {
-            if (swap_active)
+            if (swap_in)
             {
-                Swap_Active();
+                Swap_In();
             }
+            else
+            {
+                if (swap_active)
+                {
+                    Swap_Active();
+                }
 
-            if ((Input.GetKeyDown("e")) && (pcm.Swap_Available) && (pm.Locked == false))
-            {
-                GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
-                Smoke = Instantiate(Smoke_Prefab, transform.position + new Vector3(0f, -0.5f, 0f), transform.rotation);
-                //Smoke.transform.parent = transform;
-                pm.Locked = true;
-                swap_active = true;
-                //Camera.GetComponent<Camera_Follow>().active = false;
+                if ((Input.GetKeyDown("e")) && (pcm.Swap_Available) && (pm.Locked == false))
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+                    Smoke = Instantiate(Smoke_Prefab, transform.position + new Vector3(0f, -0.5f, 0f), transform.rotation);
+                    //Smoke.transform.parent = transform;
+                    pm.Locked = true;
+                    swap_active = true;
+                    //Camera.GetComponent<Camera_Follow>().active = false;
+                }
             }
         }
-        
     }
 
     void Swap_Active()
