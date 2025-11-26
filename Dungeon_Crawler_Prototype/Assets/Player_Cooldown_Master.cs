@@ -25,6 +25,8 @@ public class Player_Cooldown_Master : MonoBehaviour
     public bool Melee_Ultimate_Available;
     public float Melee_Ultimate_Cooldown_Max;
     public float Melee_Ultimate_Cooldown_timer;
+    public float Melee_Ultimate_Cur_Points;
+    public float Melee_Ultimate_Max_Points;
     [Header("Swap Cooldown")]
     public bool Swap_Available;
     public float Swap_Cooldown_Max;
@@ -83,11 +85,17 @@ public class Player_Cooldown_Master : MonoBehaviour
             }
             if (Melee_Ultimate_Available == false)
             {
+                if (Melee_Ultimate_Cur_Points >= Melee_Ultimate_Max_Points)
+                {
+                    Melee_Ultimate_Available = true;
+                }
+                /*
                 Melee_Ultimate_Cooldown_timer += Time.deltaTime;
                 if (Melee_Ultimate_Cooldown_timer >= Melee_Ultimate_Cooldown_Max)
                 {
                     Melee_Ultimate_Available = true;
                 }
+                */
             }
 
             //Swap cooldown

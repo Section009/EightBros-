@@ -15,7 +15,7 @@ public class Shieldcode : MonoBehaviour
 
     public void Gong_Effect()
     {
-        GameObject player = GameObject.FindWithTag("Player");
-        player.GetComponent<Melee_Combat_Base>().Bounty_Points += Bounty_Gained;
+        GameObject cooldown = GameObject.FindWithTag("Cooldown_Tracker");
+        cooldown.GetComponent<Player_Cooldown_Master>().Melee_Ultimate_Cur_Points += Bounty_Gained;
     }
 }

@@ -45,7 +45,7 @@ public class DisplayCooldowns : MonoBehaviour
             }
             else
             {
-                Ultimate_Timer.text = "Ultimate Time: " + (pcm.Melee_Ultimate_Cooldown_Max - pcm.Melee_Ultimate_Cooldown_timer).ToString("F2");
+                Ultimate_Timer.text = "Bounty_Points: " + pcm.Melee_Ultimate_Cur_Points.ToString("F2") + "/" + pcm.Melee_Ultimate_Max_Points.ToString("F2"); ;//+ (pcm.Melee_Ultimate_Cooldown_Max - pcm.Melee_Ultimate_Cooldown_timer).ToString("F2");
                 Ultimate_Timer.color = Color.yellow;
             }
         }

@@ -13230,6 +13230,10 @@ PrefabInstance:
       value: Cooldown_Controller
       objectReference: {fileID: 0}
     - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
+      propertyPath: Melee_Ultimate_Max_Points
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
       propertyPath: Firework_Ultimate_Available
       value: 0
       objectReference: {fileID: 0}

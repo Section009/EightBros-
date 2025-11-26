@@ -38,10 +38,8 @@ public class Orbiting_Object : MonoBehaviour
         }
         if (col.gameObject.CompareTag("Enemy"))
         {
-            Melee_Combat_Base MCB = target.GetComponent<Melee_Combat_Base>();
-            if (MCB != null) {
-                MCB.Bounty_Points += 0.5f;
-            }
+            GameObject cooldown = GameObject.FindWithTag("Cooldown_Tracker");
+            cooldown.GetComponent<Player_Cooldown_Master>().Melee_Ultimate_Cur_Points += 0.5f;
         }
     }
 

@@ -415,7 +415,7 @@ public class Melee_Combat_Base : MonoBehaviour
         ultimate_timer = 0f;
         ultimate_available = false;
         pcm.Melee_Ultimate_Available = false;
-        pcm.Melee_Ultimate_Cooldown_timer = 0f;
+        pcm.Melee_Ultimate_Cur_Points = 0f;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
     }
 
