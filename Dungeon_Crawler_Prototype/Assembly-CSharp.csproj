@@ -101,6 +101,7 @@
     <Compile Include="Assets\Scripts\Health\HealthBar.cs" />
     <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObjectWeapon.cs" />
     <Compile Include="Assets\Scripts\World\LevelClear.cs" />
+    <Compile Include="Assets\Scripts\UI\Dialogue_Master.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Combat_Base.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel_Master.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayCooldowns.cs" />
