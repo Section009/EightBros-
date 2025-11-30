@@ -2,30 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 /// <summary>
-/// Receives status effects (Slow / Stun / DoT) applied on hit.
+/// StatusReceiver
+/// Receives and updates status effects on an actor.
+/// Existing features (kept as-is):
 /// - Slow: keeps the STRONGEST (lowest multiplier); same-strength refreshes duration
-/// - Stun: uses the maximum remaining time; NavMeshAgent is stopped while stunned
-/// - DoT: multiple instances can run in parallel; each uses its own DPS/duration/tick
+/// - Stun: uses the maximum remaining time; pauses NavMeshAgent while stunned
+/// - DoT : multiple instances can run in parallel; each uses its own DPS/duration/tick
+/// - Mark system (for "Xiao Bian" design):
+///   * Mark() : apply a mark if not currently in lockout
+///   * IsMarked(), InLockout() : query states
+///   * ConsumeMarkAndLock(sec) : clear mark, start lockout so player can't be marked again for 'sec'
+///   * ClearMark(), ForceMarkLock(sec) helpers
+///   * Exposes UnityEvents for VFX/SFX hooks
 /// </summary>
 public class StatusReceiver : MonoBehaviour
 {
+    // ========================== Slow ==========================
     [Header("Slow")]
     [Tooltip("Lower bound of speed multiplier to avoid zero-speed (e.g., 0.1 = at most 90% slow).")]
     public float minSpeedMultiplier = 0.1f;
 
+    // =========================== DoT ==========================
     [Header("DOT")]
     [Tooltip("Global default tick rate (seconds) if a DoT instance does not specify its own.")]
     public float defaultDotTickRate = 0.5f;
 
     [Tooltip("If true, DoT ticks will ignore any external invulnerability gates (not used here).")]
-    public bool dotIgnoresInvulnerability = false; // kept for future extension; not used in this version
+    public bool dotIgnoresInvulnerability = false; // reserved for future; unused here
 
     [Tooltip("If true, this actor is completely immune to DoT (ignores new DoTs and clears existing ones).")]
     public bool immuneToDot = false;
 
-    // --- Internals / references ---
+    // ========================= Mark =========================
+    [Header("Mark (for Xiao Bian)")]
+    [Tooltip("If the actor is currently marked.")]
+    [SerializeField] private bool marked = false;
+
+    [Tooltip("Remaining lockout seconds during which Mark() calls are ignored.")]
+    [SerializeField] private float markLockoutRemain = 0f;
+
+    [Tooltip("Optional default lockout if you call ConsumeMarkAndLock with <= 0.")]
+    public float defaultMarkLockout = 3f;
+
+    [Header("Mark Events")]
+    public UnityEvent onMarkApplied;
+    public UnityEvent onMarkConsumed;
+    public UnityEvent onMarkCleared;
+    public UnityEvent onMarkLockoutStart;
+    public UnityEvent onMarkLockoutEnd;
+
+    // ---------------- Internals / references ----------------
     NavMeshAgent agent;
     float baseSpeed;
     bool hasAgent;
@@ -89,7 +118,7 @@ public class StatusReceiver : MonoBehaviour
             // -------- DoT update --------
             if (immuneToDot)
             {
-                if (dots.Count > 0) dots.Clear(); // ensure runtime toggling works
+                if (dots.Count > 0) dots.Clear(); // allow runtime toggle
             }
             else
             {
@@ -114,31 +143,38 @@ public class StatusReceiver : MonoBehaviour
                 }
             }
 
+            // -------- Mark update (lockout countdown) --------
+            if (markLockoutRemain > 0f)
+            {
+                markLockoutRemain -= dt;
+                if (markLockoutRemain <= 0f)
+                {
+                    markLockoutRemain = 0f;
+                    onMarkLockoutEnd?.Invoke();
+                }
+            }
+
             yield return wait;
         }
     }
 
     void DoDotTick(DotEntry e)
     {
-        // Absolute immunity check (redundant safeguard)
         if (immuneToDot) return;
 
-        // Compute damage per tick (DPS × tickRate)
+        // damage per tick = dps * tickRate
         float tickSecs = (e.tickRate > 0f ? e.tickRate : defaultDotTickRate);
         float dmgFloat = e.dps * tickSecs;
         int dmg = Mathf.Max(1, Mathf.RoundToInt(dmgFloat));
 
         if (health != null)
         {
-            // Replace with your concrete damage API if different
             health.TakeDamage(dmg);
         }
         else if (fourHit != null)
         {
-            // Four-hit model: treat every tick as one 'hit'
             fourHit.RegisterHit();
         }
-        // If neither Health nor FourHitHealth exists, do nothing.
     }
 
     void SetStun(bool on)
@@ -151,7 +187,7 @@ public class StatusReceiver : MonoBehaviour
     {
         if (!hasAgent) return;
 
-        // While stunned, we keep agent stopped and don't modify speed.
+        // While stunned, keep agent stopped and don't touch speed.
         if (stunRemain > 0f)
         {
             agent.isStopped = true;
@@ -167,12 +203,9 @@ public class StatusReceiver : MonoBehaviour
         agent.isStopped = false;
     }
 
-    // ===================== Public API (called by projectiles) =====================
+    // ===================== Public API: Slow / Stun / DoT =====================
 
-    /// <summary>
-    /// Apply a slow of given multiplier (0..1, smaller = slower) for 'duration' seconds.
-    /// If a slow with exactly the same multiplier exists, refresh its remaining time.
-    /// </summary>
+    /// <summary>Apply a slow (0..1, smaller = slower) for 'duration' seconds.</summary>
     public void AddSlow(float multiplier, float duration)
     {
         multiplier = Mathf.Clamp(multiplier, 0f, 1f);
@@ -192,9 +225,7 @@ public class StatusReceiver : MonoBehaviour
         ApplyBestSlow();
     }
 
-    /// <summary>
-    /// Apply stun for 'duration' seconds; overlapping stuns use the maximum remaining time.
-    /// </summary>
+    /// <summary>Apply stun for 'duration' seconds; overlapping stuns use the maximum remaining time.</summary>
     public void AddStun(float duration)
     {
         duration = Mathf.Max(0f, duration);
@@ -212,10 +243,7 @@ public class StatusReceiver : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Add a DoT instance (dps, duration, optional tickRate).
-    /// Ignored if 'immuneToDot' is true.
-    /// </summary>
+    /// <summary>Add a DoT instance (dps, duration, optional tickRate). Ignored if 'immuneToDot' is true.</summary>
     public void AddDot(float dps, float duration, float tickRate = -1f)
     {
         if (immuneToDot) return;
@@ -230,14 +258,63 @@ public class StatusReceiver : MonoBehaviour
         });
     }
 
-    // ===================== Optional helpers =====================
-
-    /// <summary>
-    /// Toggle DoT immunity at runtime. When enabling, clears all existing DoTs.
-    /// </summary>
+    /// <summary>Toggle DoT immunity at runtime. When enabling, clears all existing DoTs.</summary>
     public void SetDotImmunity(bool enabled)
     {
         immuneToDot = enabled;
         if (immuneToDot && dots.Count > 0) dots.Clear();
+    }
+
+    // ===================== Public API: Mark =====================
+
+    /// <summary>Returns true if currently marked.</summary>
+    public bool IsMarked() => marked;
+
+    /// <summary>Returns true if currently in lockout (Mark() will be ignored).</summary>
+    public bool InLockout() => markLockoutRemain > 0f;
+
+    /// <summary>
+    /// Apply a mark. Ignored if in lockout or already marked.
+    /// Use this from projectiles like "Mark bullet".
+    /// </summary>
+    public void Mark()
+    {
+        if (InLockout() || marked) return;
+        marked = true;
+        onMarkApplied?.Invoke();
+    }
+
+    /// <summary>
+    /// Consume a mark (if any) and start lockout, so Mark() cannot apply for 'lockSeconds'.
+    /// Returns true if a mark was consumed.
+    /// </summary>
+    public bool ConsumeMarkAndLock(float lockSeconds)
+    {
+        if (!marked) return false;
+
+        marked = false;
+        onMarkConsumed?.Invoke();
+
+        float sec = (lockSeconds > 0f ? lockSeconds : defaultMarkLockout);
+        markLockoutRemain = sec;
+        onMarkLockoutStart?.Invoke();
+        return true;
+    }
+
+    /// <summary>Clear mark without starting lockout (utility for resets).</summary>
+    public void ClearMark()
+    {
+        if (!marked) return;
+        marked = false;
+        onMarkCleared?.Invoke();
+    }
+
+    /// <summary>Force lockout for 'sec' seconds (even if not consuming a mark).</summary>
+    public void ForceMarkLock(float sec)
+    {
+        sec = Mathf.Max(0f, sec);
+        if (sec <= 0f) return;
+        markLockoutRemain = sec;
+        onMarkLockoutStart?.Invoke();
     }
 }
