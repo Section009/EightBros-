@@ -15,6 +15,8 @@ public class Player_Cooldown_Master : MonoBehaviour
     public bool Firework_Ultimate_Available;
     public float Firework_Ultimate_Cooldown_Max;
     public float Firework_Ultimate_Cooldown_timer;
+    public float Firework_Ultimate_Cur_Points;
+    public float Firework_Ultimate_Max_Points;
     [Header("Melee Cooldowns")]
     public bool Melee_Skill_Available;
     public float Melee_Skill_Cooldown_Max;
@@ -59,11 +61,17 @@ public class Player_Cooldown_Master : MonoBehaviour
             }
             if (Firework_Ultimate_Available == false)
             {
+                if (Firework_Ultimate_Cur_Points >= Firework_Ultimate_Max_Points)
+                {
+                    Firework_Ultimate_Available = true;
+                }
+                /*
                 Firework_Ultimate_Cooldown_timer += Time.deltaTime;
                 if (Firework_Ultimate_Cooldown_timer >= Firework_Ultimate_Cooldown_Max)
                 {
                     Firework_Ultimate_Available = true;
                 }
+                */
             }
 
             //Melee cooldowns

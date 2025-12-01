@@ -362,7 +362,7 @@ public class Weapon_Projectile : MonoBehaviour
             ultimate_timer = 0f;
             ultimate_available = false;
             pcm.Firework_Ultimate_Available = false;
-            pcm.Firework_Ultimate_Cooldown_timer = 0f;
+            pcm.Firework_Ultimate_Cur_Points = 0f;
         }
     }
     

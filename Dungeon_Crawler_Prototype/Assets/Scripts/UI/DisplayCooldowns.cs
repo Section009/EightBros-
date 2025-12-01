@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DisplayCooldowns : MonoBehaviour
 {
     public Text Skill_Timer, Dash_Timer, Ultimate_Timer, Swap_Timer;
+    public Slider Ultimate_Slider;
     // Start is called before the first frame update
     public Player_Cooldown_Master pcm;
     void Start()
@@ -45,6 +46,8 @@ public class DisplayCooldowns : MonoBehaviour
             }
             else
             {
+                Ultimate_Slider.value = pcm.Melee_Ultimate_Cur_Points;
+                Ultimate_Slider.maxValue = pcm.Melee_Ultimate_Max_Points;
                 Ultimate_Timer.text = "Bounty_Points: " + pcm.Melee_Ultimate_Cur_Points.ToString("F2") + "/" + pcm.Melee_Ultimate_Max_Points.ToString("F2"); ;//+ (pcm.Melee_Ultimate_Cooldown_Max - pcm.Melee_Ultimate_Cooldown_timer).ToString("F2");
                 Ultimate_Timer.color = Color.yellow;
             }
@@ -79,7 +82,9 @@ public class DisplayCooldowns : MonoBehaviour
             }
             else
             {
-                Ultimate_Timer.text = "Ultimate Time: " + (pcm.Firework_Ultimate_Cooldown_Max - pcm.Firework_Ultimate_Cooldown_timer).ToString("F2");
+                Ultimate_Slider.value = pcm.Firework_Ultimate_Cur_Points;
+                Ultimate_Slider.maxValue = pcm.Firework_Ultimate_Max_Points;
+                Ultimate_Timer.text = "Bounty_Points: " + pcm.Firework_Ultimate_Cur_Points.ToString("F2") + "/" + pcm.Firework_Ultimate_Max_Points.ToString("F2"); ;//+ (pcm.Melee_Ultimate_Cooldown_Max - pcm.Melee_Ultimate_Cooldown_timer).ToString("F2");
                 Ultimate_Timer.color = Color.yellow;
             }
         }

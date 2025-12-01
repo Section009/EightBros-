@@ -62,6 +62,9 @@ public class StatusReceiver : MonoBehaviour
     Health health;
     FourHitHealth fourHit;
 
+    // Cooldown manager: allows Status to advance Firework Ultimate
+    public Player_Cooldown_Master pcm;
+
     // Slow pool: track all, apply the most severe (smallest multiplier)
     class SlowEntry { public float multiplier; public float remain; }
     readonly List<SlowEntry> slows = new List<SlowEntry>();
@@ -81,6 +84,11 @@ public class StatusReceiver : MonoBehaviour
 
         health  = GetComponent<Health>();
         fourHit = GetComponent<FourHitHealth>();
+        GameObject temp = GameObject.FindGameObjectWithTag("Cooldown_Tracker");
+        if (temp != null)
+        {
+            pcm = temp.GetComponent<Player_Cooldown_Master>();
+        }
     }
 
     void OnEnable()
@@ -166,6 +174,12 @@ public class StatusReceiver : MonoBehaviour
         float tickSecs = (e.tickRate > 0f ? e.tickRate : defaultDotTickRate);
         float dmgFloat = e.dps * tickSecs;
         int dmg = Mathf.Max(1, Mathf.RoundToInt(dmgFloat));
+
+        //advance firework Ultimate
+        if (pcm != null)
+        {
+            pcm.Firework_Ultimate_Cur_Points += 1.0f;
+        }
 
         if (health != null)
         {

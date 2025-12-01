@@ -711,6 +711,13 @@ MonoBehaviour:
   Display_Name: {fileID: 1367278584}
   Display_Text: {fileID: 665237456}
   NextLevel: Main_Menu
+  Dialogue_Events:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1886398838
 MonoBehaviour:
   m_ObjectHideFlags: 0
