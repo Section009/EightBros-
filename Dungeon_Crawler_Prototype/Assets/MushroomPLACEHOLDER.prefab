@@ -12806,7 +12806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15b66a4c0339db4f94537f086f3612c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
+  Health: 100
   knockback_Multiplier: 1
 --- !u!114 &-129071301146816040
 MonoBehaviour:
@@ -12821,7 +12821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  currentHealth: 100
   onDie:
     m_PersistentCalls:
       m_Calls: []
