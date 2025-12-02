@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UI_Master : MonoBehaviour
 {
-    public GameObject Standard_UI, Pause_Menu, Game_Over_Menu;
+    public GameObject Standard_UI, Pause_Menu, Settings_Menu, Game_Over_Menu;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +15,7 @@ public class UI_Master : MonoBehaviour
     {
         Standard_UI.SetActive(!paused);
         Pause_Menu.SetActive(paused);
+        Settings_Menu.SetActive(false);
     }
     
     public void Unpause()
@@ -27,5 +28,15 @@ public class UI_Master : MonoBehaviour
     {
         Standard_UI.SetActive(false);
         Game_Over_Menu.SetActive(true);
+    }
+    public void Go_To_Settings()
+    {
+        Pause_Menu.SetActive(false);
+        Settings_Menu.SetActive(true);
+    }
+    public void Leave_Settings()
+    {
+        Pause_Menu.SetActive(true);
+        Settings_Menu.SetActive(false);
     }
 }
