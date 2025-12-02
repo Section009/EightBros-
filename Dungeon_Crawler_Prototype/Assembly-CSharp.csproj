@@ -80,6 +80,8 @@
     <Compile Include="Assets\Scripts\EnemySkills\BellFanConeAttack.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Player_Movement.cs" />
+    <Compile Include="Assets\Audio\Audio_Control.cs" />
+    <Compile Include="Assets\Audio\Music\Music_Master.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellSonicAuraAttack.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\Enemy_Funglimate.cs" />
     <Compile Include="Assets\Scripts\Health\Health.cs" />

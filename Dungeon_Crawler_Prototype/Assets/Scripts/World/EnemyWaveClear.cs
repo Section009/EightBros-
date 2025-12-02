@@ -34,6 +34,10 @@ public class EnemyWaveClear : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         if (enemies.Length == 0)
         {
+            //Help with dynamic music
+            GameObject Music = GameObject.FindWithTag("Music_Master");
+            if (Music != null) Music.GetComponent<Music_Master>().Exit_Battle();
+
             Debug.Log("All enemies destroyed! Wall disappearing...");
             gameObject.SetActive(false); // disable the wall
         }

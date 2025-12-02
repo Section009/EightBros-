@@ -24,6 +24,10 @@ public class EncounterTrigger : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         triggered = true;
+        //Help with dynamic music
+        GameObject Music = GameObject.FindWithTag("Music_Master");
+        if (Music != null) Music.GetComponent<Music_Master>().Enter_Battle();
+
         StartEncounter();
     }
 

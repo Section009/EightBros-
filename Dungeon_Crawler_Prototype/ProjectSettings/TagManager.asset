@@ -11,6 +11,7 @@ TagManager:
   - Cooldown_Tracker
   - Wave1
   - UI_Handler
+  - Music_Master
   layers:
   - Default
   - TransparentFX
