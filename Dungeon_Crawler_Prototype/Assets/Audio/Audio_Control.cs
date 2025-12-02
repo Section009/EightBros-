@@ -10,12 +10,14 @@ public class Audio_Control : MonoBehaviour
     public Slider masterSlider;
     public Slider sfxSlider;
     public Slider musicSlider;
+    public bool Simple = false;
     // Start is called before the first frame update
     void Start()
     {
         // do we have saved volume player prefs?
         if (PlayerPrefs.HasKey("MasterVolume"))
         {
+            print("Accessed");
             // set the mixer volume levels based on the saved player prefs
             mixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("MasterVolume"));
             mixer.SetFloat("SFXVolume", PlayerPrefs.GetFloat("SFXVolume"));
@@ -31,9 +33,12 @@ public class Audio_Control : MonoBehaviour
 
     void SetSliders()
     {
-        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        if (Simple == false)
+        {
+            masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+            sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        }
     }
 
     public void UpdateMasterVolume()

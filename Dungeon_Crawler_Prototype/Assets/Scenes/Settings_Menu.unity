@@ -474,7 +474,7 @@ GameObject:
   - component: {fileID: 504797992}
   - component: {fileID: 504797993}
   m_Layer: 5
-  m_Name: Master_Audio_Slider (2)
+  m_Name: SFX_Audio_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -546,10 +546,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 364849873}
   m_HandleRect: {fileID: 559724103}
   m_Direction: 0
-  m_MinValue: -15
-  m_MaxValue: 15
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 702308200}
   - component: {fileID: 702308201}
   m_Layer: 5
-  m_Name: Master_Audio_Slider (1)
+  m_Name: Music_Audio_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1029,8 +1029,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1695279614}
   m_HandleRect: {fileID: 1922288544}
   m_Direction: 0
-  m_MinValue: -15
-  m_MaxValue: 15
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1218,8 +1218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 53407dd89981fbd4696121ad9bf3b3c0, type: 2}
   masterSlider: {fileID: 2086232641}
-  sfxSlider: {fileID: 702308201}
-  musicSlider: {fileID: 504797993}
+  sfxSlider: {fileID: 504797993}
+  musicSlider: {fileID: 702308201}
 --- !u!1 &1149717053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2379,8 +2379,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 600085143}
   m_HandleRect: {fileID: 2037041047}
   m_Direction: 0
-  m_MinValue: -15
-  m_MaxValue: 15
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
