@@ -3626,13 +3626,7 @@ PrefabInstance:
       objectReference: {fileID: 9000000, guid: ee7b610ccff55ab49bcc5a2b6d5cddb4, type: 3}
     - target: {fileID: 186803776158177840, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'BIND_ROOT'\n\tTransform 'ARM_RIGHT'\n\tTransform
-        'HIP_LEFT'\n\tTransform 'ANKLE_RIGHT'\n\tTransform 'SHOULDER_LEFT'\n\tTransform
-        'BACK'\n\tTransform 'SHOULDER_RIGHT'\n\tTransform 'KNEE_LEFT'\n\tTransform
-        'HIP_RIGHT'\n\tTransform 'ANKLE_LEFT'\n\tand more ...\n\tFrom animation clip
-        'Take 003'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 598190519213138042, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3645,6 +3639,10 @@ PrefabInstance:
     - target: {fileID: 598190519213138042, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.003
+      objectReference: {fileID: 0}
+    - target: {fileID: 1975455909712833418, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2841901968335145261, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3716,7 +3714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6369055511551837612, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.512
       objectReference: {fileID: 0}
     - target: {fileID: 6369055511551837612, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3752,7 +3750,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6930981642140716812, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534968522623152042, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 06429f5946f1f744fb87efd1781a4215, type: 3}
+    - target: {fileID: 8534968522623152042, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8671014765126818782, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: Camera
