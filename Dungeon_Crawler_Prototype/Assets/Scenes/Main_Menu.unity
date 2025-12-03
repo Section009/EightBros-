@@ -190,6 +190,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &354027899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 354027901}
+  - component: {fileID: 354027900}
+  m_Layer: 0
+  m_Name: Button_Handler_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &354027900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354027899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e611b1fcd581b944af65899bd31d48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextLevel: Credits_Menu
+--- !u!4 &354027901
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354027899}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 92.8727, y: 153.35046, z: -210.69295}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &373859472
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +545,7 @@ GameObject:
   - component: {fileID: 753198982}
   - component: {fileID: 753198981}
   - component: {fileID: 753198980}
+  - component: {fileID: 753198984}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -595,6 +641,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &753198984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753198979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6575f34e872b2345975620e5d6330cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 53407dd89981fbd4696121ad9bf3b3c0, type: 2}
+  masterSlider: {fileID: 0}
+  sfxSlider: {fileID: 0}
+  musicSlider: {fileID: 0}
+  Simple: 1
 --- !u!1 &917197925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,9 +1256,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 354027900}
         m_TargetAssemblyTypeName: Button_Handler, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OnStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1266,7 +1329,7 @@ AudioSource:
   m_GameObject: {fileID: 2008777692}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3256417981977230522, guid: 53407dd89981fbd4696121ad9bf3b3c0, type: 2}
   m_audioClip: {fileID: 8300000, guid: 9d344304c0b902742b7105e29e287e83, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1378,4 +1441,5 @@ SceneRoots:
   - {fileID: 109687130}
   - {fileID: 704193851}
   - {fileID: 532259190}
+  - {fileID: 354027901}
   - {fileID: 2008777694}
