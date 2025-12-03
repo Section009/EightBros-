@@ -16,11 +16,13 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: "Avatar creation failed:\n\tTransform 'HAND_RIGHT' is not an
-      ancestor of 'Heavens_Gate_Rig_01:MASTER_CTRL'\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'ARM_RIGHT' has translation animation that
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -265,26 +267,6 @@ ModelImporter:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Heavens_Gate_Rig_01:MASTER_CTRL
-      parentName: melee_Anim_Run_03(Clone)
-      position: {x: 0.15031824, y: 0.4080436, z: -0.16186103}
-      rotation: {x: 0.44017953, y: 0.44237736, z: 0.075797945, w: 0.7776882}
-      scale: {x: 5.660731, y: 5.660731, z: 5.660731}
-    - name: Heavens_Gate_Rig_01:joint1
-      parentName: Heavens_Gate_Rig_01:MASTER_CTRL
-      position: {x: -0, y: 0, z: -4.440892e-18}
-      rotation: {x: 0.2281101, y: -0.6572854, z: 0.031148018, w: 0.71761525}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Heavens_Gate_Rig_01:joint2
-      parentName: Heavens_Gate_Rig_01:joint1
-      position: {x: -4.440892e-18, y: -0.0153265, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Heavens_Gate_Rig_01:joint3
-      parentName: Heavens_Gate_Rig_01:joint2
-      position: {x: -0, y: -0.019673927, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
     - name: ROOT
       parentName: melee_Anim_Run_03(Clone)
       position: {x: -0, y: 0, z: 0}
@@ -343,7 +325,7 @@ ModelImporter:
     - name: SHOULDER_RIGHT
       parentName: CLAVICLE_RIGHT
       position: {x: 0.050855596, y: -0.011221, z: 0.00425325}
-      rotation: {x: 0.7034573, y: -0.013578443, z: 0.0061159423, w: 0.7105816}
+      rotation: {x: 0.70345724, y: -0.013578443, z: 0.0061159413, w: 0.7105816}
       scale: {x: 1, y: 1, z: 1}
     - name: ARM_RIGHT
       parentName: SHOULDER_RIGHT
@@ -358,13 +340,33 @@ ModelImporter:
     - name: HAND_RIGHT
       parentName: FOREARM_RIGHT
       position: {x: 0.049999997, y: -0.00000013705295, z: 0.0000005942599}
-      rotation: {x: -0.00000092387165, y: -0.21002614, z: 0.13650031, w: 0.96812016}
+      rotation: {x: -0.0000009238717, y: -0.21002616, z: 0.13650033, w: 0.9681202}
       scale: {x: 1, y: 1, z: 1}
     - name: locator1
       parentName: HAND_RIGHT
       position: {x: 0.00988146, y: 0.0012352294, z: -0.009733238}
       rotation: {x: 0.6755429, y: -0.2498708, z: 0.2966392, w: 0.62706584}
       scale: {x: 3.39562, y: 3.39562, z: 3.39562}
+    - name: Heavens_Gate_Rig_01:MASTER_CTRL
+      parentName: HAND_RIGHT
+      position: {x: -0.1950256, y: 0.1761822, z: -0.14249638}
+      rotation: {x: -0.8374536, y: -0.3268267, z: -0.055783965, w: -0.43444672}
+      scale: {x: 5.6607294, y: 5.6607285, z: 5.6607294}
+    - name: Heavens_Gate_Rig_01:joint1
+      parentName: HAND_RIGHT
+      position: {x: -0.19502561, y: 0.17618233, z: -0.1424964}
+      rotation: {x: -0.7469172, y: 0.06437983, z: 0.57143486, w: -0.33381465}
+      scale: {x: 5.6607294, y: 5.66073, z: 5.66073}
+    - name: Heavens_Gate_Rig_01:joint2
+      parentName: HAND_RIGHT
+      position: {x: -0.21978086, y: 0.24288699, z: -0.19214377}
+      rotation: {x: -0.7469172, y: 0.064379774, z: 0.57143486, w: -0.33381462}
+      scale: {x: 5.6607294, y: 5.66073, z: 5.6607304}
+    - name: Heavens_Gate_Rig_01:joint3
+      parentName: HAND_RIGHT
+      position: {x: -0.25155818, y: 0.32851264, z: -0.25587374}
+      rotation: {x: -0.7469172, y: 0.06437966, z: 0.57143474, w: -0.3338147}
+      scale: {x: 5.6607294, y: 5.660731, z: 5.6607304}
     - name: SLEEVE_RIGHT
       parentName: FOREARM_RIGHT
       position: {x: 0.0059391516, y: -0.009261692, z: -0.08534879}
