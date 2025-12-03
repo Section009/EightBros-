@@ -3625,8 +3625,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9000000, guid: ee7b610ccff55ab49bcc5a2b6d5cddb4, type: 3}
     - target: {fileID: 186803776158177840, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 186803776158177840, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 186803776158177840, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_WarningMessage
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 186803776158177840, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 598190519213138042, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3698,7 +3710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5744334855165418191, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117640305410757704, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_Name
