@@ -13945,6 +13945,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1378828803449483028, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378828803449483028, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1596535425420837425, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13969,6 +13977,10 @@ PrefabInstance:
       propertyPath: meleeCombat
       value: 
       objectReference: {fileID: 1253629024}
+    - target: {fileID: 3840461944739797035, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4008527833934310257, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -14003,6 +14015,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4174284435441430171, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893862560174744840, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893862560174744840, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5698908236838784148, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
@@ -14101,6 +14121,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6905168561061068127, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905168561061068127, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764478755222821940, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764478755222821940, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8034151523328934307, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
       propertyPath: sfxSlider
       value: 
@@ -14127,6 +14163,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8970077692634079539, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063927555604316643, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063927555604316643, guid: 9d950030c1ef5444988498d9b68701b1, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

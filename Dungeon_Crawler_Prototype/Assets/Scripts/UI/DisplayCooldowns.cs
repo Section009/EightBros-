@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DisplayCooldowns : MonoBehaviour
 {
     public Text Skill_Timer, Dash_Timer, Ultimate_Timer, Swap_Timer;
-    public Slider Ultimate_Slider;
+    public Slider Skill_Slider, Dash_Slider, Ultimate_Slider;
     // Start is called before the first frame update
     public Player_Cooldown_Master pcm;
     void Start()
@@ -26,6 +26,8 @@ public class DisplayCooldowns : MonoBehaviour
             }
             else
             {
+                Skill_Slider.value = pcm.Melee_Skill_Cooldown_timer;
+                Skill_Slider.maxValue = pcm.Melee_Skill_Cooldown_Max;
                 Skill_Timer.text = "Skill Time: " + (pcm.Melee_Skill_Cooldown_Max - pcm.Melee_Skill_Cooldown_timer).ToString("F2");
                 Skill_Timer.color = Color.yellow;
             }
@@ -36,6 +38,8 @@ public class DisplayCooldowns : MonoBehaviour
             }
             else
             {
+                Dash_Slider.value = pcm.Melee_Dash_Cooldown_timer;
+                Dash_Slider.maxValue = pcm.Melee_Dash_Cooldown_Max;
                 Dash_Timer.text = "Dash Time: " + (pcm.Melee_Dash_Cooldown_Max - pcm.Melee_Dash_Cooldown_timer).ToString("F2");
                 Dash_Timer.color = Color.yellow;
             }
@@ -62,6 +66,8 @@ public class DisplayCooldowns : MonoBehaviour
             }
             else
             {
+                Skill_Slider.value = pcm.Firework_Skill_Cooldown_timer;
+                Skill_Slider.maxValue = pcm.Firework_Skill_Cooldown_Max;
                 Skill_Timer.text = "Skill Time: " + (pcm.Firework_Skill_Cooldown_Max - pcm.Firework_Skill_Cooldown_timer).ToString("F2");
                 Skill_Timer.color = Color.yellow;
             }
@@ -72,6 +78,8 @@ public class DisplayCooldowns : MonoBehaviour
             }
             else
             {
+                Dash_Slider.value = pcm.Firework_Dash_Cooldown_timer;
+                Dash_Slider.maxValue = pcm.Firework_Dash_Cooldown_Max;
                 Dash_Timer.text = "Dash Time: " + (pcm.Firework_Dash_Cooldown_Max - pcm.Firework_Dash_Cooldown_timer).ToString("F2");
                 Dash_Timer.color = Color.yellow;
             }
