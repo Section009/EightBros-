@@ -599,7 +599,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8820118294494672627}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7ef603a1556b694da18d031626318af, type: 3}
   m_Name: 
@@ -634,6 +634,25 @@ MonoBehaviour:
   defaultDotTickRate: 0.5
   dotIgnoresInvulnerability: 0
   immuneToDot: 1
+  marked: 0
+  markLockoutRemain: 0
+  defaultMarkLockout: 3
+  onMarkApplied:
+    m_PersistentCalls:
+      m_Calls: []
+  onMarkConsumed:
+    m_PersistentCalls:
+      m_Calls: []
+  onMarkCleared:
+    m_PersistentCalls:
+      m_Calls: []
+  onMarkLockoutStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onMarkLockoutEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  pcm: {fileID: 0}
 --- !u!114 &-2701814142879594548
 MonoBehaviour:
   m_ObjectHideFlags: 0
