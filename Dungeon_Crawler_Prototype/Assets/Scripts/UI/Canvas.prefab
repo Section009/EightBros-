@@ -694,6 +694,18 @@ MonoBehaviour:
   Skill_Slider: {fileID: 5046655957556704586}
   Dash_Slider: {fileID: 6419827064364054831}
   Ultimate_Slider: {fileID: 1016454093216740606}
+  Skill_Obj1: {fileID: 2352286634816285898}
+  Skill_Obj2: {fileID: 4320915737950429012}
+  Dash_Obj1: {fileID: 3354226015904536407}
+  Dash_Obj2: {fileID: 2402860437330877348}
+  Ult_Obj1: {fileID: 5211382090287864288}
+  Ult_Obj2: {fileID: 5960493885867814257}
+  Gong_Skill: {fileID: 2800000, guid: b40f1ef9216da204299558673e90e5a6, type: 3}
+  Fire_Skill: {fileID: 2800000, guid: e9ae49f634f3bb24ba3995d0eccde6d1, type: 3}
+  Gong_Dash: {fileID: 2800000, guid: 8ea73cfeebddc8e4389dee0dc559e017, type: 3}
+  Fire_Dash: {fileID: 2800000, guid: e2689fb9d5d8f5a41870f3434f9e22e4, type: 3}
+  Gong_Ult: {fileID: 2800000, guid: a30082f5a45dabd4f94ee92f0b9fbd55, type: 3}
+  Fire_Ult: {fileID: 2800000, guid: 240967e80504f7e4eb3c9d82101ac625, type: 3}
   pcm: {fileID: 0}
 --- !u!114 &4450334732475805425
 MonoBehaviour:

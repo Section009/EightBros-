@@ -657,7 +657,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   latchPatternProbability: 0.5
   shortPauseRange: {x: 0.2, y: 0.5}
-  shortPauseDamage: 8
+  shortPauseDamage: 5
   leaveBurstSpeed: 18
   leaveDistance: 9
   latchDuration: 1

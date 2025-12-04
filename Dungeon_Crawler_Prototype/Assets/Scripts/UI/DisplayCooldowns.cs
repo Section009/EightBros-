@@ -7,6 +7,10 @@ public class DisplayCooldowns : MonoBehaviour
 {
     public Text Skill_Timer, Dash_Timer, Ultimate_Timer, Swap_Timer;
     public Slider Skill_Slider, Dash_Slider, Ultimate_Slider;
+    public RawImage Skill_Obj1, Skill_Obj2;
+    public RawImage Dash_Obj1, Dash_Obj2;
+    public RawImage Ult_Obj1, Ult_Obj2;
+    public Texture2D Gong_Skill, Fire_Skill, Gong_Dash, Fire_Dash, Gong_Ult, Fire_Ult;
     // Start is called before the first frame update
     public Player_Cooldown_Master pcm;
     void Start()
@@ -19,6 +23,12 @@ public class DisplayCooldowns : MonoBehaviour
     {
         if (pcm.Melee_Open)
         {
+            Skill_Obj1.texture = Gong_Skill;
+            Skill_Obj2.texture = Gong_Skill;
+            Dash_Obj1.texture = Gong_Dash;
+            Dash_Obj2.texture = Gong_Dash;
+            Ult_Obj1.texture = Gong_Ult;
+            Ult_Obj2.texture = Gong_Ult;
             if (pcm.Melee_Skill_Available)
             {
                 Skill_Timer.text = "Skill Available!(Right Click)";
@@ -59,6 +69,12 @@ public class DisplayCooldowns : MonoBehaviour
         
         else
         {
+            Skill_Obj1.texture = Fire_Skill;
+            Skill_Obj2.texture = Fire_Skill;
+            Dash_Obj1.texture = Fire_Dash;
+            Dash_Obj2.texture = Fire_Dash;
+            Ult_Obj1.texture = Fire_Ult;
+            Ult_Obj2.texture = Fire_Ult;
             if (pcm.Firework_Skill_Available)
             {
                 Skill_Timer.text = "Skill Available!(Right Click)";
