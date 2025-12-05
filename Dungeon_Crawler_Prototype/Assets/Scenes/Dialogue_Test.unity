@@ -701,11 +701,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-  - Testing
+  - ' I have a story to tell you, listener, from 2000 years in the past '
   - 123, 123
   - Fantastic
   speaker:
-  - ???
+  - 'Elder '
   - ???
   - ???
   Display_Name: {fileID: 1367278584}
