@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class DisplayCooldowns : MonoBehaviour
 {
     public Text Skill_Timer, Dash_Timer, Ultimate_Timer, Swap_Timer;
-    public Slider Skill_Slider, Dash_Slider, Ultimate_Slider;
+    public Slider Skill_Slider, Dash_Slider, Ultimate_Slider, Swap_Slider;
     public RawImage Skill_Obj1, Skill_Obj2;
     public RawImage Dash_Obj1, Dash_Obj2;
     public RawImage Ult_Obj1, Ult_Obj2;
-    public RawImage Skill_Slider_Color, Dash_Slider_Color, Ultimate_Slider_Color;
+    public RawImage Skill_Slider_Color, Dash_Slider_Color, Ultimate_Slider_Color, Swap_Slider_Color;
     public Texture2D Gong_Skill, Fire_Skill, Gong_Dash, Fire_Dash, Gong_Ult, Fire_Ult;
     public bool testing_mode = false;
     // Start is called before the first frame update
@@ -165,20 +165,37 @@ public class DisplayCooldowns : MonoBehaviour
 
         if (pcm.Swap_Available)
         {
-            Swap_Timer.color = Color.green;
             if (pcm.Melee_Open)
             {
-                Swap_Timer.text = "Swap to Fireworks with E!";
+                Swap_Slider_Color.color = Color.red;
             }
             else
             {
-                Swap_Timer.text = "Swap to Melee with E!";
+                Swap_Slider_Color.color = Color.green;
+            }
+            if (testing_mode)
+            {
+                Swap_Timer.color = Color.green;
+                if (pcm.Melee_Open)
+                {
+                    Swap_Timer.text = "Swap to Fireworks with E!";
+                }
+                else
+                {
+                    Swap_Timer.text = "Swap to Melee with E!";
+                }
             }
         }
         else
         {
-            Swap_Timer.text = "Time to Next Swap: " + (pcm.Swap_Cooldown_Max - pcm.Swap_Cooldown_timer).ToString("F2");
-            Swap_Timer.color = Color.yellow;
+            Swap_Slider.value = pcm.Swap_Cooldown_timer;
+            Swap_Slider.maxValue = pcm.Swap_Cooldown_Max;
+            Swap_Slider_Color.color = Color.cyan;
+            if (testing_mode)
+            {
+                Swap_Timer.text = "Time to Next Swap: " + (pcm.Swap_Cooldown_Max - pcm.Swap_Cooldown_timer).ToString("F2");
+                Swap_Timer.color = Color.yellow;
+            }
         }
     }
 }
