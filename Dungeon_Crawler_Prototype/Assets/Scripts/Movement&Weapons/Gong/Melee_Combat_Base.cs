@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Melee_Combat_Base : MonoBehaviour
 {
+    public GameObject Model;
     public Player_Cooldown_Master pcm;
     private Player_Movement pm;
     private Rigidbody rb;
@@ -54,6 +55,7 @@ public class Melee_Combat_Base : MonoBehaviour
     [SerializeField] float Dash_Time;
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;
+    public string DashAnimName;
     public bool Dashing;
     public bool Dash_Available;
     //Melee Dash
@@ -65,9 +67,11 @@ public class Melee_Combat_Base : MonoBehaviour
     public float dash_winddown_max;
     private float dash_winddown_timer;
     private bool dash_winddown;
+    private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
+        animator = Model.GetComponent<Animator>();
         pm = GetComponent<Player_Movement>();
         rb = GetComponent<Rigidbody>();
         pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+
 //using UnityEngine.InputSystem;
 
 public class Player_Movement : MonoBehaviour
 {
+    public GameObject Model;
     public bool Paused;
     public float Speed;
     [SerializeField] float Dash_Time;
@@ -15,14 +18,21 @@ public class Player_Movement : MonoBehaviour
     public Rigidbody rb;
     public bool slowed;
     public float slow_reduction;
+    public string RunName;
+    public string IdleName;
     private Health health_hub;
 
-
+    private Animator animator;
     private bool stunned = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = Model.GetComponent<Animator>();
+        if (animator == null)
+        {
+            UnityEngine.Debug.LogError("Animator Failed");
+        }
         rb = GetComponent<Rigidbody>();
         health_hub = GetComponent<Health>();
     }
@@ -32,6 +42,7 @@ public class Player_Movement : MonoBehaviour
     {
         if (Paused == false)
         {
+            
             float horiInput = Input.GetAxisRaw("Horizontal");
             float vertInput = Input.GetAxisRaw("Vertical");
 
@@ -42,6 +53,7 @@ public class Player_Movement : MonoBehaviour
                 transform.LookAt(transform.position + vec, Vector3.up);
                 if (vec.magnitude != 0)
                 {
+                    animator.Play(RunName);
                     rb.velocity = transform.forward * Speed;
                     if (slowed)
                     {
@@ -52,9 +64,11 @@ public class Player_Movement : MonoBehaviour
                 else
                 {
                     rb.velocity = new Vector3(0f, 0f, 0f);
+                    animator.Play(IdleName);
                 }
             }
         }
+        
     }
 
     void Update()
