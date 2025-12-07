@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Melee_Combat_Base : MonoBehaviour
@@ -13,6 +14,7 @@ public class Melee_Combat_Base : MonoBehaviour
     public float[] cooldowns;
     private float timer;
     public float reset_cooldown = 0.5f;
+    public string BasicAttackAnimName;
     private bool firing;
     //Basic Shift
     public float shift_speed;
@@ -22,6 +24,7 @@ public class Melee_Combat_Base : MonoBehaviour
     //Charge Attack
     private bool c_firing;
     public GameObject Charged_Ammo_Type;
+    public string ChargeAttackAnimName;
     public float charge_timer_max;
     private float charge_timer;
     private bool charged;
@@ -33,6 +36,7 @@ public class Melee_Combat_Base : MonoBehaviour
     private float c_shift_timer;
     private bool c_shifting;
     //Skill
+    public string SkillAnimName;
     public float skill_cooldown;
     public float skill_timer;
     public bool skill_available;
@@ -45,6 +49,7 @@ public class Melee_Combat_Base : MonoBehaviour
     public float skill_duration;
     private float skill_duration_timer;
     //Ultimate
+    public string UltimateAnimName;
     public float Bounty_Points;
     public float ultimate_cooldown;
     public float ultimate_timer;
@@ -72,6 +77,10 @@ public class Melee_Combat_Base : MonoBehaviour
     void Start()
     {
         animator = Model.GetComponent<Animator>();
+        if (animator == null)
+        {
+            UnityEngine.Debug.LogError("Animator Failed");
+        }
         pm = GetComponent<Player_Movement>();
         rb = GetComponent<Rigidbody>();
         pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
@@ -176,7 +185,6 @@ public class Melee_Combat_Base : MonoBehaviour
                     dir = hit.point;// - transform.position;
                 }
 
-                Debug.DrawLine(transform.position, dir);
             }
             //Skill Fire
             if ((Input.GetButtonUp("Fire2")) && (pcm.Melee_Skill_Available) && (pm.Locked == false))
@@ -240,6 +248,7 @@ public class Melee_Combat_Base : MonoBehaviour
     }
     private void Basic_Shot_Start()
     {
+        animator.Play(BasicAttackAnimName);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
         if (Physics.Raycast(ray, out RaycastHit hit, 30f))
@@ -277,6 +286,7 @@ public class Melee_Combat_Base : MonoBehaviour
 
     private void Charged_Shot_Start()
     {
+        animator.Play(ChargeAttackAnimName);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
         if (Physics.Raycast(ray, out RaycastHit hit, 30f))
@@ -319,6 +329,7 @@ public class Melee_Combat_Base : MonoBehaviour
 
     private void Dash_Start()
     {
+        animator.Play(DashAnimName);
         Vector3 pos = transform.position + transform.forward;
         cur_Shield = Instantiate(Shield, pos, transform.rotation);
         cur_Shield.transform.parent = transform;
@@ -363,6 +374,7 @@ public class Melee_Combat_Base : MonoBehaviour
 
     private void Skill_Start()
     {
+        animator.Play(SkillAnimName);
         pm.rb.velocity = new Vector3(0f, 0f, 0f);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
@@ -375,7 +387,6 @@ public class Melee_Combat_Base : MonoBehaviour
         LayerMask lm = LayerMask.GetMask("Wall");
         transform.LookAt(target_pos, Vector3.up);
         RaycastHit rayhit;
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * jump_dist, Color.blue, 4.0f);
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out rayhit, jump_dist))
         {
@@ -416,6 +427,7 @@ public class Melee_Combat_Base : MonoBehaviour
 
     private void Ultimate_Start()
     {
+        animator.Play(UltimateAnimName);
         ultimate_timer = 0f;
         ultimate_available = false;
         pcm.Melee_Ultimate_Available = false;

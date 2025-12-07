@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113ce551e17a52949b161e3a5697ab53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Model: {fileID: 0}
+  Model: {fileID: 5803887080546496322}
   pcm: {fileID: 0}
   Ammo_Type: {fileID: 6279590967856197664, guid: 8a7b0096ca018244b97af839d473e995, type: 3}
   combo_count: 0
@@ -435,14 +435,17 @@ MonoBehaviour:
   - 0.4
   - 0.5
   reset_cooldown: 0.3
+  BasicAttackAnimName: MeleeAtk_Anim
   shift_speed: 6
   shift_timer_max: 0.05
   Charged_Ammo_Type: {fileID: 7113027274051445475, guid: 67975676fe687a044bdb9d3c8172a721, type: 3}
+  ChargeAttackAnimName: MeleeAtk_Anim
   charge_timer_max: 1
   charge_cooldown: 1
   charge_move_speed: 4
   c_shift_speed: 0
   c_shift_timer_max: 0
+  SkillAnimName: MeleeAtk_Anim
   skill_cooldown: 4
   skill_timer: 0
   skill_available: 0
@@ -450,6 +453,7 @@ MonoBehaviour:
   jump_time_max: 1
   Landing_Explosion: {fileID: 6156014973674770674, guid: 65510d9265a316b4295279952f5edd5a, type: 3}
   skill_duration: 0
+  UltimateAnimName: MeleeAtk_Anim
   Bounty_Points: 0
   ultimate_cooldown: 30
   ultimate_timer: 0
@@ -457,7 +461,7 @@ MonoBehaviour:
   Ultimate: {fileID: 2102911601427978849, guid: c5bc46605900f7040b8f53da6dedb124, type: 3}
   Dash_Time: 2
   Dash_Speed: 10
-  DashAnimName: 
+  DashAnimName: MeleeRun_Anim
   Dashing: 0
   Dash_Available: 0
   dash_cooldown: 0

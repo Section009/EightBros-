@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e326d8bea93da34eafbe148c0986ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Model: {fileID: 6356386888410891893}
   pcm: {fileID: 0}
   Ammo_Type: {fileID: 6156014973674770674, guid: f940e5a4acc06604a9109d4a75da61a0, type: 3}
   combo_count: 0
@@ -300,13 +301,16 @@ MonoBehaviour:
   - 0.2
   - 0.3
   reset_cooldown: 0.5
+  BasicAttackAnimName: MageRun_Anim
   shift_speed: 2
   shift_timer_max: 0.1
   Charged_Ammo_Type: {fileID: 6156014973674770674, guid: ff985b9d8444ba4408ffbfc7254eb474, type: 3}
+  ChargeAttackAnimName: MageRun_Anim
   charge_timer_max: 1
   charge_cooldown: 0.6
   c_shift_speed: -8
   c_shift_timer_max: 0.2
+  SkillAnimName: MageRun_Anim
   skill_cooldown: 6
   skill_timer: 6
   skill_available: 0
@@ -314,6 +318,7 @@ MonoBehaviour:
   big_missile: {fileID: 6156014973674770674, guid: 0311ae3c0ee5de14bb214da553c7549a, type: 3}
   skill_duration: 1.5
   bullet_cooldown: 0.1
+  UltimateAnimName: MageRun_Anim
   ultimate_cooldown: 30
   ultimate_timer: 30
   ultimate_available: 0
@@ -321,6 +326,7 @@ MonoBehaviour:
   Ultimate: {fileID: 6156014973674770674, guid: 44b7ab890309e2546964c27c01345dd1, type: 3}
   Dash_Time: 0.3
   Dash_Speed: 12
+  DashAnimName: MageRun_Anim
   Dashing: 0
   Dash_Available: 0
   dash_cooldown: 3

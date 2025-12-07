@@ -4629,7 +4629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8466258805582064089, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: IdleName
-      value: MeleeAtk_Anim
+      value: MeleeRun_Anim
       objectReference: {fileID: 0}
     - target: {fileID: 8534968522623152042, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_Avatar
@@ -4690,7 +4690,7 @@ PrefabInstance:
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: Model
       value: 
-      objectReference: {fileID: 1253629021}
+      objectReference: {fileID: 1757785303}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: Shield
       value: 
@@ -4758,6 +4758,10 @@ PrefabInstance:
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: ultimate_available
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+      propertyPath: BasicAttackAnimName
+      value: MeleeAtk_Anim
       objectReference: {fileID: 0}
     - target: {fileID: 8932691546984675816, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -11821,6 +11825,11 @@ Transform:
 --- !u!1 &1753724747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6847781616385754924, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
+  m_PrefabInstance: {fileID: 522620870}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1757785303 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803887080546496322, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
   m_PrefabInstance: {fileID: 522620870}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1759095424
