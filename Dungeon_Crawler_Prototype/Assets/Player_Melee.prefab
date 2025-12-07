@@ -410,8 +410,8 @@ MonoBehaviour:
   rb: {fileID: 0}
   slowed: 0
   slow_reduction: 3
-  RunName: 
-  IdleName: 
+  RunName: MERun
+  IdleName: MeAttack
 --- !u!114 &8891079816294479621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,17 +435,17 @@ MonoBehaviour:
   - 0.4
   - 0.5
   reset_cooldown: 0.3
-  BasicAttackAnimName: MeleeAtk_Anim
+  BasicAttackAnimName: MEAttack
   shift_speed: 6
   shift_timer_max: 0.05
   Charged_Ammo_Type: {fileID: 7113027274051445475, guid: 67975676fe687a044bdb9d3c8172a721, type: 3}
-  ChargeAttackAnimName: MeleeAtk_Anim
+  ChargeAttackAnimName: MEAttack
   charge_timer_max: 1
   charge_cooldown: 1
   charge_move_speed: 4
   c_shift_speed: 0
   c_shift_timer_max: 0
-  SkillAnimName: MeleeAtk_Anim
+  SkillAnimName: MEPounce
   skill_cooldown: 4
   skill_timer: 0
   skill_available: 0
@@ -453,7 +453,7 @@ MonoBehaviour:
   jump_time_max: 1
   Landing_Explosion: {fileID: 6156014973674770674, guid: 65510d9265a316b4295279952f5edd5a, type: 3}
   skill_duration: 0
-  UltimateAnimName: MeleeAtk_Anim
+  UltimateAnimName: MEAttack
   Bounty_Points: 0
   ultimate_cooldown: 30
   ultimate_timer: 0
@@ -461,7 +461,7 @@ MonoBehaviour:
   Ultimate: {fileID: 2102911601427978849, guid: c5bc46605900f7040b8f53da6dedb124, type: 3}
   Dash_Time: 2
   Dash_Speed: 10
-  DashAnimName: MeleeRun_Anim
+  DashAnimName: MERun
   Dashing: 0
   Dash_Available: 0
   dash_cooldown: 0
@@ -1087,7 +1087,7 @@ Animator:
   m_GameObject: {fileID: 5803887080546496322}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 920a4dbacf74702479cc2c4bb8ab8407, type: 2}
+  m_Controller: {fileID: 9100000, guid: e12bec5bae3ab77409bf33fb4262308f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
