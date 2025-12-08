@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: -118.5}
   m_SizeDelta: {x: 700, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &556880769
@@ -702,12 +702,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue:
   - ' I have a story to tell you, listener, from 2000 years in the past '
-  - 123, 123
-  - Fantastic
+  - Back then the land had more lifeforms than it does in the modern east.
+  - "There existed these creatures classified as \u5996\u602A (y\u0101ogu\xE0i)."
+  - These creatures are not necessarily always malevolent but most are.
+  - Even so, they will fight back if their peace, their homes are disrupted
+  - 'There lived in this region of the land, two daoist sisters. '
+  - One was named Poppy, the red sister.
+  - The other was named Hum, the green sister.
+  - "\u201CI\u2019ve spent a while crafting these fireworks sister!\u201D"
+  - "\u201CThey\u2019re pretty but I must say they cause a significant racket\u201D"
+  - "\u201CThe elder\u2019s going to be more impressed with the visual than the auditory.\u201D"
+  - "\u201CThe auditory is important Poppy.\u201D "
+  - "\u201CThe sound of this instrument here is used to signify a person of status.\u201D"
+  - " \u201CA sound more dignified than yours.\u201D"
+  - "\u201CMore dignified my foot, I get sick of hearing it each month\u201D"
+  - "\u201CAs dignified as a protector of a sanctuary!\u201D"
+  - "\u201CI bet protecting this sanctuary from y\u0101ogu\xE0i would be a duty suited
+    for me\u201D"
+  - "\u201CWith what weapons?\u201D "
+  - " \u201CWe can just make our own out of our celebration and ceremony instruments!\u201D"
+  - "\u201CThen tonight we will take to the dirt path to the mainland, and start
+    hunting!\u201D"
+  - "\u201CWhoever clears more of them gets to ask the elder!\""
+  - "\u201CIt\u2019s me that\u2019s going to clear all of them!\u201D"
+  - "\u201CYou can stay behind and watch, and let\u2019s not get in each other\u2019s
+    way.\u201D"
+  - "\u201CDeal!\u201D"
+  - "With that, as promised, the friendly game between the two began\u2026"
   speaker:
   - 'Elder '
-  - ???
-  - ???
+  - 'Elder '
+  - 'Elder '
+  - 'Elder '
+  - 'Elder '
+  - 'Elder '
+  - 'Elder '
+  - 'Elder '
+  - Poppy
+  - Hum
+  - Poppy
+  - Hum
+  - Hum
+  - Hum
+  - Poppy
+  - Hum
+  - Hum
+  - Poppy
+  - Hum
+  - Poppy
+  - Poppy
+  - Hum
+  - Hum
+  - Poppy
+  - Elder
   Display_Name: {fileID: 1367278584}
   Display_Text: {fileID: 665237456}
   NextLevel: Main_Menu
