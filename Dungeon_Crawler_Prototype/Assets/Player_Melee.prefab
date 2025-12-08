@@ -469,6 +469,8 @@ MonoBehaviour:
   DashAnimName: MEMobile
   Dashing: 0
   Dash_Available: 0
+  Dash_StartUp: 0.5
+  Dash_On: 0
   dash_cooldown: 0
   dash_cooldown_timer: 3
   teleport: 0

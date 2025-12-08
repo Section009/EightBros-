@@ -63,6 +63,9 @@ public class Melee_Combat_Base : MonoBehaviour
     public string DashAnimName;
     public bool Dashing;
     public bool Dash_Available;
+    public float Dash_StartUp;
+    private float Dash_StartUp_Timer;
+    public bool Dash_On;
     //Melee Dash
     public float dash_cooldown;
     public float dash_cooldown_timer;
@@ -111,7 +114,14 @@ public class Melee_Combat_Base : MonoBehaviour
             }
             if (Dashing)
             {
-                Dash_Active();
+                if (Dash_On)
+                {
+                    Dash_Active();
+                }
+                else
+                {
+                    Dash_WindUp();
+                }
                 Dash_Timer += Time.deltaTime;
                 if (Dash_Timer >= Dash_Time)
                 {
@@ -330,9 +340,19 @@ public class Melee_Combat_Base : MonoBehaviour
     private void Dash_Start()
     {
         animator.Play(DashAnimName);
-        Vector3 pos = transform.position + transform.forward;
-        cur_Shield = Instantiate(Shield, pos, transform.rotation);
-        cur_Shield.transform.parent = transform;
+    }
+    
+    private void Dash_WindUp()
+    {
+        Dash_StartUp_Timer += Time.deltaTime;
+        if (Dash_StartUp_Timer > Dash_StartUp)
+        {
+            Vector3 pos = transform.position + transform.forward;
+            cur_Shield = Instantiate(Shield, pos, transform.rotation);
+            cur_Shield.transform.parent = transform;
+            Dash_StartUp_Timer = 0f;
+            Dash_On = true;
+        }
     }
 
     private void Dash_Active()
@@ -352,6 +372,7 @@ public class Melee_Combat_Base : MonoBehaviour
         Destroy(cur_Shield);
         dash_winddown = true;
         Dash_Timer = 0;
+        Dash_On = false;
         Dash_Available = false;
         Dashing = false;
         dash_cooldown_timer = 0f;
