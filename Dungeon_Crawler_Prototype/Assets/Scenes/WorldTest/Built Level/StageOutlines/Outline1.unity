@@ -4712,16 +4712,8 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
-      propertyPath: jump_height
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: DashAnimName
       value: MEMobile
-      objectReference: {fileID: 0}
-    - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
-      propertyPath: jump_time_max
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: skill_cooldown

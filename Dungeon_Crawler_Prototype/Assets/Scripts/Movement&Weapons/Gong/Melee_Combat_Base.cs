@@ -41,6 +41,9 @@ public class Melee_Combat_Base : MonoBehaviour
     public float skill_timer;
     public bool skill_available;
     private bool skill_active;
+    public float Skill_StartUp;
+    private float Skill_StartUp_Timer;
+    public bool Skill_On;
     //Gong Skill
     public float jump_height;
     public float jump_time_max;
@@ -63,6 +66,9 @@ public class Melee_Combat_Base : MonoBehaviour
     public string DashAnimName;
     public bool Dashing;
     public bool Dash_Available;
+    public float Dash_StartUp;
+    private float Dash_StartUp_Timer;
+    public bool Dash_On;
     //Melee Dash
     public float dash_cooldown;
     public float dash_cooldown_timer;
@@ -111,7 +117,14 @@ public class Melee_Combat_Base : MonoBehaviour
             }
             if (Dashing)
             {
-                Dash_Active();
+                if (Dash_On)
+                {
+                    Dash_Active();
+                }
+                else
+                {
+                    Dash_WindUp();
+                }
                 Dash_Timer += Time.deltaTime;
                 if (Dash_Timer >= Dash_Time)
                 {
@@ -169,7 +182,14 @@ public class Melee_Combat_Base : MonoBehaviour
             {
                 if (skill_active)
                 {
-                    Skill_Active();
+                    if (Skill_On)
+                    {
+                        Skill_Active();
+                    }
+                    else
+                    {
+                        Skill_WindUp();
+                    }
                 }
             }
             if ((Input.GetButton("Fire3") && (pcm.Melee_Ultimate_Available) && (pm.Locked == false)))
@@ -330,9 +350,19 @@ public class Melee_Combat_Base : MonoBehaviour
     private void Dash_Start()
     {
         animator.Play(DashAnimName);
-        Vector3 pos = transform.position + transform.forward;
-        cur_Shield = Instantiate(Shield, pos, transform.rotation);
-        cur_Shield.transform.parent = transform;
+    }
+    
+    private void Dash_WindUp()
+    {
+        Dash_StartUp_Timer += Time.deltaTime;
+        if (Dash_StartUp_Timer > Dash_StartUp)
+        {
+            Vector3 pos = transform.position + transform.forward;
+            cur_Shield = Instantiate(Shield, pos, transform.rotation);
+            cur_Shield.transform.parent = transform;
+            Dash_StartUp_Timer = 0f;
+            Dash_On = true;
+        }
     }
 
     private void Dash_Active()
@@ -352,6 +382,7 @@ public class Melee_Combat_Base : MonoBehaviour
         Destroy(cur_Shield);
         dash_winddown = true;
         Dash_Timer = 0;
+        Dash_On = false;
         Dash_Available = false;
         Dashing = false;
         dash_cooldown_timer = 0f;
@@ -397,6 +428,7 @@ public class Melee_Combat_Base : MonoBehaviour
         {
             skill_active = true;
 
+            /*
             float vy = -((-9.81f) * jump_time_max / 2);
             float vx = jump_dist / jump_time_max;
 
@@ -404,6 +436,37 @@ public class Melee_Combat_Base : MonoBehaviour
             float normForward = vx / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
             Vector3 forwardVec = transform.forward * vx;
             pm.rb.AddForce((new Vector3(0f, vy, 0f) + forwardVec), ForceMode.VelocityChange);
+            */
+            
+        }
+    }
+    private void Skill_WindUp()
+    {
+        Skill_StartUp_Timer += Time.deltaTime;
+        if (Skill_StartUp_Timer > Skill_StartUp)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 dir = new Vector3();
+            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+            {
+                dir = hit.point;// - transform.position;
+            }
+            Vector3 target_pos = new Vector3(dir.x, transform.position.y, dir.z);
+            jump_dist = Vector3.Distance(target_pos, transform.position);
+            LayerMask lm = LayerMask.GetMask("Wall");
+            transform.LookAt(target_pos, Vector3.up);
+            RaycastHit rayhit;
+
+            float vy = -((-9.81f) * jump_time_max / 2);
+            float vx = jump_dist / jump_time_max;
+
+            float normUp = vy / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
+            float normForward = vx / Mathf.Sqrt(Mathf.Pow(vy, 2) + Mathf.Pow(vx, 2));
+            Vector3 forwardVec = transform.forward * vx;
+            pm.rb.AddForce((new Vector3(0f, vy, 0f) + forwardVec), ForceMode.VelocityChange);
+
+            Skill_StartUp_Timer = 0f;
+            Skill_On = true;
         }
     }
 
@@ -420,6 +483,7 @@ public class Melee_Combat_Base : MonoBehaviour
             skill_duration_timer = 0f;
             pm.Locked = false;
             skill_timer = 0f;
+            Skill_On = false;
             pcm.Melee_Skill_Available = false;
             pcm.Melee_Skill_Cooldown_timer = 0f;
         }
