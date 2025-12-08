@@ -461,7 +461,7 @@ MonoBehaviour:
   Ultimate: {fileID: 2102911601427978849, guid: c5bc46605900f7040b8f53da6dedb124, type: 3}
   Dash_Time: 2
   Dash_Speed: 10
-  DashAnimName: MeMobile
+  DashAnimName: MEMobile
   Dashing: 0
   Dash_Available: 0
   dash_cooldown: 0

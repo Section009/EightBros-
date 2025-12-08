@@ -20,6 +20,8 @@ public class Player_Movement : MonoBehaviour
     public float slow_reduction;
     public string RunName;
     public string IdleName;
+    public string IdleAnimName;
+    public string HitName;
     private Health health_hub;
 
     private Animator animator;
