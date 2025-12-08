@@ -20,7 +20,8 @@ public class Special_Starter_Shot : MonoBehaviour
     void FixedUpdate()
     {
         life_timer += Time.deltaTime;
-        transform.position += new Vector3(0f, 1f, 0f) * speed * Time.deltaTime;
+        print(transform.forward);
+        transform.position += transform.up * speed * Time.deltaTime;
         if (life_timer >= life_time)
         {
             Instantiate(Explosion, transform.position, Quaternion.identity);

@@ -55,7 +55,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6279590967856197664}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -173,6 +173,9 @@ MonoBehaviour:
   destroyOnHit: 0
   damageOverTime: 0
   secsPerTick: 0.2
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
   validTags:
   - Enemy
   hitCooldownSeconds: 0.05
@@ -331,6 +334,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2af45e7e3da7f734ea8593affc3ab5f5, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2af45e7e3da7f734ea8593affc3ab5f5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2af45e7e3da7f734ea8593affc3ab5f5, type: 3}
       propertyPath: m_Name

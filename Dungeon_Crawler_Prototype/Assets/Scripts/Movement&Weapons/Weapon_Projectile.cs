@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon_Projectile : MonoBehaviour
 {
+    public GameObject Model;
     public Player_Cooldown_Master pcm;
     private Player_Movement pm;
     private Rigidbody rb;
@@ -12,6 +13,7 @@ public class Weapon_Projectile : MonoBehaviour
     public float[] cooldowns;
     private float timer;
     public float reset_cooldown = 0.5f;
+    public string BasicAttackAnimName;
     private bool firing;
     //Basic Shift
     public float shift_speed;
@@ -21,6 +23,7 @@ public class Weapon_Projectile : MonoBehaviour
     //Charge Attack
     private bool c_firing;
     public GameObject Charged_Ammo_Type;
+    public string ChargeAttackAnimName;
     public float charge_timer_max;
     private float charge_timer;
     private bool charged;
@@ -31,6 +34,7 @@ public class Weapon_Projectile : MonoBehaviour
     private float c_shift_timer;
     private bool c_shifting;
     //Skill
+    public string SkillAnimName;
     public float skill_cooldown;
     public float skill_timer;
     public bool skill_available;
@@ -43,6 +47,7 @@ public class Weapon_Projectile : MonoBehaviour
     public float bullet_cooldown;
     private float bullet_timer;
     //Ultimate
+    public string UltimateAnimName;
     public float ultimate_cooldown;
     public float ultimate_timer;
     public bool ultimate_available;
@@ -54,6 +59,7 @@ public class Weapon_Projectile : MonoBehaviour
     [SerializeField] float Dash_Time;
     [SerializeField] float Dash_Speed;
     private float Dash_Timer;
+    public string DashAnimName;
     public bool Dashing;
     public bool Dash_Available;
     //Mage Dash
@@ -61,9 +67,15 @@ public class Weapon_Projectile : MonoBehaviour
     public float dash_cooldown_timer;
     public bool teleport;
     public GameObject Explosion;
+    private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
+        animator = Model.GetComponent<Animator>();
+        if (animator == null)
+        {
+            UnityEngine.Debug.LogError("Animator Failed");
+        }
         pm = GetComponent<Player_Movement>();
         rb = GetComponent<Rigidbody>();
         pcm = GameObject.FindGameObjectWithTag("Cooldown_Tracker").GetComponent<Player_Cooldown_Master>();
@@ -180,6 +192,7 @@ public class Weapon_Projectile : MonoBehaviour
             //Charge Fire
             if ((Input.GetButtonUp("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
             {
+                animator.Play(ChargeAttackAnimName);
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 Vector3 dir = new Vector3();
                 if (Physics.Raycast(ray, out RaycastHit hit, 30f))
@@ -204,6 +217,7 @@ public class Weapon_Projectile : MonoBehaviour
             //Standard Fire
             if ((Input.GetButtonDown("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
             {
+                animator.Play(BasicAttackAnimName);
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 Vector3 dir = new Vector3();
                 if (Physics.Raycast(ray, out RaycastHit hit, 30f))
@@ -263,6 +277,7 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Skill_Start()
     {
+        animator.Play(SkillAnimName);
         pm.rb.velocity = new Vector3(0f, 0f, 0f);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
@@ -319,6 +334,7 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Dash_Start()
     {
+        animator.Play(DashAnimName);
         Set_Player_Visible(false);
     }
 
@@ -347,6 +363,7 @@ public class Weapon_Projectile : MonoBehaviour
         pcm.Firework_Ultimate_Cooldown_timer = 0f;
         pcm.Firework_Ultimate_Available = false;
         */
+        animator.Play(UltimateAnimName);
         pm.Speed *= 2;
         ultimate_active = true;
         Instantiate(Ultimate, transform.position, Quaternion.identity);
