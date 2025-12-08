@@ -4625,11 +4625,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8466258805582064089, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: RunName
-      value: MeleeRun_Anim
+      value: MERun
       objectReference: {fileID: 0}
     - target: {fileID: 8466258805582064089, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: IdleName
-      value: MeleeRun_Anim
+      value: MEStand
       objectReference: {fileID: 0}
     - target: {fileID: 8534968522623152042, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_Avatar
@@ -4717,7 +4717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: DashAnimName
-      value: MeleeRun_Anim
+      value: MeMobile
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: jump_time_max
@@ -4729,7 +4729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: charge_cooldown
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: charge_timer_max
@@ -4761,7 +4761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: BasicAttackAnimName
-      value: MeleeAtk_Anim
+      value: MEAttack
       objectReference: {fileID: 0}
     - target: {fileID: 8932691546984675816, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
