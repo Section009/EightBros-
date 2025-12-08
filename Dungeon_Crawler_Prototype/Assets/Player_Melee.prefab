@@ -454,8 +454,10 @@ MonoBehaviour:
   skill_cooldown: 4
   skill_timer: 0
   skill_available: 0
-  jump_height: 4
-  jump_time_max: 1
+  Skill_StartUp: 0.5
+  Skill_On: 0
+  jump_height: 0.5
+  jump_time_max: 0.7
   Landing_Explosion: {fileID: 6156014973674770674, guid: 65510d9265a316b4295279952f5edd5a, type: 3}
   skill_duration: 0
   UltimateAnimName: MEAttack
