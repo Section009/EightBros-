@@ -4761,7 +4761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891079816294479621, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: BasicAttackAnimName
-      value: MEAttack
+      value: MESpin
       objectReference: {fileID: 0}
     - target: {fileID: 8932691546984675816, guid: 62eab80fa17932f4dac99028b1cfb765, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

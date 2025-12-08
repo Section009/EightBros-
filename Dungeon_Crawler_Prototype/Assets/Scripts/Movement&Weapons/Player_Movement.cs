@@ -94,7 +94,7 @@ public class Player_Movement : MonoBehaviour
                     hit = false;
                 }
             }
-            else
+            else if (Locked == false && stunned == false)
             {
                 if (moving)
                 {
