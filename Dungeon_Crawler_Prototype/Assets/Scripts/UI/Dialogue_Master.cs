@@ -11,6 +11,7 @@ public class Dialogue_Master : MonoBehaviour
     public string[] speaker;
     public Text Display_Name;
     public Text Display_Text;
+    public RawImage Text_Border;
     private int cur_num = 0;
     public string NextLevel;
     public UnityEvent[] Dialogue_Events;
@@ -34,7 +35,24 @@ public class Dialogue_Master : MonoBehaviour
         {
             Display_Text.text = dialogue[cur_num];
             Display_Name.text = speaker[cur_num];
+            if (Display_Name.text == "Poppy")
+            {
+                Texture2D newTexture = Resources.Load<Texture2D>("SpeechRd");
+                Text_Border.texture = newTexture;
+            }
+            if (Display_Name.text == "Elder")
+            {
+                Texture2D newTexture = Resources.Load<Texture2D>("SpeechYlw");
+                Text_Border.texture = newTexture;
+            }
+            
+            if (Display_Name.text == "Hum")
+            {
+                Texture2D newTexture = Resources.Load<Texture2D>("SpeechGrn");
+                Text_Border.texture = newTexture;
+            }
             Dialogue_Events[cur_num]?.Invoke();
         }
+        
     }
 }
