@@ -17378,7 +17378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
       propertyPath: Swap_Available
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
       propertyPath: Swap_Cooldown_Max
@@ -17394,7 +17394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6122971948063012688, guid: 7a4c3bdb6f81b1b4ba234b256996c0fd, type: 3}
       propertyPath: Firework_Ultimate_Available
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
