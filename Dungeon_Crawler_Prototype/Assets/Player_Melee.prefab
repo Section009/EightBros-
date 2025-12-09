@@ -446,8 +446,10 @@ MonoBehaviour:
   Charged_Ammo_Type: {fileID: 7113027274051445475, guid: 67975676fe687a044bdb9d3c8172a721, type: 3}
   ChargeAttackAnimName: MESpin
   charge_timer_max: 1
-  charge_cooldown: 1
+  charge_cooldown: 2.5
   charge_move_speed: 4
+  Charge_StartUp: 0.5
+  Charge_On: 0
   c_shift_speed: 0
   c_shift_timer_max: 0
   SkillAnimName: MEPounce

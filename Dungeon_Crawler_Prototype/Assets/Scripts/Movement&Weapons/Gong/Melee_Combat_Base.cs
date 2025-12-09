@@ -30,6 +30,10 @@ public class Melee_Combat_Base : MonoBehaviour
     private bool charged;
     public float charge_cooldown;
     public float charge_move_speed;
+    private bool charge_active;
+    public float Charge_StartUp;
+    private float Charge_StartUp_Timer;
+    public bool Charge_On;
     //Charge Shift
     public float c_shift_speed;
     public float c_shift_timer_max;
@@ -227,14 +231,23 @@ public class Melee_Combat_Base : MonoBehaviour
             }
             if (c_firing == true)
             {
-                Charged_Shot_Active();
-                timer += Time.deltaTime;
-                if (timer >= charge_cooldown)
+                if (Charge_On)
                 {
-                    pm.Locked = false;
-                    c_firing = false;
-                    timer = 0f;
+                    Charged_Shot_Active();
+                    timer += Time.deltaTime;
+                    if (timer >= charge_cooldown)
+                    {
+                        pm.Locked = false;
+                        c_firing = false;
+                        timer = 0f;
+                        Charge_On = false;
+                    }
                 }
+                else
+                {
+                    Charged_Shot_Windup();
+                }
+                
             }
             //basic cooldown
             if (firing == true)
@@ -315,17 +328,41 @@ public class Melee_Combat_Base : MonoBehaviour
         }
         if (charged)
         {
+            /*
             GameObject go = Instantiate(Charged_Ammo_Type, transform.position, Quaternion.identity);
             go.transform.parent = transform;
             Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
             transform.LookAt(target, Vector3.up);
             c_shifting = true;
             print("Charge_Shot");
+            */
             c_firing = true;
             pm.Locked = true;
             timer = 0f;
             charge_timer = 0f;
             charged = false;
+            
+        }
+    }
+
+    private void Charged_Shot_Windup()
+    {
+        Charge_StartUp_Timer += Time.deltaTime;
+        if (Charge_StartUp_Timer > Charge_StartUp)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 dir = new Vector3();
+            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+            {
+                dir = hit.point;// - transform.position;
+            }
+            Charge_On = true;
+            GameObject go = Instantiate(Charged_Ammo_Type, transform.position, Quaternion.identity);
+            go.transform.parent = transform;
+            Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
+            transform.LookAt(target, Vector3.up);
+            c_shifting = true;
+            print("Charge_Shot");
         }
     }
     
