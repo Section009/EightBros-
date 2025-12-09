@@ -411,6 +411,7 @@ GameObject:
   - component: {fileID: 1679976790481271035}
   - component: {fileID: 1563263286990380428}
   - component: {fileID: 453555163602917600}
+  - component: {fileID: 8364542412503563124}
   m_Layer: 0
   m_Name: Bug
   m_TagString: Enemy
@@ -703,6 +704,19 @@ MonoBehaviour:
   onSegmentsChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8364542412503563124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8820118294494672627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882dd8074765c2c47be1851902f5f88f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minInterval: 0.05
 --- !u!1001 &5793292458060716198
 PrefabInstance:
   m_ObjectHideFlags: 0

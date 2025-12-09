@@ -567,6 +567,12 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         Gizmos.color = new Color(0f, 0.8f, 1f, 0.2f);
         Gizmos.DrawWireSphere(transform.position, markShootRange);
     }
+    public void NotifyDamaged(float duration = -1f)
+    {
+    if (!enableDamageAggro) return;
+    if (duration <= 0f) duration = damageAggroTimeout;
+    aggroTimer = Mathf.Max(aggroTimer, duration);
+    }
 }
 
 #region --- Minimal helper kept in this file ---

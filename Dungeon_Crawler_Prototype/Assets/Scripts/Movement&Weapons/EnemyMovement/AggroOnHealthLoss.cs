@@ -1,59 +1,75 @@
 using UnityEngine;
 
+/// <summary>
+/// Universal damage-to-aggro bridge for ALL enemies.
+/// Attach this to every enemy. It watches Health/FourHitHealth and,
+/// when a decrease is detected, calls the enemy's NotifyDamaged/NotifyAggro entry.
+/// </summary>
 [DisallowMultipleComponent]
 public class AggroOnHealthLoss : MonoBehaviour
 {
-    [Header("Links")]
-    public EnemyLatchAI latchAI;          // 可为空，Start里自动取
-
     [Header("Debounce")]
-    [Tooltip("两次激怒之间的最短间隔（秒）")]
+    [Tooltip("Minimum interval between two aggro triggers (sec).")]
     public float minInterval = 0.05f;
 
-    // 支持这两种生命脚本
-    private Health hp;                    // 数值 HP
-    private FourHitHealth four;           // 四次命中式
+    // Health backends
+    private Health hp;                    // numeric HP
+    private FourHitHealth four;           // 4-hit segmented HP
 
-    // 上次观测值
+    // last observed
     private int lastHp = int.MinValue;
     private int lastFour = int.MinValue;
 
+    // cached enemy scripts (any may be null)
+    private EnemyAI melee1;
+    private Enemy_Funglimate funglimate;
+    private EnemyAssassinPouncerAI assassin;
+
     private float lastTriggerTime = -999f;
 
-    void Start()
+    void Awake()
     {
-        if (!latchAI) latchAI = GetComponent<EnemyLatchAI>();
-
         hp   = GetComponent<Health>();
         four = GetComponent<FourHitHealth>();
 
+        melee1     = GetComponent<EnemyAI>();
+        funglimate = GetComponent<Enemy_Funglimate>();
+        assassin   = GetComponent<EnemyAssassinPouncerAI>();
+    }
+
+    void Start()
+    {
         if (hp)   lastHp   = hp.currentHealth;
         if (four) lastFour = four.GetState().current;
     }
 
     void Update()
     {
-        bool lost = false;
+        bool tookDamage = false;
 
         if (hp)
         {
             if (lastHp == int.MinValue) lastHp = hp.currentHealth;
-            else if (hp.currentHealth < lastHp) { lost = true; lastHp = hp.currentHealth; }
+            else if (hp.currentHealth < lastHp) { tookDamage = true; lastHp = hp.currentHealth; }
             else if (hp.currentHealth > lastHp) { lastHp = hp.currentHealth; }
         }
 
         if (four)
         {
-            var cur = four.GetState().current;
+            int cur = four.GetState().current;
             if (lastFour == int.MinValue) lastFour = cur;
-            else if (cur < lastFour) { lost = true; lastFour = cur; }
+            else if (cur < lastFour) { tookDamage = true; lastFour = cur; }
             else if (cur > lastFour) { lastFour = cur; }
         }
 
-        if (lost && Time.time - lastTriggerTime >= minInterval)
+        if (tookDamage && Time.time - lastTriggerTime >= minInterval)
         {
             lastTriggerTime = Time.time;
-            if (latchAI) latchAI.NotifyAggro();
+
+            // fan-out call; only the present component will respond
+            if (melee1 != null) melee1.NotifyDamaged();
+            if (funglimate != null) funglimate.NotifyDamaged();
+            if (assassin != null) assassin.NotifyDamaged();
             // Debug.Log($"[AggroOnHealthLoss] {name} took damage -> aggro");
         }
     }
