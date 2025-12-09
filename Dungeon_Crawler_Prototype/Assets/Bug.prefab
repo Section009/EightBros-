@@ -665,7 +665,7 @@ MonoBehaviour:
   behindOffset: 0.9
   latchFollowLerp: 12
   latchLeaveSpeed: 16
-  latchLeaveDistance: 10
+  latchLeaveDistance: 15
   latchHeavyDamage: 30
   playerReMarkLockout: 3
   invulnerableWhileLatched: 1
@@ -683,6 +683,25 @@ MonoBehaviour:
   onShootMark:
     m_PersistentCalls:
       m_Calls: []
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  latchProbeRadius: 0.4
+  latchNavProbe: 1
+  latchSafetyBackoff: 0.15
+  sideFallbackOffset: 0.8
+  maxSafeFailFrames: 6
+  solidMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  playerTagPass: Player
+  enemyTagPass: Enemy
+  bodyRadius: 0.35
+  bodyHeight: 1.8
+  surfaceInset: 0.02
+  leaveMaxTime: 1.5
+  stopWhenHitSolid: 1
+  navProbe: 0.8
 --- !u!114 &453555163602917600
 MonoBehaviour:
   m_ObjectHideFlags: 0

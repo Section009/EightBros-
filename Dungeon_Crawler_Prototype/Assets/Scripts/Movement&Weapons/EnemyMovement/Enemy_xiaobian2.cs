@@ -4,16 +4,22 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 
 /// <summary>
-/// Xiao Bian (3rd enemy, no self-heal & no dodge version)
-/// - Shoots a Mark projectile at range (applies StatusReceiver.Mark()).
-/// - On close engage, randomly choose one pattern:
-///     A) Short pause ("lick") then leave fast (optional small damage).
-///     B) Latch behind player for a short duration, consume Mark
-///        (StatusReceiver.ConsumeMarkAndLock), deal heavy damage, then leave fast.
-/// - Player cannot be marked again for X seconds after consumption (handled by StatusReceiver).
-/// - Only one Xiao Bian can be latched at any time (global token).
-/// - Optional invulnerability during latch by using your existing InvulnerabilityToggle.
-/// - Supports both Health (numeric) and FourHitHealth (segmented).
+/// EnemyAssassinPouncerAI  (a.k.a. "Xiao Bian")
+/// - Ranged: fires a "mark" projectile (applies StatusReceiver.Mark()) when player is in range & LOS.
+/// - Melee engage: upon getting close enough, randomly chooses:
+///     A) Short pause near the player, optionally deal small tap damage, then leave quickly.
+///     B) Latch behind the player for a short duration; on latch start, if player is marked:
+///        deal heavy damage and call StatusReceiver.ConsumeMarkAndLock(). Then leave quickly.
+/// - Safe latch: each frame finds a safe behind-spot using wall rayback + NavMesh projection + side fallbacks.
+///   If no safe spot is found for several frames, abort latch early to avoid getting stuck in walls.
+/// - Leave burst: manual, collision-aware movement with CapsuleCast and NavMesh checks:
+///     * moves away from the player with small randomness;
+///     * if would hit a solid (non-player/non-enemy), stops immediately at the contact;
+///     * if a step would leave the NavMesh, tries sliding along the wall; if still invalid, aborts.
+/// - Global latch token: only one instance may be latched at a time.
+/// - Optional invulnerability during latch if an InvulnerabilityToggle component exists on this enemy.
+/// - Damage aggro: external scripts may call NotifyDamaged() to extend the chase timer.
+/// - Supports both Health (numeric HP) and FourHitHealth (4-segment HP).
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAssassinPouncerAI : MonoBehaviour
@@ -21,97 +27,193 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     // ---------------- Target ----------------
     [Header("Target")]
     public string playerTag = "Player";
-    Transform player;
+    private Transform player;
 
-    // ---------------- Range shooting (Mark) ----------------
-    [Header("Mark Shooting (Licky Licky)")]
-    [Tooltip("Start shooting if player within this range AND line-of-sight.")]
+    // ---------------- Ranged mark shooting ----------------
+    [Header("Mark Shooting")]
+    [Tooltip("Start shooting if player is within this range AND (optionally) in line of sight.")]
     public float markShootRange = 18f;
-    [Tooltip("Seconds between two shots.")]
+
+    [Tooltip("Seconds between two shots (random in range).")]
     public Vector2 shootCooldownRange = new Vector2(1.2f, 1.8f);
-    [Tooltip("Projectile prefab; if null a builtin simple mark projectile is used.")]
+
+    [Tooltip("Projectile prefab; if null a minimal builtin mark projectile will be created.")]
     public GameObject markProjectilePrefab;
-    [Tooltip("Projectile speed.")]
+
+    [Tooltip("Projectile initial speed.")]
     public float projectileSpeed = 22f;
-    [Tooltip("Projectile lifetime (sec).")]
+
+    [Tooltip("Projectile lifetime in seconds.")]
     public float projectileLife = 5f;
-    [Tooltip("Fire slight random yaw/pitch (deg).")]
+
+    [Tooltip("Random yaw/pitch spread in degrees when firing.")]
     public float fireSpreadDeg = 2f;
-    [Tooltip("Where to spawn the projectile; default = self transform.")]
+
+    [Tooltip("Optional muzzle transform for spawning the projectile; defaults to this.transform.")]
     public Transform shootMuzzle;
 
-    float _shootCooldown;
+    private float _shootCooldown;
 
-    // ---------------- Approach / engage ----------------
-    [Header("Approach (agent-based)")]
-    public float engageDistance = 2.0f;         // trigger attack pattern threshold (very close)
-    public float approachStopDistance = 1.6f;   // nav stopping distance while chasing
+    // ---------------- Approach (NavMeshAgent) ----------------
+    [Header("Approach (Agent)")]
+    [Tooltip("Distance threshold for switching from chase to engage (attack patterns).")]
+    public float engageDistance = 2.0f;
+
+    [Tooltip("Agent stopping distance while approaching.")]
+    public float approachStopDistance = 1.6f;
+
+    [Tooltip("Agent move speed while approaching.")]
     public float approachSpeed = 12f;
+
+    [Tooltip("How often we repath while approaching (sec).")]
     public float approachRepathInterval = 0.1f;
 
-    [Header("Vision/LOS used for shooting")]
+    [Header("Vision/LOS for Shooting")]
+    [Tooltip("If true, requires a clear line of sight to fire.")]
     public bool requireLineOfSightForShoot = true;
+
+    [Tooltip("Layers that block LOS tests. Typically include walls/geometry but exclude the enemy itself.")]
     public LayerMask losBlockMask = ~0;
 
-    // ---------------- Attack move patterns ----------------
-    [Header("Attack Move Patterns (choose at engage)")]
-    [Range(0f, 1f)] public float latchPatternProbability = 0.5f; // Pattern B probability
+    // ---------------- Patterns ----------------
+    [Header("Attack Pattern Selection")]
+    [Range(0f, 1f)]
+    [Tooltip("Probability to choose the Latch pattern when engaging (Pattern B).")]
+    public float latchPatternProbability = 0.5f;
 
     [Header("Pattern A: Short Pause then Leave Fast")]
+    [Tooltip("Pause duration range near the player before leaving.")]
     public Vector2 shortPauseRange = new Vector2(0.2f, 0.5f);
-    public int shortPauseDamage = 8;  // optional small tap damage
+
+    [Tooltip("Optional small tap damage dealt at the end of the short pause.")]
+    public int shortPauseDamage = 8;
+
+    [Tooltip("Manual leave speed after the short pause.")]
     public float leaveBurstSpeed = 18f;
+
+    [Tooltip("Nominal leave distance for the burst (manual movement).")]
     public float leaveDistance = 9f;
 
     [Header("Pattern B: Latch Behind then Leave")]
+    [Tooltip("Latch duration (seconds).")]
     public float latchDuration = 1.0f;
+
+    [Tooltip("Desired behind offset from the player's position.")]
     public float behindOffset = 0.9f;
+
+    [Tooltip("Follow lerp factor while latched (higher = snappier).")]
     public float latchFollowLerp = 12f;
+
+    [Tooltip("Manual leave speed after latch.")]
     public float latchLeaveSpeed = 16f;
+
+    [Tooltip("Nominal leave distance after latch.")]
     public float latchLeaveDistance = 10f;
 
-    [Header("Latch Damage / Mark rules")]
-    [Tooltip("Heavy damage dealt when consuming player's mark during latch.")]
+    [Header("Latch Damage / Mark Rules")]
+    [Tooltip("Heavy damage dealt when consuming player's mark at latch begin.")]
     public int latchHeavyDamage = 30;
-    [Tooltip("Seconds after consuming mark during which player cannot be marked again.")]
+
+    [Tooltip("Seconds for which the player cannot be marked again after consumption.")]
     public float playerReMarkLockout = 3f;
-    [Tooltip("If true, the enemy is invulnerable during latch (uses your existing InvulnerabilityToggle).")]
+
+    [Tooltip("If true and an InvulnerabilityToggle exists, the enemy is invulnerable while latched.")]
     public bool invulnerableWhileLatched = true;
 
-    [Header("Leave Stop & Post-Pause")]
+    [Header("Leave & Post Pause")]
+    [Tooltip("If this far from the player during leave, stop leaving early and re-engage.")]
     public float reengageStartDistance = 6.0f;
+
+    [Tooltip("Short pause after finishing a leave, before resuming approach.")]
     public Vector2 postLeavePauseRange = new Vector2(0.25f, 0.5f);
 
     [Header("Rotation")]
+    [Tooltip("Turn speed in deg/sec when orienting during approach/latch/leave.")]
     public float turnSpeed = 900f;
 
     // ---------------- Damage Aggro ----------------
     [Header("Damage Aggro")]
+    [Tooltip("If false, NotifyDamaged() has no effect.")]
     public bool enableDamageAggro = true;
-    public float damageAggroTimeout = 4f;
-    float aggroTimer;
 
-    // ---------------- Events for VFX/SFX or extra logic ----------------
-    [Header("Events (plug attacks/VFX here)")]
+    [Tooltip("Aggro memory duration (sec) after taking damage.")]
+    public float damageAggroTimeout = 4f;
+
+    private float aggroTimer;
+
+    // ---------------- Events ----------------
+    [Header("Events (VFX/SFX hooks)")]
     public UnityEvent onAttackWindowBegin;
     public UnityEvent onAttackWindowEnd;
     public UnityEvent onShootMark;
 
-    // ---------------- Internals / States ----------------
-    NavMeshAgent agent;
-    enum State { Approach, ShortPause, LatchBehind, LeaveBurst }
-    State state;
+    // ---------------- Latch Safety (NEW) ----------------
+    [Header("Latch Collision Safety")]
+    [Tooltip("Physics layers treated as solid walls/level geometry for the backoff raycast.")]
+    public LayerMask wallMask = ~0;
 
-    Health hp;           int lastHP = -1;
-    FourHitHealth four;  int lastSeg = -1;
-    float approachRepathTimer;
+    [Tooltip("Radius used to check/snap when finding a safe latch spot.")]
+    public float latchProbeRadius = 0.4f;
 
-    // Use your existing InvulnerabilityToggle (from your Health folder)
-    InvulnerabilityToggle invuln; // may be null
+    [Tooltip("How far to search around a candidate position on NavMesh.")]
+    public float latchNavProbe = 1.0f;
 
-    // ---- Global latch token (only one xiao bian can latch at a time) ----
-    static EnemyAssassinPouncerAI _globalLatchOwner;
+    [Tooltip("When ray hits a wall, step this much inside the playable space along the hit normal.")]
+    public float latchSafetyBackoff = 0.15f;
 
+    [Tooltip("If behind spot is blocked, try side fallback at this lateral offset.")]
+    public float sideFallbackOffset = 0.8f;
+
+    [Tooltip("Max consecutive frames failing to find a safe point before aborting latch.")]
+    public int maxSafeFailFrames = 6;
+
+    // ---------------- Manual Leave Burst (NEW) ----------------
+    [Header("Leave Burst (manual, collision-aware)")]
+    [Tooltip("Physics layers that are considered solid walls/props for leave burst.")]
+    public LayerMask solidMask = ~0;  // include walls/props; exclude player/enemy layers
+
+    [Tooltip("Allowed tag to pass through during leave (player).")]
+    public string playerTagPass = "Player";
+
+    [Tooltip("Allowed tag to pass through during leave (enemy).")]
+    public string enemyTagPass = "Enemy";
+
+    [Tooltip("Character capsule radius used for casts.")]
+    public float bodyRadius = 0.35f;
+
+    [Tooltip("Character capsule height used for casts.")]
+    public float bodyHeight = 1.8f;
+
+    [Tooltip("Nudge distance away from a hit surface to avoid clipping.")]
+    public float surfaceInset = 0.02f;
+
+    [Tooltip("Max time the manual leave can run before aborting (sec).")]
+    public float leaveMaxTime = 1.5f;
+
+    [Tooltip("If true, stop immediately when hitting a solid (non-player/non-enemy).")]
+    public bool stopWhenHitSolid = true;
+
+    [Tooltip("Probe distance when validating next step on NavMesh.")]
+    public float navProbe = 0.8f;
+
+    // ---------------- Internals ----------------
+    private NavMeshAgent agent;
+
+    private enum State { Approach, ShortPause, LatchBehind, LeaveBurst }
+    private State state;
+
+    private Health hp;           private int lastHP = -1;
+    private FourHitHealth four;  private int lastSeg = -1;
+
+    private float approachRepathTimer;
+
+    // Optional component provided by your project (Health folder)
+    private InvulnerabilityToggle invuln;
+
+    // Only one latch owner at a time
+    private static EnemyAssassinPouncerAI _globalLatchOwner;
+
+    // ---------------- Unity ----------------
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -128,7 +230,6 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         }
 
         invuln = GetComponent<InvulnerabilityToggle>();
-
         _shootCooldown = Random.Range(shootCooldownRange.x, shootCooldownRange.y);
     }
 
@@ -147,14 +248,14 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         StartCoroutine(FSM());
     }
 
-    // =========================== FSM ===========================
+    // ---------------- FSM ----------------
     IEnumerator FSM()
     {
         while (true)
         {
             if (!player) { yield return null; continue; }
 
-            // damage aggro memory
+            // damage aggro countdown
             if (enableDamageAggro)
             {
                 if (WasDamagedThisFrame()) aggroTimer = damageAggroTimeout;
@@ -163,7 +264,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
 
             float dist = Vector3.Distance(transform.position, player.position);
 
-            // allow shooting outside of the close-quarters sub-states
+            // try ranged mark shooting outside tight sub-states
             if (state == State.Approach || state == State.LeaveBurst)
                 TryShootMark(dist);
 
@@ -171,6 +272,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
             {
                 case State.Approach:
                 {
+                    // basic agent chasing
                     approachRepathTimer -= Time.deltaTime;
                     if (approachRepathTimer <= 0f)
                     {
@@ -192,6 +294,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
                     if (dist <= engageDistance)
                     {
                         onAttackWindowBegin?.Invoke();
+
                         bool canLatch = (_globalLatchOwner == null);
                         bool chooseLatch = (Random.value < latchPatternProbability) && canLatch;
 
@@ -220,7 +323,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         }
     }
 
-    // ====================== Mark Shooting ======================
+    // ---------------- Shooting ----------------
     void TryShootMark(float distanceToPlayer)
     {
         _shootCooldown -= Time.deltaTime;
@@ -303,7 +406,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         return player.GetComponentInChildren<StatusReceiver>();
     }
 
-    // ================= Pattern A: short pause -> small hit -> leave =================
+    // ---------------- Pattern A: short pause -> tap -> manual leave ----------------
     IEnumerator DoShortPauseThenLeave()
     {
         agent.isStopped = true;
@@ -318,7 +421,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
             yield return null;
         }
 
-        // optional tiny damage tap to represent "lick"
+        // optional small tap damage
         DealSmallTapDamage();
 
         onAttackWindowEnd?.Invoke();
@@ -346,46 +449,59 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         }
     }
 
-    // ================= Pattern B: latch (consume mark) -> leave =================
+    // ---------------- Pattern B: latch behind (SAFE) -> manual leave ----------------
     IEnumerator DoLatchBehindThenLeave()
     {
-        // Acquire global latch token
         _globalLatchOwner = this;
 
-        // Enable invulnerability during latch if component present
         if (invulnerableWhileLatched && invuln != null) invuln.EnableInvulnerability();
 
         bool prevStopped = agent.isStopped;
         bool prevUpdPos  = agent.updatePosition;
         bool prevUpdRot  = agent.updateRotation;
+
         agent.isStopped = true;
-        agent.updatePosition = false;
+        agent.updatePosition = false; // manual transform while latched
         agent.updateRotation = false;
 
         float t = 0f;
-        
-        // Consume mark once at latch begin (if present)
+        int failFrames = 0;
+
+        // consume the player's mark once at latch begin (if present)
         TryConsumePlayerMarkOnce();
 
         while (t < latchDuration && player)
         {
             t += Time.deltaTime;
 
-            // stick behind player
-            Vector3 target = player.position - player.forward * behindOffset;
-            target.y = transform.position.y;
+            // compute a safe latch point each frame
+            Vector3 safePoint;
+            if (FindSafeLatchPoint(out safePoint))
+            {
+                failFrames = 0;
+                transform.position = Vector3.Lerp(transform.position, safePoint, 1f - Mathf.Exp(-latchFollowLerp * Time.deltaTime));
 
-            transform.position = Vector3.Lerp(transform.position, target, 1f - Mathf.Exp(-latchFollowLerp * Time.deltaTime));
-
-            Quaternion want = Quaternion.LookRotation(player.forward, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, want, turnSpeed * Time.deltaTime);
+                // face the same direction as player
+                Quaternion want = Quaternion.LookRotation(player.forward, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, want, turnSpeed * Time.deltaTime);
+            }
+            else
+            {
+                // failed to find safe position this frame
+                failFrames++;
+                if (failFrames >= maxSafeFailFrames)
+                {
+                    // abort latch early to avoid getting stuck
+                    break;
+                }
+            }
 
             yield return null;
         }
 
         onAttackWindowEnd?.Invoke();
 
-        // Disable invulnerability and release latch token
+        // restore toggles / tokens
         if (invulnerableWhileLatched && invuln != null) invuln.DisableInvulnerability();
         if (_globalLatchOwner == this) _globalLatchOwner = null;
 
@@ -405,16 +521,63 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     }
 
     /// <summary>
-    /// Consume player's mark via StatusReceiver:
-    /// - If marked: heavy damage to player, then lock mark for playerReMarkLockout sec.
-    /// - If not marked: optional small tap damage (keeps pressure).
+    /// Try to find a safe point near "player back" for latch:
+    /// 1) Desired = player.pos - player.forward * behindOffset
+    /// 2) Raycast from player towards -forward to see if wall blocks, then place slightly inside (hit.point + hit.normal * backoff)
+    /// 3) Project to NavMesh
+    /// 4) If fail, try left/right side fallback; else try a small position in front
     /// </summary>
+    bool FindSafeLatchPoint(out Vector3 safe)
+    {
+        safe = transform.position;
+        if (!player) return false;
+
+        Vector3 playerPos = player.position;
+        Vector3 backDir   = -player.forward;
+        Vector3 desired   = playerPos + backDir * behindOffset;
+        desired.y = transform.position.y;
+
+        // 1) raycast from player toward behind to detect wall
+        float rayDist = Mathf.Max(behindOffset + 0.2f, 0.2f);
+        Vector3 origin = playerPos + Vector3.up * 0.5f;
+        if (Physics.Raycast(origin, backDir, out RaycastHit hit, rayDist, wallMask, QueryTriggerInteraction.Ignore))
+        {
+            // blocked: step slightly inside using the wall normal
+            desired = hit.point + hit.normal * latchSafetyBackoff;
+            desired.y = transform.position.y;
+        }
+
+        // 2) project to NavMesh
+        if (NavMesh.SamplePosition(desired, out NavMeshHit navHit, latchNavProbe, NavMesh.AllAreas))
+        {
+            safe = navHit.position;
+            return true;
+        }
+
+        // 3) side fallbacks
+        Vector3 left  = playerPos - player.forward * 0.2f - player.right * sideFallbackOffset;
+        Vector3 right = playerPos - player.forward * 0.2f + player.right * sideFallbackOffset;
+        left.y = right.y = transform.position.y;
+
+        if (NavMesh.SamplePosition(left, out navHit, latchNavProbe, NavMesh.AllAreas))
+        { safe = navHit.position; return true; }
+
+        if (NavMesh.SamplePosition(right, out navHit, latchNavProbe, NavMesh.AllAreas))
+        { safe = navHit.position; return true; }
+
+        // 4) small front fallback
+        Vector3 front = playerPos + player.forward * 0.5f; front.y = transform.position.y;
+        if (NavMesh.SamplePosition(front, out navHit, latchNavProbe, NavMesh.AllAreas))
+        { safe = navHit.position; return true; }
+
+        return false;
+    }
+
     void TryConsumePlayerMarkOnce()
     {
         var sr = FindPlayerStatus();
         if (sr != null && sr.IsMarked())
         {
-            // heavy damage to player
             var h = player.GetComponentInParent<Health>();
             if (h) { if (latchHeavyDamage > 0) h.TakeDamage(latchHeavyDamage); }
             else
@@ -422,13 +585,11 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
                 var fourP = player.GetComponentInParent<FourHitHealth>();
                 if (fourP) fourP.RegisterHit();
             }
-
-            // clear mark + lockout
             sr.ConsumeMarkAndLock(playerReMarkLockout);
         }
         else
         {
-            // optional fallback damage when no mark available
+            // fallback tap damage if not marked
             if (shortPauseDamage > 0)
             {
                 var h2 = player.GetComponentInParent<Health>();
@@ -442,9 +603,10 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         }
     }
 
-    // ================= Leave burst movement =================
+    // ---------------- Leave Burst: manual, collision-aware ----------------
     IEnumerator DoLeaveBurst(float speed, float maxDistance)
     {
+        // Switch to manual transform movement
         bool prevStopped = agent.isStopped;
         bool prevUpdPos  = agent.updatePosition;
         bool prevUpdRot  = agent.updateRotation;
@@ -452,35 +614,107 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         agent.updatePosition = false;
         agent.updateRotation = false;
 
-        Vector2 rnd = Random.insideUnitCircle.normalized;
-        Vector3 dir = new Vector3(rnd.x, 0f, rnd.y);
-        if (dir.sqrMagnitude < 0.001f) dir = transform.right;
+        // Away direction (from player) with small randomness
+        Vector3 dir = transform.right;
+        if (player)
+        {
+            Vector3 away = (transform.position - player.position);
+            away.y = 0f;
+            if (away.sqrMagnitude > 0.001f) dir = away.normalized;
+        }
+        Vector2 rnd2 = Random.insideUnitCircle.normalized * 0.35f;
+        dir = (dir + new Vector3(rnd2.x, 0f, rnd2.y)).normalized;
 
-        Vector3 start = transform.position;
-        Vector3 endPlanar = start + dir * maxDistance;
-        Vector3 end = SampleOnNavmesh(endPlanar, 0.8f);
-        if (!IsFinite(end)) end = start + dir * (maxDistance * 0.6f);
+        // For capsule casts
+        float half = Mathf.Max(0.0f, (bodyHeight * 0.5f) - bodyRadius);
+        Vector3 capUp = Vector3.up * half;
 
         float traveled = 0f;
-        while (traveled < 1f)
+        float elapsed  = 0f;
+
+        while (elapsed < leaveMaxTime)
         {
-            if (player)
+            elapsed += Time.deltaTime;
+
+            // early out if already far enough
+            if (player && Vector3.Distance(transform.position, player.position) >= reengageStartDistance)
+                break;
+
+            Vector3 stepVec = dir * speed * Time.deltaTime;
+            if (stepVec.sqrMagnitude < 1e-6f) { yield return null; continue; }
+
+            Vector3 pos = transform.position;
+            Vector3 p1  = pos + capUp;
+            Vector3 p2  = pos - capUp;
+
+            // 1) Solid hit test (ignore player/enemy)
+            if (Physics.CapsuleCast(p1, p2, bodyRadius, stepVec.normalized, out RaycastHit solidHit, stepVec.magnitude, solidMask, QueryTriggerInteraction.Ignore))
             {
-                float pd = Vector3.Distance(transform.position, player.position);
-                if (pd >= reengageStartDistance) break;
+                string tg = solidHit.collider.tag;
+                bool pass = (!string.IsNullOrEmpty(playerTagPass) && tg == playerTagPass) ||
+                            (!string.IsNullOrEmpty(enemyTagPass)  && tg == enemyTagPass);
+
+                if (!pass)
+                {
+                    // Hit a solid prop/wall -> stop at contact (slightly inset)
+                    Vector3 stopPos = solidHit.point - solidHit.normal * surfaceInset;
+                    stopPos.y = pos.y;
+                    transform.position = stopPos;
+
+                    if (stopWhenHitSolid) break;
+
+                    // Optional: if you prefer sliding along the surface instead of stopping,
+                    // replace the 'break' with a tangent slide like below:
+                    // Vector3 tangent = Vector3.ProjectOnPlane(stepVec, solidHit.normal);
+                    // Vector3 slideTry = pos + tangent;
+                    // if (NavMesh.SamplePosition(slideTry, out NavMeshHit navHitSlide, navProbe, NavMesh.AllAreas))
+                    //     transform.position = navHitSlide.position;
+                    // else
+                    //     break;
+                }
             }
 
-            float step = (speed * Time.deltaTime) / Mathf.Max(0.001f, maxDistance);
-            traveled += step;
-            Vector3 pos = Vector3.Lerp(start, end, Mathf.Clamp01(traveled));
-            transform.position = pos;
+            // 2) NavMesh validity for the next step
+            Vector3 nextPos = pos + stepVec;
+            if (!NavMesh.SamplePosition(nextPos, out NavMeshHit navHit, navProbe, NavMesh.AllAreas))
+            {
+                // Attempt to slide along the blocking surface normal if we have one
+                if (Physics.CapsuleCast(p1, p2, bodyRadius, stepVec.normalized, out RaycastHit wHit, stepVec.magnitude * 1.2f, solidMask, QueryTriggerInteraction.Ignore))
+                {
+                    Vector3 tangent = Vector3.ProjectOnPlane(stepVec, wHit.normal);
+                    Vector3 slideTry = pos + tangent;
+                    if (NavMesh.SamplePosition(slideTry, out NavMeshHit navSlide, navProbe, NavMesh.AllAreas))
+                    {
+                        nextPos = navSlide.position;
+                    }
+                    else
+                    {
+                        break; // no valid slide spot -> abort leave
+                    }
+                }
+                else
+                {
+                    break; // no wall info to slide along -> abort leave
+                }
+            }
+            else
+            {
+                nextPos = navHit.position;
+            }
+
+            // apply movement & orientation
+            transform.position = nextPos;
+            traveled += stepVec.magnitude;
 
             Quaternion want = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, want, turnSpeed * Time.deltaTime);
 
+            if (traveled >= maxDistance) break;
+
             yield return null;
         }
 
+        // Restore agent driving
         agent.updatePosition = prevUpdPos;
         agent.updateRotation = prevUpdRot;
         agent.Warp(transform.position);
@@ -489,8 +723,8 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
 
     IEnumerator DoPostLeavePause()
     {
-        float t = 0f;
         float wait = Random.Range(postLeavePauseRange.x, postLeavePauseRange.y);
+        float t = 0f;
 
         bool prevStopped = agent.isStopped;
         agent.isStopped = true;
@@ -506,7 +740,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
         agent.isStopped = prevStopped;
     }
 
-    // ================= Helpers =================
+    // ---------------- Small helpers ----------------
     void FacePlayer()
     {
         if (!player) return;
@@ -563,39 +797,42 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, reengageStartDistance);
-        
+
         Gizmos.color = new Color(0f, 0.8f, 1f, 0.2f);
         Gizmos.DrawWireSphere(transform.position, markShootRange);
     }
+
+    // ---------------- External bridge: damage -> aggro ----------------
+    /// <summary>
+    /// External call to extend aggro memory (e.g., from AggroOnHealthLoss).
+    /// </summary>
     public void NotifyDamaged(float duration = -1f)
     {
-    if (!enableDamageAggro) return;
-    if (duration <= 0f) duration = damageAggroTimeout;
-    aggroTimer = Mathf.Max(aggroTimer, duration);
+        if (!enableDamageAggro) return;
+        if (duration <= 0f) duration = damageAggroTimeout;
+        aggroTimer = Mathf.Max(aggroTimer, duration);
     }
 }
 
 #region --- Minimal helper kept in this file ---
-
 /// <summary>
-/// Minimal mark projectile:
-/// - straight move
-/// - on hit Player: StatusReceiver.Mark()
-/// - destroy self
+/// Minimal straight-moving mark projectile:
+/// - Moves forward at constant speed;
+/// - On trigger with Player: StatusReceiver.Mark(); then destroys itself.
 /// </summary>
 public class SimpleMarkProjectile : MonoBehaviour
 {
-    string _targetTag;
-    float _speed;
-    float _life;
-    Vector3 _dir;
+    private string _targetTag; 
+    private float  _speed; 
+    private float  _life; 
+    private Vector3 _dir;
 
     public void Init(string targetTag, float speed, float life)
     {
         _targetTag = targetTag;
         _speed = Mathf.Max(0f, speed);
-        _life = Mathf.Max(0.01f, life);
-        _dir = transform.forward;
+        _life  = Mathf.Max(0.01f, life);
+        _dir   = transform.forward;
         StartCoroutine(Co_Life());
     }
 
