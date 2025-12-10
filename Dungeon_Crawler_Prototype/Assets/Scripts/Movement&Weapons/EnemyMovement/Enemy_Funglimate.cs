@@ -111,6 +111,17 @@ public class Enemy_Funglimate : MonoBehaviour
     public Vector2 summonIntervalRange = new Vector2(3.0f, 5.0f);
     public float summonRadius = 2.5f;
 
+    // ------------------ Animation_Components ------------------
+    [Header("Animation Components")]
+    public GameObject Model;
+    private Animator animator;
+    public string IdleName;
+    public string MoveName;
+    public string AutumnName;
+    public string SpringName;
+    public string SummerName;
+    public string WinterName;
+
     // ---------- Internals ----------
     Transform player;
     NavMeshAgent agent;
@@ -148,6 +159,12 @@ public class Enemy_Funglimate : MonoBehaviour
 
     void Start()
     {
+        animator = Model.GetComponent<Animator>();
+        if (animator == null)
+        {
+            UnityEngine.Debug.LogError("Animator Failed");
+        }
+
         var p = GameObject.FindGameObjectWithTag(playerTag);
         if (p) player = p.transform;
 
@@ -445,18 +462,22 @@ public class Enemy_Funglimate : MonoBehaviour
         switch (currentForm)
         {
             case FormType.StunShooter:
+                animator.Play(SpringName);
                 FireOneProjectile(prefab_StunBullet, stunBulletDamage, doStun: true);
                 break;
 
             case FormType.HeavyShooter:
+                animator.Play(SummerName);
                 FireOneProjectile(prefab_HeavyBullet, heavyBulletDamage, doStun: false);
                 break;
 
             case FormType.Summoner:
+                animator.Play(AutumnName);
                 TrySummonOne();
                 break;
 
             case FormType.SlowShooter:
+                animator.Play(WinterName);
                 // No slow API yet; damage only for now.
                 FireOneProjectile(prefab_SlowBullet, slowBulletDamage, doStun: false);
                 break;

@@ -640,8 +640,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultForm: 0
-  allowFormSwitch: 0
-  switchInOrder: 1
+  allowFormSwitch: 1
+  switchInOrder: 0
   formSwitchIntervalRange: {x: 6, y: 10}
   skin_StunShooter: {fileID: 0}
   skin_HeavyShooter: {fileID: 0}
@@ -695,6 +695,13 @@ MonoBehaviour:
   maxActiveSummons: 3
   summonIntervalRange: {x: 3, y: 5}
   summonRadius: 2.5
+  Model: {fileID: 3175300320290533828}
+  IdleName: ShroomIdle
+  MoveName: ShroomMove
+  AutumnName: ShroomAutumn
+  SpringName: ShroomSpring
+  SummerName: ShroomSummer
+  WinterName: ShroomWinter
 --- !u!114 &1111389514012214448
 MonoBehaviour:
   m_ObjectHideFlags: 0
