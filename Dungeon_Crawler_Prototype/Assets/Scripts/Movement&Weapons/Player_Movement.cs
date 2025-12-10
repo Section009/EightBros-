@@ -31,6 +31,8 @@ public class Player_Movement : MonoBehaviour
     private bool hit = false;
     private float hit_timer = 0;
     private Health health_hub;
+    public bool Charge_Walk_Available;
+    private Weapon_Projectile WP;
 
     private Animator animator;
     private bool stunned = false;
@@ -42,6 +44,10 @@ public class Player_Movement : MonoBehaviour
         if (animator == null)
         {
             UnityEngine.Debug.LogError("Animator Failed");
+        }
+        if (Charge_Walk_Available)
+        {
+            WP = GetComponent<Weapon_Projectile>();
         }
         rb = GetComponent<Rigidbody>();
         health_hub = GetComponent<Health>();
@@ -96,7 +102,13 @@ public class Player_Movement : MonoBehaviour
             }
             else if (Locked == false && stunned == false)
             {
-                if (moving)
+                if ((WP != null) && (WP.charged == true))
+                {
+                    animator.Play(WP.Charge_Walk_Anim);
+                    Idling = false;
+                    IdleAnimation_Timer = 0f;
+                }
+                else if (moving)
                 {
                     animator.Play(RunName);
                     Idling = false;

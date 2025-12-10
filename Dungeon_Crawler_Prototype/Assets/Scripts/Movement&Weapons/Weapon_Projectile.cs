@@ -25,10 +25,13 @@ public class Weapon_Projectile : MonoBehaviour
     private bool c_firing;
     public GameObject Charged_Ammo_Type;
     public string ChargeAttackAnimName;
+    public string Charge_Walk_Anim;
     public float charge_timer_max;
     private float charge_timer;
-    private bool charged;
+    public bool charged;
     public float charge_cooldown;
+    private Vector3 Charge_Target;
+    private bool charge_active;
     public float Charge_StartUp;
     private float Charge_StartUp_Timer;
     public bool Charge_On;
@@ -255,13 +258,16 @@ public class Weapon_Projectile : MonoBehaviour
             }
             if (c_firing == true)
             {
-                timer += Time.deltaTime;
-                if (timer >= charge_cooldown)
+                if (Charge_On)
                 {
-                    pm.Locked = false;
-                    c_firing = false;
-                    timer = 0f;
+                    Charged_Shot_Active();
+                    
                 }
+                else
+                {
+                    Charged_Shot_Windup();
+                }
+                
             }
             //basic cooldown
             if (firing == true)
@@ -294,6 +300,7 @@ public class Weapon_Projectile : MonoBehaviour
     }
     private void Charged_Shot_Start()
     {
+        /*
         animator.Play(ChargeAttackAnimName);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
@@ -303,10 +310,42 @@ public class Weapon_Projectile : MonoBehaviour
         }
         if (charged)
         {
-            GameObject go = Instantiate(Charged_Ammo_Type, transform.position, Quaternion.identity);
-            Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
+            Charge_Target = new Vector3(dir.x, transform.position.y, dir.z);
             transform.LookAt(target, Vector3.up);
-            go.transform.LookAt(target, Vector3.up);
+        }
+        */
+            
+            animator.Play(ChargeAttackAnimName);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 dir = new Vector3();
+            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+            {
+                dir = hit.point;// - transform.position;
+            }
+            if (charged)
+            {
+                GameObject go = Instantiate(Charged_Ammo_Type, transform.position, Quaternion.identity);
+                Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
+                transform.LookAt(target, Vector3.up);
+                go.transform.LookAt(target, Vector3.up);
+                c_shifting = true;
+                print("Charge_Shot");
+                c_firing = true;
+                pm.Locked = true;
+                timer = 0f;
+                charge_timer = 0f;
+                charged = false;
+            }
+            
+        }
+
+    private void Charged_Shot_Windup()
+    {
+        Charge_StartUp_Timer += Time.deltaTime;
+        if (Charge_StartUp_Timer > Charge_StartUp)
+        {
+            GameObject go = Instantiate(Charged_Ammo_Type, transform.position, Quaternion.identity);
+            go.transform.LookAt(Charge_Target, Vector3.up);
             c_shifting = true;
             print("Charge_Shot");
             c_firing = true;
@@ -314,14 +353,8 @@ public class Weapon_Projectile : MonoBehaviour
             timer = 0f;
             charge_timer = 0f;
             charged = false;
-        }
-    }
-
-    private void Charged_Shot_Windup()
-    {
-        Charge_StartUp_Timer += Time.deltaTime;
-        if (Charge_StartUp_Timer > Charge_StartUp)
-        {
+            Charge_On = true;
+            Charge_StartUp_Timer = 0f;
             /*
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 dir = new Vector3();
@@ -342,22 +375,14 @@ public class Weapon_Projectile : MonoBehaviour
 
     private void Charged_Shot_Active()
     {
-        /*
-        float horiInput = Input.GetAxis("Horizontal");
-        float vertInput = Input.GetAxis("Vertical");
-
-        Vector3 vec = new Vector3(horiInput, 0f, vertInput);
-
-        transform.LookAt(transform.position + vec, Vector3.up);
-        if (vec.magnitude != 0)
+        timer += Time.deltaTime;
+        if (timer >= charge_cooldown)
         {
-            rb.velocity = transform.forward * charge_move_speed;
+            pm.Locked = false;
+            c_firing = false;
+            timer = 0f;
+            Charge_On = false;
         }
-        else
-        {
-            rb.velocity = new Vector3(0f, 0f, 0f);
-        }
-        */
     }
 
     private void Skill_Start()
