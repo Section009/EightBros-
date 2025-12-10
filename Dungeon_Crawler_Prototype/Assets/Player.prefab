@@ -305,7 +305,7 @@ MonoBehaviour:
   - 0.4
   - 0.3
   - 0.4
-  reset_cooldown: 0.4
+  reset_cooldown: 0.3
   BasicAttackAnimName: MAAtk_1
   BasicAttackAnims:
   - MAAtk_1
