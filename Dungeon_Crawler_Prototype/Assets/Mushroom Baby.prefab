@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 267340981236019841}
   - component: {fileID: 1111389514012214448}
   m_Layer: 0
-  m_Name: Mushroom
+  m_Name: Mushroom Baby
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -428,8 +428,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 1.5, z: -2.69}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 781175936253826452}
   - {fileID: 2835929100251147134}
@@ -639,10 +639,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058ad85b1dc284e48af64a31fcb60931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultForm: 0
-  allowFormSwitch: 1
-  switchInOrder: 1
-  formSwitchIntervalRange: {x: 6, y: 10}
+  defaultForm: 3
+  allowFormSwitch: 0
+  switchInOrder: 0
+  formSwitchIntervalRange: {x: 0, y: 0}
   skin_StunShooter: {fileID: 0}
   skin_HeavyShooter: {fileID: 0}
   skin_Summoner: {fileID: 0}
@@ -691,7 +691,7 @@ MonoBehaviour:
   slowBulletDamage: 10
   slowMultiplier: 0.5
   slowDuration: 1.5
-  summonPrefab: {fileID: 8820118294494672627, guid: b1839a26fcb691d48a87d86aa2ab34b2, type: 3}
+  summonPrefab: {fileID: 0}
   maxActiveSummons: 3
   summonIntervalRange: {x: 3, y: 5}
   summonRadius: 2.5
