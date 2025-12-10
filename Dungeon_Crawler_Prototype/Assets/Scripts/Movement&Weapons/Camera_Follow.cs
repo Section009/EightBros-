@@ -12,10 +12,12 @@ public class Camera_Follow : MonoBehaviour
     
     void Update()
     {
+        /*
         if (Input.GetKeyDown("r"))
         {
             camera_shaking = true;
         }
+        */
         if (camera_shaking)
         {
             StartCoroutine(CameraShakeRoutine());

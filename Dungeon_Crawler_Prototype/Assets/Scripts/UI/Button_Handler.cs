@@ -9,6 +9,7 @@ public class Button_Handler : MonoBehaviour
     public string NextLevel;
     public void OnStart()
     {
+        Time.timeScale = 1f;
         print("Pressed");
         SceneManager.LoadScene(NextLevel);
     }

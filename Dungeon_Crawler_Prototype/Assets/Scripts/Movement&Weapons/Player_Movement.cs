@@ -144,10 +144,12 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetKeyDown("q"))
         {
             Damage_Player(5.0f);
         }
+        */
 
         if (Input.GetKeyDown("t"))
         {
