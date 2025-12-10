@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e611b1fcd581b944af65899bd31d48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextLevel: Outline1
+  NextLevel: Dialogue_Test
 --- !u!4 &704193851
 Transform:
   m_ObjectHideFlags: 0
