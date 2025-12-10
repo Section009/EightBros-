@@ -744,7 +744,7 @@ MonoBehaviour:
   radius: 2.5
   halfAngleDeg: 60
   verticalTolerance: 1.8
-  damage: 15
+  damage: 10
   applyStun: 1
   stunDuration: 0.75
   debugGizmos: 0
