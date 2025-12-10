@@ -15,6 +15,7 @@ public class Melee_Combat_Base : MonoBehaviour
     private float timer;
     public float reset_cooldown = 0.5f;
     public string BasicAttackAnimName;
+    public string[] BasicAttackAnims;
     private bool firing;
     //Basic Shift
     public float shift_speed;
@@ -281,7 +282,8 @@ public class Melee_Combat_Base : MonoBehaviour
     }
     private void Basic_Shot_Start()
     {
-        animator.Play(BasicAttackAnimName);
+        //animator.Play(BasicAttackAnimName);
+        animator.Play(BasicAttackAnims[combo_count]);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
         if (Physics.Raycast(ray, out RaycastHit hit, 30f))
