@@ -430,30 +430,9 @@ public class Weapon_Projectile : MonoBehaviour
     private void Set_Player_Visible(bool visible)
     {
         Transform model = transform.GetChild(0);
-        Set_Obj_Invisible(model, visible);
-        /*
         foreach (Transform child in model)
         {
             MeshRenderer MR = child.gameObject.GetComponent<MeshRenderer>();
-            if (MR != null)
-            {
-                MR.enabled = visible;
-            }
-        }
-        */
-    }
-    
-    private void Set_Obj_Invisible(Transform comp, bool visible)
-    {
-        print("Rose");
-        foreach (Transform child in comp)
-        {
-            if (child.childCount > 0)
-            {
-                Set_Obj_Invisible(child, visible);
-            }
-
-            SkinnedMeshRenderer MR = child.gameObject.GetComponent<SkinnedMeshRenderer>();
             if (MR != null)
             {
                 MR.enabled = visible;
