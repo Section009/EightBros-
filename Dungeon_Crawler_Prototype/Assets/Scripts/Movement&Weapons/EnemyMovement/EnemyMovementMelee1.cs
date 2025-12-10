@@ -206,6 +206,7 @@ public class EnemyAI : MonoBehaviour
 
                     if (_strideState == StrideState.Moving)
                     {
+                        animator.Play(WalkName);
                         agent.isStopped = false;
                         agent.speed = normalSpeed;
                         agent.SetDestination(player.position);
@@ -259,6 +260,7 @@ public class EnemyAI : MonoBehaviour
     {
         charging = true;
         onCooldown = true;
+        animator.Play(DashName);
 
         Vector3 chargeDir = (player.position - transform.position);
         chargeDir.y = 0f;
@@ -333,7 +335,15 @@ public class EnemyAI : MonoBehaviour
 
             // --- Choose attack type for this cycle ---
             bool heavy = (Random.value < heavyAttackChance);
-            useHeavyAttackPause = heavy; // drives FanCone/SonicAura via events
+            if (heavy)
+            {
+                animator.Play(HideName);
+            }
+            else
+            {
+                animator.Play(StrikeName);
+            }
+                useHeavyAttackPause = heavy; // drives FanCone/SonicAura via events
 
             // --- Pause/attack duration by type ---
             Vector2 range = heavy ? heavyPauseRange : quickPauseRange;
