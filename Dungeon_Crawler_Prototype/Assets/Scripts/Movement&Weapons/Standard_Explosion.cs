@@ -37,4 +37,10 @@ public class Standard_Explosion : MonoBehaviour
         GameObject cooldown = GameObject.FindWithTag("Cooldown_Tracker");
         cooldown.GetComponent<Player_Cooldown_Master>().Melee_Ultimate_Cur_Points += Bounty_Gained;
     }
+
+    public void Firework_Effect()
+    {
+        GameObject cooldown = GameObject.FindWithTag("Cooldown_Tracker");
+        cooldown.GetComponent<Player_Cooldown_Master>().Firework_Ultimate_Cur_Points += Bounty_Gained;
+    }
 }

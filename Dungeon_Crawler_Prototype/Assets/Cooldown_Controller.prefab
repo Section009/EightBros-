@@ -55,7 +55,7 @@ MonoBehaviour:
   Firework_Ultimate_Cooldown_Max: 30
   Firework_Ultimate_Cooldown_timer: 0
   Firework_Ultimate_Cur_Points: 0
-  Firework_Ultimate_Max_Points: 24
+  Firework_Ultimate_Max_Points: 48
   Melee_Skill_Available: 0
   Melee_Skill_Cooldown_Max: 4
   Melee_Skill_Cooldown_timer: 0

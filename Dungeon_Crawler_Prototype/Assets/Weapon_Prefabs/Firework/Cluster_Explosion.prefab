@@ -97,6 +97,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
+      propertyPath: Bounty_Gained
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
       propertyPath: life_timer_max
       value: 1
       objectReference: {fileID: 0}
@@ -169,6 +173,10 @@ PrefabInstance:
     - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
       propertyPath: widen_speed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
+      propertyPath: Bounty_Gained
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
       propertyPath: life_timer_max
@@ -245,6 +253,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
+      propertyPath: Bounty_Gained
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
       propertyPath: life_timer_max
       value: 1
       objectReference: {fileID: 0}
@@ -319,6 +331,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
+      propertyPath: Bounty_Gained
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
       propertyPath: life_timer_max
       value: 1
       objectReference: {fileID: 0}
@@ -391,6 +407,10 @@ PrefabInstance:
     - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
       propertyPath: widen_speed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
+      propertyPath: Bounty_Gained
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9083609303771276214, guid: 1585de8cfd485be4fa39e0c5e6f1897d, type: 3}
       propertyPath: life_timer_max
