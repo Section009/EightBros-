@@ -86,8 +86,6 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\Enemy_Funglimate.cs" />
     <Compile Include="Assets\Scripts\Health\Health.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\StatusReceiver.cs" />
-    <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\Enemy_xiaobian.cs" />
-    <Compile Include="Assets\Scripts\EnemySkills\BellRing.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Swap_Characters.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\BellAI.cs" />
     <Compile Include="Assets\Scripts\World\EncounterTrigger.cs" />
@@ -97,7 +95,6 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Explosion.cs" />
     <Compile Include="Assets\Scripts\UI\Button_Handler.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Weapon_Projectile.cs" />
-    <Compile Include="Assets\Scripts\EnemySkills\Onhit\AggroOnHit.cs" />
     <Compile Include="Assets\Player_Cooldown_Master.cs" />
     <Compile Include="Assets\Scripts\Health\InvulnerabilityToggle.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayDamage.cs" />
