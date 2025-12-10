@@ -107,6 +107,7 @@
     <Compile Include="Assets\Scripts\UI\DisplayCooldowns.cs" />
     <Compile Include="Assets\Scripts\World\EnemyWaveClear.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Projectile.cs" />
+    <Compile Include="Assets\Scripts\Health\DamageModifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\VFX\VFX_Resources\Shaders\PFX_Particles_Cutout.shader" />

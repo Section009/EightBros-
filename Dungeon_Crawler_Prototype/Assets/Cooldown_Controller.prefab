@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996b92d9e6edd7b45b503131911d4e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Paused: 0
   Firework_Skill_Available: 0
   Firework_Skill_Cooldown_Max: 4
   Firework_Skill_Cooldown_timer: 0
@@ -53,6 +54,8 @@ MonoBehaviour:
   Firework_Ultimate_Available: 0
   Firework_Ultimate_Cooldown_Max: 30
   Firework_Ultimate_Cooldown_timer: 0
+  Firework_Ultimate_Cur_Points: 0
+  Firework_Ultimate_Max_Points: 24
   Melee_Skill_Available: 0
   Melee_Skill_Cooldown_Max: 4
   Melee_Skill_Cooldown_timer: 0
@@ -62,6 +65,9 @@ MonoBehaviour:
   Melee_Ultimate_Available: 0
   Melee_Ultimate_Cooldown_Max: 30
   Melee_Ultimate_Cooldown_timer: 0
+  Melee_Ultimate_Cur_Points: 0
+  Melee_Ultimate_Max_Points: 48
   Swap_Available: 0
   Swap_Cooldown_Max: 6
   Swap_Cooldown_timer: 0
+  Melee_Open: 1
