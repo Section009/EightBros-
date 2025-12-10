@@ -1,21 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="Current">
   <!-- Generated file, do not modify, your changes will be overwritten (use AssetPostprocessor.OnGeneratedCSProject) -->
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
+    <BaseIntermediateOutputPath>Temp\obj\$(Configuration)\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
   </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <ItemGroup>
+    <ProjectCapability Include="Unity" />
+  </ItemGroup>
   <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <LangVersion>9.0</LangVersion>
+    <Configurations>Debug;Release</Configurations>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.20506</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{DF58733B-A2AE-A193-D7F2-61EF01861AF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <BaseDirectory>.</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -39,73 +44,73 @@
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <NoConfig>true</NoConfig>
+    <NoStandardLibraries>true</NoStandardLibraries>
     <NoStdLib>true</NoStdLib>
-    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
-    <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
-    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
+    <NoConfig>true</NoConfig>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <MSBuildWarningsAsMessages>MSB3277</MSBuildWarningsAsMessages>
   </PropertyGroup>
   <PropertyGroup>
-    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
     <UnityProjectGeneratorVersion>2.0.22</UnityProjectGeneratorVersion>
-    <UnityProjectGeneratorStyle>Legacy</UnityProjectGeneratorStyle>
+    <UnityProjectGeneratorStyle>SDK</UnityProjectGeneratorStyle>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.3.62f2</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Users\48516\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Health\FourBarHealth.cs" />
-    <Compile Include="Assets\Scripts\EnemySkills\Onhit\StatusOnHit.cs" />
-    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Orbiting_Object.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Camera_Follow.cs" />
     <Compile Include="Assets\Audio\Audio_Obj_Controller.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Homing.cs" />
     <Compile Include="Assets\Dummy.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Ultimate_Manager.cs" />
+    <Compile Include="Assets\Scripts\UI\DisplayText.cs" />
+    <Compile Include="Assets\Scripts\EnemySkills\BellClap.cs" />
+    <Compile Include="Assets\Scripts\EnemySkills\StunPlayer.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Player_Movement.cs" />
+    <Compile Include="Assets\Scripts\EnemySkills\BellSonicAuraAttack.cs" />
+    <Compile Include="Assets\Scripts\World\EncounterTrigger.cs" />
+    <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileParticlesWeapon.cs" />
+    <Compile Include="Assets\Scripts\UI\Button_Handler.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Weapon_Projectile.cs" />
+    <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObjectWeapon.cs" />
+    <Compile Include="Assets\Scripts\World\LevelClear.cs" />
+    <Compile Include="Assets\Scripts\Projectile\DamagOnHit.cs" />
+    <Compile Include="Assets\Scripts\Health\FourBarHealth.cs" />
+    <Compile Include="Assets\Scripts\EnemySkills\Onhit\StatusOnHit.cs" />
+    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Orbiting_Object.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\EnemyMovementMelee1.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\AggroOnHealthLoss.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Shield code.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Special_Starter_Shot.cs" />
-    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Ultimate_Manager.cs" />
-    <Compile Include="Assets\Scripts\UI\DisplayText.cs" />
     <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObject.cs" />
     <Compile Include="Assets\Scripts\UI\UI_Master.cs" />
-    <Compile Include="Assets\Scripts\EnemySkills\BellClap.cs" />
-    <Compile Include="Assets\Scripts\EnemySkills\StunPlayer.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellFanConeAttack.cs" />
-    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel.cs" />
-    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Player_Movement.cs" />
     <Compile Include="Assets\Audio\Audio_Control.cs" />
     <Compile Include="Assets\Audio\Music\Music_Master.cs" />
-    <Compile Include="Assets\Scripts\EnemySkills\BellSonicAuraAttack.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\Enemy_Funglimate.cs" />
     <Compile Include="Assets\Scripts\Health\Health.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\StatusReceiver.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Swap_Characters.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\BellAI.cs" />
-    <Compile Include="Assets\Scripts\World\EncounterTrigger.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\EnemyMovement\Enemy_xiaobian2.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Firework_Projectile.cs" />
-    <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileParticlesWeapon.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Explosion.cs" />
-    <Compile Include="Assets\Scripts\UI\Button_Handler.cs" />
-    <Compile Include="Assets\Scripts\Movement&amp;Weapons\Weapon_Projectile.cs" />
     <Compile Include="Assets\Player_Cooldown_Master.cs" />
     <Compile Include="Assets\Scripts\Health\InvulnerabilityToggle.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayDamage.cs" />
     <Compile Include="Assets\Scripts\Health\HealthBar.cs" />
-    <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObjectWeapon.cs" />
-    <Compile Include="Assets\Scripts\World\LevelClear.cs" />
     <Compile Include="Assets\Scripts\UI\Dialogue_Master.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Combat_Base.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Shrapnel_Master.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayCooldowns.cs" />
     <Compile Include="Assets\Scripts\World\EnemyWaveClear.cs" />
-    <Compile Include="Assets\Scripts\Projectile\DamagOnHit.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Standard_Projectile.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -963,8 +968,16 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.Stores.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.AI.Navigation">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
@@ -983,8 +996,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Config.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Config.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
@@ -1007,6 +1032,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1017,6 +1046,10 @@
     </Reference>
     <Reference Include="Unity.Settings.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Settings.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PPv2URPConverters">
+      <HintPath>Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
@@ -1039,16 +1072,32 @@
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.EditorCoroutines.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
       <HintPath>Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.Purchasing.SecurityStub">
@@ -1065,6 +1114,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ShaderGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Purchasing.Common">
@@ -1111,8 +1164,16 @@
       <HintPath>Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.2D.Internal">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.2D.Internal.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Timeline">
@@ -1143,8 +1204,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Searcher.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor">
@@ -1162,13 +1235,16 @@
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <ItemGroup>
+    <ProjectCapability Remove="LaunchProfiles" />
+    <ProjectCapability Remove="SharedProjectReferences" />
+    <ProjectCapability Remove="ReferenceManagerSharedProjects" />
+    <ProjectCapability Remove="ProjectReferences" />
+    <ProjectCapability Remove="ReferenceManagerProjects" />
+    <ProjectCapability Remove="COMReferences" />
+    <ProjectCapability Remove="ReferenceManagerCOM" />
+    <ProjectCapability Remove="AssemblyReferences" />
+    <ProjectCapability Remove="ReferenceManagerAssemblies" />
+  </ItemGroup>
 </Project>
