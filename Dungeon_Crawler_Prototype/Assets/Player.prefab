@@ -279,12 +279,12 @@ MonoBehaviour:
   slowed: 0
   slow_reduction: 3
   RunName: MARun
-  IdleName: MARun
-  IdleAnimName: MARun
-  IdleAnimLength: 0
-  IdleCooldown: 0
-  HitName: MARun
-  HitAnimLength: 0
+  IdleName: MAStand
+  IdleAnimName: MAIdle
+  IdleAnimLength: 5.95
+  IdleCooldown: 6
+  HitName: MAHit
+  HitAnimLength: 0.958
 --- !u!114 &6782696265681876420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
   shift_speed: 2
   shift_timer_max: 0.1
   Charged_Ammo_Type: {fileID: 6156014973674770674, guid: ff985b9d8444ba4408ffbfc7254eb474, type: 3}
-  ChargeAttackAnimName: MAAtk
+  ChargeAttackAnimName: MAChargeAtk
   charge_timer_max: 1
   charge_cooldown: 0.6
   c_shift_speed: -8
@@ -329,7 +329,7 @@ MonoBehaviour:
   big_missile: {fileID: 6156014973674770674, guid: 0311ae3c0ee5de14bb214da553c7549a, type: 3}
   skill_duration: 1.5
   bullet_cooldown: 0.1
-  UltimateAnimName: MAAtk
+  UltimateAnimName: MAUlt
   ultimate_cooldown: 30
   ultimate_timer: 30
   ultimate_available: 0
@@ -337,7 +337,7 @@ MonoBehaviour:
   Ultimate: {fileID: 6156014973674770674, guid: 44b7ab890309e2546964c27c01345dd1, type: 3}
   Dash_Time: 0.3
   Dash_Speed: 12
-  DashAnimName: MARun
+  DashAnimName: MAAtk_3
   Dashing: 0
   Dash_Available: 0
   dash_cooldown: 3
