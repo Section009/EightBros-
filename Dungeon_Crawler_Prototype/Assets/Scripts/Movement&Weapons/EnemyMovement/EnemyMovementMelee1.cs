@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class EnemyAI : MonoBehaviour
 {
     // ---------- Types (define ONCE) ----------
-    enum StrideState { Moving, Idling }   // ← 只保留这一处
+    enum StrideState { Moving, Idling }
 
     [Header("Targeting")]
     public string playerTag = "Player";
@@ -122,6 +122,19 @@ public class EnemyAI : MonoBehaviour
     public string HideName;
     public string StrikeName;
 
+    // ------------------ Heavy-Defense (50% during heavy) ------------------
+    [Header("Heavy Defense")]
+    [Tooltip("Reduce incoming damage while performing heavy/sonic-aura attack.")]
+    public bool reduceDamageDuringHeavy = true;
+
+    [Tooltip("Damage multiplier while heavy. 0.5 = receive 50% damage.")]
+    [Range(0f, 1f)] public float heavyDamageScale = 0.5f;
+
+    [Tooltip("Optional: a key name to control DamageModifier from this script.")]
+    public string heavyDefenseKey = "HEAVY_DEFENSE";
+
+    private DamageModifier dmgMod; // optional; if not present, nothing breaks.
+
     // ------------------ Internals ------------------
     Transform player;
     NavMeshAgent agent;
@@ -161,6 +174,9 @@ public class EnemyAI : MonoBehaviour
         _four = GetComponent<FourHitHealth>();
         if (_hp)   _lastHP  = _hp.currentHealth;
         if (_four) _lastSeg = _four.GetState().current;
+
+        // cache DamageModifier if present
+        dmgMod = GetComponent<DamageModifier>();
 
         ResetStrideCycle(StrideState.Moving);
     }
@@ -335,15 +351,14 @@ public class EnemyAI : MonoBehaviour
 
             // --- Choose attack type for this cycle ---
             bool heavy = (Random.value < heavyAttackChance);
-            if (heavy)
-            {
-                animator.Play(HideName);
-            }
-            else
-            {
-                animator.Play(StrikeName);
-            }
-                useHeavyAttackPause = heavy; // drives FanCone/SonicAura via events
+            if (heavy) animator.Play(HideName); else animator.Play(StrikeName);
+            useHeavyAttackPause = heavy; // drives external attack scripts via UnityEvent
+
+            // --- Apply 50% damage reduction during heavy pause (if enabled) ---
+            if (reduceDamageDuringHeavy && heavy && dmgMod != null)
+                dmgMod.SetExternalMultiplier(heavyDefenseKey, Mathf.Clamp01(heavyDamageScale));
+            else if (dmgMod != null)
+                dmgMod.ClearExternalMultiplier(heavyDefenseKey);
 
             // --- Pause/attack duration by type ---
             Vector2 range = heavy ? heavyPauseRange : quickPauseRange;
@@ -352,13 +367,11 @@ public class EnemyAI : MonoBehaviour
             // --- Begin attack (notify listeners) ---
             onPauseAttackBegin?.Invoke();
 
-            // Hold for attack/pause time
+            // Hold for attack/pause time (face player)
             float t = 0f;
             while (t < pauseTime)
             {
                 t += Time.deltaTime;
-
-                // Face the player while attacking
                 if (player)
                 {
                     Vector3 to = (player.position - transform.position);
@@ -369,12 +382,14 @@ public class EnemyAI : MonoBehaviour
                         transform.rotation = Quaternion.RotateTowards(transform.rotation, want, 720f * Time.deltaTime);
                     }
                 }
-
                 yield return null;
             }
 
             // --- End attack ---
             onPauseAttackEnd?.Invoke();
+
+            // Clear heavy DR when attack window ends
+            if (dmgMod != null) dmgMod.ClearExternalMultiplier(heavyDefenseKey);
 
             // --- Between-attacks idle gap ---
             float gap = Random.Range(betweenAttacksDelayRange.x, betweenAttacksDelayRange.y);
@@ -417,6 +432,10 @@ public class EnemyAI : MonoBehaviour
         // Exit attack loop → resume chase
         _attackLoopRunning = false;
         agent.isStopped = false;
+
+        // Ensure DR cleared when leaving loop
+        if (dmgMod != null) dmgMod.ClearExternalMultiplier(heavyDefenseKey);
+
         ResetStrideCycle(StrideState.Moving);
     }
 

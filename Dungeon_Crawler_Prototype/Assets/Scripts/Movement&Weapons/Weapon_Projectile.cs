@@ -426,13 +426,24 @@ public class Weapon_Projectile : MonoBehaviour
             pcm.Firework_Ultimate_Cur_Points = 0f;
         }
     }
-    
+
     private void Set_Player_Visible(bool visible)
     {
         Transform model = transform.GetChild(0);
-        foreach (Transform child in model)
+        Set_Obj_Invisible(model, visible);
+    }
+
+    private void Set_Obj_Invisible(Transform comp, bool visible)
+    {
+        print("Rose");
+        foreach (Transform child in comp)
         {
-            MeshRenderer MR = child.gameObject.GetComponent<MeshRenderer>();
+            if (child.childCount > 0)
+            {
+                Set_Obj_Invisible(child, visible);
+            }
+
+            SkinnedMeshRenderer MR = child.gameObject.GetComponent<SkinnedMeshRenderer>();
             if (MR != null)
             {
                 MR.enabled = visible;

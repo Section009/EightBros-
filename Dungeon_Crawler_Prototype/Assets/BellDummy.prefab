@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 282742898054083760}
   - component: {fileID: 9000110196187738091}
   - component: {fileID: 2836679292827554652}
+  - component: {fileID: 819940262731517217}
   m_Layer: 0
   m_Name: BellDummy
   m_TagString: Enemy
@@ -704,11 +705,14 @@ MonoBehaviour:
   enableDamageAggro: 1
   damageAggroTimeout: 6
   Model: {fileID: 6018773601435964878}
-  IdleName: Golem_Idle_03
+  IdleName: Golem_Walk
   WalkName: Golem_Walk
   DashName: Golem_Dash
   HideName: Golem_Hide_02
   StrikeName: Golem_Strike
+  reduceDamageDuringHeavy: 1
+  heavyDamageScale: 0.5
+  heavyDefenseKey: HEAVY_DEFENSE
   debugCadence: 0
   cadenceState: 
   cadenceRemain: 0
@@ -771,6 +775,18 @@ MonoBehaviour:
   fallbackSwitchLayer: 0
   invulnerableLayerName: Invulnerable
   debugGizmos: 0
+--- !u!114 &819940262731517217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8820118294494672627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229014559dca890448baf9750c50044c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6865618207225145503
 PrefabInstance:
   m_ObjectHideFlags: 0

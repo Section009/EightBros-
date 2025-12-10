@@ -434,9 +434,9 @@ MonoBehaviour:
   Ammo_Type: {fileID: 6279590967856197664, guid: 8a7b0096ca018244b97af839d473e995, type: 3}
   combo_count: 0
   cooldowns:
-  - 0.15
-  - 0.25
-  - 0.15
+  - 0.3
+  - 0.5
+  - 0.3
   - 0.25
   - 0.35
   reset_cooldown: 0.2
