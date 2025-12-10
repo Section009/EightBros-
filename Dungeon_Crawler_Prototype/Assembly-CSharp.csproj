@@ -68,6 +68,7 @@
     <Compile Include="Assets\Audio\Audio_Obj_Controller.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Homing.cs" />
     <Compile Include="Assets\Dummy.cs" />
+    <Compile Include="Assets\VFX\Galaxy\Scripts\MovementInput.cs" />
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Gong\Melee_Ultimate_Manager.cs" />
     <Compile Include="Assets\Scripts\UI\DisplayText.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellClap.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Scripts\Movement&amp;Weapons\Special_Starter_Shot.cs" />
     <Compile Include="Assets\VFX\VFX_Resources\Scripts\PFX_ProjectileObject.cs" />
     <Compile Include="Assets\Scripts\UI\UI_Master.cs" />
+    <Compile Include="Assets\VFX\Galaxy\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\Scripts\EnemySkills\BellFanConeAttack.cs" />
     <Compile Include="Assets\Audio\Audio_Control.cs" />
     <Compile Include="Assets\Audio\Music\Music_Master.cs" />
@@ -964,6 +966,10 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.Purchasing.Stores">
       <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.Stores.dll</HintPath>
       <Private>False</Private>
@@ -1006,6 +1012,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
