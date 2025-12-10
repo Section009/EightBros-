@@ -14,6 +14,7 @@ public class Weapon_Projectile : MonoBehaviour
     private float timer;
     public float reset_cooldown = 0.5f;
     public string BasicAttackAnimName;
+    public string[] BasicAttackAnims;
     private bool firing;
     //Basic Shift
     public float shift_speed;
@@ -39,6 +40,9 @@ public class Weapon_Projectile : MonoBehaviour
     public float skill_timer;
     public bool skill_available;
     private bool skill_active;
+    public float Skill_StartUp;
+    private float Skill_StartUp_Timer;
+    public bool Skill_On;
     //Mage Skill
     public GameObject missile;
     public GameObject big_missile;
@@ -163,7 +167,14 @@ public class Weapon_Projectile : MonoBehaviour
             {
                 if (skill_active)
                 {
-                    Skill_Active();
+                    if (Skill_On)
+                    {
+                        Skill_Active();
+                    }
+                    else
+                    {
+                        Skill_WindUp();
+                    }
                 }
             }
             if ((Input.GetButton("Fire3") && (pcm.Firework_Ultimate_Available) && (pm.Locked == false) && (ultimate_active == false)))
@@ -217,7 +228,8 @@ public class Weapon_Projectile : MonoBehaviour
             //Standard Fire
             if ((Input.GetButtonDown("Fire1")) && (firing == false) && (c_firing == false) && (pm.Locked == false))
             {
-                animator.Play(BasicAttackAnimName);
+                //animator.Play(BasicAttackAnimName);
+                animator.Play(BasicAttackAnims[combo_count]);
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 Vector3 dir = new Vector3();
                 if (Physics.Raycast(ray, out RaycastHit hit, 30f))
@@ -279,6 +291,7 @@ public class Weapon_Projectile : MonoBehaviour
     {
         animator.Play(SkillAnimName);
         pm.rb.velocity = new Vector3(0f, 0f, 0f);
+        /*
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 dir = new Vector3();
         if (Physics.Raycast(ray, out RaycastHit hit, 30f))
@@ -298,7 +311,37 @@ public class Weapon_Projectile : MonoBehaviour
         go2.transform.Rotate(Vector3.right * -60.0f);
         go3.transform.Rotate(Vector3.right * 60.0f);
         go4.transform.Rotate(Vector3.right * 120.0f);
+        */
         skill_active = true;
+    }
+
+    private void Skill_WindUp()
+    {
+        Skill_StartUp_Timer += Time.deltaTime;
+        if (Skill_StartUp_Timer > Skill_StartUp)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 dir = new Vector3();
+            if (Physics.Raycast(ray, out RaycastHit hit, 30f))
+            {
+                dir = hit.point;// - transform.position;
+            }
+            Vector3 target = new Vector3(dir.x, transform.position.y, dir.z);
+            GameObject go = Instantiate(big_missile, transform.position, Quaternion.identity);
+            GameObject go2 = Instantiate(big_missile, transform.position, Quaternion.identity);
+            GameObject go3 = Instantiate(big_missile, transform.position, Quaternion.identity);
+            GameObject go4 = Instantiate(big_missile, transform.position, Quaternion.identity);
+            go.transform.LookAt(target, Vector3.up);
+            go2.transform.LookAt(target, Vector3.up);
+            go3.transform.LookAt(target, Vector3.up);
+            go4.transform.LookAt(target, Vector3.up);
+            go.transform.Rotate(Vector3.right * -120.0f);
+            go2.transform.Rotate(Vector3.right * -60.0f);
+            go3.transform.Rotate(Vector3.right * 60.0f);
+            go4.transform.Rotate(Vector3.right * 120.0f);
+            Skill_StartUp_Timer = 0f;
+            Skill_On = true;
+        }
     }
 
     private void Skill_Active()
@@ -329,6 +372,7 @@ public class Weapon_Projectile : MonoBehaviour
             bullet_timer = 0f;
             pm.Locked = false;
             skill_timer = 0f;
+            Skill_On = false;
         }
     }
 

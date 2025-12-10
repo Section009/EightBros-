@@ -112,6 +112,16 @@ public class EnemyAI : MonoBehaviour
     Health _hp;  int _lastHP = -1;
     FourHitHealth _four; int _lastSeg = -1;
 
+    // ------------------ Animation_Components ------------------
+    [Header("Animation Components")]
+    public GameObject Model;
+    private Animator animator;
+    public string IdleName;
+    public string WalkName;
+    public string DashName;
+    public string HideName;
+    public string StrikeName;
+
     // ------------------ Internals ------------------
     Transform player;
     NavMeshAgent agent;
@@ -140,6 +150,11 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        animator = Model.GetComponent<Animator>();
+        if (animator == null)
+        {
+            UnityEngine.Debug.LogError("Animator Failed");
+        }
         Assign_Player();
 
         _hp   = GetComponent<Health>();
@@ -200,6 +215,7 @@ public class EnemyAI : MonoBehaviour
                     }
                     else // Idling
                     {
+                        animator.Play(IdleName);
                         agent.isStopped = true;
                         agent.ResetPath();
                         agent.velocity = Vector3.zero;
@@ -301,6 +317,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (_attackLoopRunning) yield break;
         _attackLoopRunning = true;
+        animator.Play(StrikeName);
 
         agent.isStopped = true;
         agent.ResetPath();
