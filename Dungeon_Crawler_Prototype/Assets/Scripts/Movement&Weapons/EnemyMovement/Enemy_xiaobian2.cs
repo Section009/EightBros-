@@ -196,6 +196,16 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     [Tooltip("Probe distance when validating next step on NavMesh.")]
     public float navProbe = 0.8f;
 
+    // ------------------ Animation_Components ------------------
+    [Header("Animation Components")]
+    public GameObject Model;
+    private Animator animator;
+    public string IdleName;
+    public string MoveName;
+    public string LatchName;
+    public string RetreatName;
+    public string SlashName;
+
     // ---------------- Internals ----------------
     private NavMeshAgent agent;
 
@@ -235,6 +245,11 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
 
     void Start()
     {
+        animator = Model.GetComponent<Animator>();
+        if (animator == null)
+        {
+            UnityEngine.Debug.LogError("Animator Failed");
+        }
         var p = GameObject.FindGameObjectWithTag(playerTag);
         if (p) player = p.transform;
 
@@ -272,6 +287,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
             {
                 case State.Approach:
                 {
+                    animator.Play(MoveName);
                     // basic agent chasing
                     approachRepathTimer -= Time.deltaTime;
                     if (approachRepathTimer <= 0f)
@@ -409,6 +425,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     // ---------------- Pattern A: short pause -> tap -> manual leave ----------------
     IEnumerator DoShortPauseThenLeave()
     {
+        animator.Play(SlashName);
         agent.isStopped = true;
         agent.ResetPath();
 
@@ -452,6 +469,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     // ---------------- Pattern B: latch behind (SAFE) -> manual leave ----------------
     IEnumerator DoLatchBehindThenLeave()
     {
+        animator.Play(LatchName);
         _globalLatchOwner = this;
 
         if (invulnerableWhileLatched && invuln != null) invuln.EnableInvulnerability();
@@ -606,6 +624,7 @@ public class EnemyAssassinPouncerAI : MonoBehaviour
     // ---------------- Leave Burst: manual, collision-aware ----------------
     IEnumerator DoLeaveBurst(float speed, float maxDistance)
     {
+        animator.Play(RetreatName);
         // Switch to manual transform movement
         bool prevStopped = agent.isStopped;
         bool prevUpdPos  = agent.updatePosition;
