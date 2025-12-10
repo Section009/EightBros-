@@ -54,6 +54,10 @@ public class Melee_Combat_Base : MonoBehaviour
     public float jump_time_max;
     private float jump_dist;
     public GameObject Landing_Explosion;
+    private bool landed;
+    private float land_timer;
+    public float land_timer_max;
+    public GameObject Dragon;
     public float skill_duration;
     private float skill_duration_timer;
     //Ultimate
@@ -511,21 +515,35 @@ public class Melee_Combat_Base : MonoBehaviour
 
     private void Skill_Active()
     {
-        
-        
-        skill_duration_timer += Time.deltaTime;
-        if (skill_duration_timer >= jump_time_max)
+        if (landed)
         {
-            Instantiate(Landing_Explosion, transform.position, Quaternion.identity);
-            skill_available = false;
-            skill_active = false;
-            skill_duration_timer = 0f;
-            pm.Locked = false;
-            skill_timer = 0f;
-            Skill_On = false;
-            pcm.Melee_Skill_Available = false;
-            pcm.Melee_Skill_Cooldown_timer = 0f;
+            land_timer += Time.deltaTime;
+            if (land_timer >= land_timer_max)
+            {
+                Instantiate(Dragon, transform.position, Quaternion.identity);
+                land_timer = 0f;
+                skill_available = false;
+                skill_active = false;
+                landed = false;
+                pm.Locked = false;
+                skill_timer = 0f;
+                Skill_On = false;
+                pcm.Melee_Skill_Available = false;
+                pcm.Melee_Skill_Cooldown_timer = 0f;
+            }
         }
+        else
+        {
+            skill_duration_timer += Time.deltaTime;
+            if (skill_duration_timer >= jump_time_max)
+            {
+                Instantiate(Landing_Explosion, transform.position, Quaternion.identity);
+                landed = true;
+                skill_duration_timer = 0f;
+                pm.rb.velocity = new Vector3(0f, 0f, 0f);
+            }
+        }
+        
     }
 
     private void Ultimate_Start()

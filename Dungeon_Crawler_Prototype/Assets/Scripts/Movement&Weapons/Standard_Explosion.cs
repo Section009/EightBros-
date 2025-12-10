@@ -11,10 +11,14 @@ public class Standard_Explosion : MonoBehaviour
     public float knockback_time;
     public float knockback_speed;
     public float Bounty_Gained;
+    public bool Screen_Shake;
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (Screen_Shake) {
+            GameObject Camera = GameObject.FindWithTag("MainCamera");
+            Camera.GetComponent<Camera_Follow>().camera_shaking = true;
+        }
     }
 
     // Update is called once per frame
