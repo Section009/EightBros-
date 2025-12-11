@@ -6411,7 +6411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 845466865727842845, guid: affb74e5116bbd6428780d8f78dd91b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -112.81
+      value: -112.92
       objectReference: {fileID: 0}
     - target: {fileID: 845466865727842845, guid: affb74e5116bbd6428780d8f78dd91b6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6419,7 +6419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 845466865727842845, guid: affb74e5116bbd6428780d8f78dd91b6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 88.76
+      value: 89.79
       objectReference: {fileID: 0}
     - target: {fileID: 845466865727842845, guid: affb74e5116bbd6428780d8f78dd91b6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8982,6 +8982,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 845466865727842845, guid: affb74e5116bbd6428780d8f78dd91b6, type: 3}
   m_PrefabInstance: {fileID: 645697514}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &653535189
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 186593656835505318, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_Name
+      value: GatePrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 32.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 180.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5614804
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.82749003
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 710787390535706140, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 006390a942c8c4142a1802dbfc51d0c9, type: 3}
 --- !u!1001 &658526749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10609,6 +10678,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7a4a798d1738079499b4d30ec6e1902c, type: 3}
       propertyPath: m_Name
       value: Chinese_Gate_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7a4a798d1738079499b4d30ec6e1902c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29211,3 +29284,4 @@ SceneRoots:
   - {fileID: 28270984}
   - {fileID: 1127643761}
   - {fileID: 740378330}
+  - {fileID: 653535189}
